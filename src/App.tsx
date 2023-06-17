@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { LoginPage, HomePage } from './pages'
+import { LoginPage, HomePage, PropertyDetailsPage } from './pages'
 
 
 function App() {
@@ -11,6 +11,10 @@ function App() {
     {
       path: "/",
       element: <HomePage />,
+    },
+    {
+      path: "/PropertyDetails",
+      element: <PropertyDetailsPage />,
     },
   ]);
   return (
