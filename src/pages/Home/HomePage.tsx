@@ -1,10 +1,10 @@
 import React from 'react'
-import Header from './Header'
+import Header from '../../components/Header'
 
 function HomePage() {
   return (
     <>
-        <Header />
+        <Header />y
     </>
   )
 }
