@@ -1,12 +1,23 @@
-import './App.css'
-import LoginPage from './pages'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { LoginPage, HomePage } from './pages'
+
 
 function App() {
-
+  const router = createBrowserRouter([
+    {
+      path: "/Login",
+      element: <LoginPage />,
+    },
+    {
+      path: "/",
+      element: <HomePage />,
+    },
+  ]);
   return (
     <>
-      <LoginPage />
+      <RouterProvider router={router} />
     </>
+
   )
 }
 
