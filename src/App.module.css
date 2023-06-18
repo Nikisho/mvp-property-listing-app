@@ -1,0 +1,11 @@
+.property-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+.property-details {
+    padding: 0 32px;
+    display: flex;
+    gap: 64px;
+}
