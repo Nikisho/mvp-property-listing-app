@@ -1,5 +1,4 @@
 import React from 'react'
-import styles from '../../App.module.css';
 import Gallary from '../../components/Gallary/Gallary';
 import PropertyDetails from '../../components/PropertyDetails/PropertyDetails';
 import Header from '../../components/Header';
@@ -14,11 +13,10 @@ function PropertyDetailsPage() {
     '/images/image_05.jpg',
   ];
   return (
-    <React.Fragment>
 
-    <div>
+    <div className='space-y-2'>
       <Header/>
-      <section className={styles['property-details']}>
+      <section className='flex space-x-10 p-5 justify-center'>
         <Gallary images={images} />
         <PropertyDetails
           id={"j938hgj"}
@@ -28,10 +26,6 @@ function PropertyDetailsPage() {
         />
       </section>
     </div>
-
-    Further Description here?
-
-    </React.Fragment>
   )
 }
 

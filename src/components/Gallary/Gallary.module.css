@@ -11,6 +11,7 @@
     align-items: center;
     width: 80%;
     height: 300px;
+    background-color: aquamarine;
 }
 
 .main-image img {
@@ -30,6 +31,7 @@
     align-items: center;
     width: 72px;
     height: 72px;
+    background-color: aquamarine;
 }
 
 .image-options .image img {
