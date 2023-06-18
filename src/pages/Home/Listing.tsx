@@ -1,11 +1,12 @@
 import React from 'react'
 
 function Listing() {
+  const items = ['obj1', 'obj2', 'obj3', 'obj4', 'obj5', 'obj6']
   return (
     <div className=' p-2 grid place-items-center '>
-        <div className='p-3 border bg-white w-1/2 h-screen rounded-2xl shadow-lg'>
-            LISTING
-        </div>
+      <div className=' grid grid-cols-3 justify-between w-3/5 h-screen space-x-2 space-y-2'>
+        {items.map((item) => <p className='bg-blue-200 border rounded-xl shadow-lg hover:scale-90'>{item}</p>)}
+      </div>
     </div>
   )
 }
