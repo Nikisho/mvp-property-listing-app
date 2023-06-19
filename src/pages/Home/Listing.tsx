@@ -1,7 +1,7 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import ListingCard from './ListingCard';
 
-interface PropertyDetails {
+interface PropertyDetailsProps {
   property_id: number,
   description: string;
   image_url: string,
@@ -12,14 +12,12 @@ interface PropertyDetails {
 
 function Listing() {
 
-  // const items: Array<string> = ['obj1', 'obj2', 'obj3', 'obj4', 'obj5', 'obj6'];
-  const [listed_properties, setListedProperties] = useState<PropertyDetails[]>([])
+  const [listed_properties, setListedProperties] = useState<PropertyDetailsProps[]>([])
 
   const  getListedProperties: VoidFunction = async ()  => {
-
     try {
       const response: Response = await fetch("http://localhost:5000/listed_properties");
-      const json_data: Array<PropertyDetails> = await response.json(); 
+      const json_data: Array<PropertyDetailsProps> = await response.json(); 
       setListedProperties(json_data);
 
     } catch (error: any) {
@@ -41,6 +39,7 @@ function Listing() {
             description={listing.description}
             price_pcm={listing.price_pcm}
             address={listing.address}
+            property_id={listing.property_id}
         />)}
       </div>
     </div>

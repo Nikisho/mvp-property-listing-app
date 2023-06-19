@@ -1,39 +1,6 @@
 .gallary {
+    margin-top: 34px;
     width: calc(50% - 64px);
     display: flex;
-    flex-direction: column;
-    gap: 32px;
 }
 
-.main-image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80%;
-    height: 300px;
-    background-color: aquamarine;
-}
-
-.main-image img {
-    height: 100%;
-}
-
-.image-options {
-    width: 80%;
-    display: flex;
-    gap: 24px;
-    justify-content: center;
-}
-
-.image-options .image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 72px;
-    height: 72px;
-    background-color: aquamarine;
-}
-
-.image-options .image img {
-    width: 100%;
-}

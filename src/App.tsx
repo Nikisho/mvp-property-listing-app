@@ -13,7 +13,7 @@ function App() {
       element: <HomePage />,
     },
     {
-      path: "/PropertyDetails",
+      path: "/PropertyDetails/:id",
       element: <PropertyDetailsPage />,
     },
   ]);

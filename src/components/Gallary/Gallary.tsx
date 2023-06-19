@@ -1,24 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './Gallary.module.css';
 
 interface GallaryProps {
-  images: string[];
+  image: string;
 }
-
-const Gallary: React.FC<GallaryProps> = ({ images }) => {
-  const [mainImage, setMainImage] = useState<string>(images[0]);
-
+const Gallary: React.FC<GallaryProps> = ({ image }) => {
+  
   return (
     <div className={styles['gallary']}>
-      <div className={styles['main-image']}>
-        <img src={mainImage} />
-      </div>
-      <div className={styles['image-options']}>
-        {images.map(file => (
-          <div className={styles['image']}>
-            <img src={file} />
-          </div>
-        ))}
+      <div className='w-4/5'>
+        <img className='rounded-xl hover:animate-pulse' src={image} />
       </div>
     </div>
   )

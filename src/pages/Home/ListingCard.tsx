@@ -1,11 +1,19 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 
-function ListingCard({description, image_url, price_pcm, address}: any) {
+interface PropertyDetailsProps {
+  property_id: number ;
+  description: string;
+  image_url: string;
+  price_pcm: number;
+  address: string;
+};
+
+const ListingCard: React.FC<PropertyDetailsProps> = ({description, image_url, price_pcm, address, property_id}) => {
 
   const navigate = useNavigate();
   function handleClick() {
-    navigate("/PropertyDetails");
+    navigate(`/PropertyDetails/${property_id}`);
   };
 
   return (
@@ -24,7 +32,6 @@ function ListingCard({description, image_url, price_pcm, address}: any) {
           <p className='text-lg font-bold'>{address}</p>
           <p className='text-md font-bold' >£{price_pcm}pcm</p>
         </div>
-
 
         {/* description */}
         <div>

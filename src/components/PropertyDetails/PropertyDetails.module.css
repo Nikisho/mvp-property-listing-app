@@ -18,7 +18,13 @@
     display: flex;
     gap: 16px;
 }
-
+.property-details .description-wrapper {
+    max-width: 400px;
+    word-wrap:break-word;
+    max-height: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .property-details .btn-wrapper .btn {
     padding: 16px 24px;
     border: none;
