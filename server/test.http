@@ -1,14 +1,14 @@
-# GET  http://localhost:5000/listed_properties HTTP/1.1
+POST  http://localhost:5000/listed_properties HTTP/1.1
+Content-Type: application/json
+
+{
+    "description" : "Amazing spare room, near covent garden. Rare opportunity! Call now for viewing."
+}
+
+
+# GET  http://localhost:5000/listed_properties/9 HTTP/1.1
 # Content-Type: application/json
 
 # {
 #     "description" : "Room second test"
 # }
-
-
-GET  http://localhost:5000/listed_properties/9 HTTP/1.1
-Content-Type: application/json
-
-{
-    "description" : "Room second test"
-}

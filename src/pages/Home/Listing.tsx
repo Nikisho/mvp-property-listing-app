@@ -5,7 +5,9 @@ interface PropertyDetails {
   property_id: number,
   description: string;
   image_url: string,
+  price_pcm: number
   create: number,
+  address: string
 };
 
 function Listing() {
@@ -31,8 +33,15 @@ function Listing() {
 
   return (
     <div className=' p-2 grid place-items-center '>
-      <div className=' grid grid-cols-3 justify-between w-3/5'>
-        {listed_properties.map((listing) => <ListingCard listing={listing.description}/>)}
+      <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 justify-between w-3/5'>
+        {listed_properties.map((listing) =>
+         <ListingCard 
+            key={listing.property_id}
+            image_url= {listing.image_url}
+            description={listing.description}
+            price_pcm={listing.price_pcm}
+            address={listing.address}
+        />)}
       </div>
     </div>
   )
