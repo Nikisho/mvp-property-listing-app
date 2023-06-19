@@ -1,11 +1,18 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
+  const navigate = useNavigate();
+  function handleClick() {
+    navigate(`/`);
+  };
+
+  
   return (
     <div className=' flex p-3 bg-emerald-200 justify-between items-center'>
       {/* {git test} */}
       {/* Company logo and home button */}
-      <div className='text-xl font-semibold'>
+      <div className='text-xl font-semibold px-3 py-2 bg-white rounded-xl shadow-lg hover:opacity-80' onClick={() => handleClick()}>
         <text>Company</text>
       </div>
 
