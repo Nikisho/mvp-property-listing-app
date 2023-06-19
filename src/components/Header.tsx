@@ -4,7 +4,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 function Header() {
   return (
     <div className=' flex p-3 bg-emerald-200 justify-between items-center'>
-
+      {/* {git test} */}
       {/* Company logo and home button */}
       <div className='text-xl font-semibold'>
         <text>Company</text>
