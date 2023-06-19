@@ -41,7 +41,7 @@ function PropertyDetailsPage() {
         <Gallary image={listedProperty?.image_url!} />
         <PropertyDetails
           id={listedProperty?.property_id!}
-          title={"Room "}
+          title={"Room " + listedProperty?.address!}
           price_pcm={900}
           description={listedProperty?.description!}
         />
