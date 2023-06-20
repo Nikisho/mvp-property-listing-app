@@ -20,7 +20,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
     return (
         <div className={styles['property-details']}>
             <span className={styles['title']}>{title}</span>
-            <span className={styles['price']}>£{price_pcm.toFixed(2)}</span>
+            <span className={styles['price']}>£{price_pcm}</span>
             <p className={styles['description-wrapper']}>{description}</p>
             <div className={styles['btn-wrapper']}>
                 <button onClick={clickMe} className={`${styles['btn']} ${styles['outline']}`}>
