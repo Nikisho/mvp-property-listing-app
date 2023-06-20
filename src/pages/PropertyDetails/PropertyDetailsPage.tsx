@@ -20,10 +20,10 @@ function PropertyDetailsPage() {
   const getListedProperty: VoidFunction = async () => {
 
     try {
-      const response = fetch(`http://localhost:5000/listed_properties/${id}`)
-      const json_data = await (await response).json();
+      const response = await fetch(`http://localhost:5000/listed_properties/${id}`)
+      const json_data = await  response.json();
       setListedProperty(json_data);
-
+      console.log(json_data);
     } catch (error: any) {
       console.error(error.message);
     }
@@ -42,7 +42,7 @@ function PropertyDetailsPage() {
         <PropertyDetails
           id={listedProperty?.property_id!}
           title={"Room " + listedProperty?.address!}
-          price_pcm={900}
+          price_pcm={listedProperty?.price_pcm!}
           description={listedProperty?.description!}
         />
       </section>
