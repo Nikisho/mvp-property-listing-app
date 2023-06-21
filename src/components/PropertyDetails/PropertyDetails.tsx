@@ -20,9 +20,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
     return (
         <div className={styles['property-details']}>
             <span className={styles['title']}>{title}</span>
-            <span className={styles['price']}>£{price_pcm}</span>
+            <span className={styles['price']}>£{price_pcm} pcm</span>
             <p className={styles['description-wrapper']}>{description}</p>
-            <div className='flex space-x-4 m-2'>
+            <div className='flex space-x-5 p-4 shadow-lg rounded-xl hover:opacity-80 my-2'>
                 <img 
                     src='https://images.pexels.com/photos/2380794/pexels-photo-2380794.jpeg?auto=compress&cs=tinysrgb&w=600'
                     className='rounded-full h-16'
@@ -33,8 +33,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
                         <text>4.5</text>
                         <div>
                         <StarIcon
-                            fontSize='small'
+                            fontSize='medium'
                             color='secondary'
+                            className='mb-1'
                         />
                         </div>
                     </div>

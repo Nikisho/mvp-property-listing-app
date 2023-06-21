@@ -23,7 +23,6 @@ function PropertyDetailsPage() {
       const response = await fetch(`http://localhost:5000/listed_properties/${id}`)
       const json_data = await  response.json();
       setListedProperty(json_data);
-      console.log(json_data);
     } catch (error: any) {
       console.error(error.message);
     }
@@ -35,13 +34,13 @@ function PropertyDetailsPage() {
 
   return (
 
-    <div className='space-y-2'>
+    <div className='space-y-2 '>
       <Header />
-      <section className='flex space-x-10 p-5 justify-center'>
+      <section className='flex space-x-10 p-5 justify-center grid grid-cols-1 md:flex md:flex-row'>
         <Gallary image={listedProperty?.image_url!} />
         <PropertyDetails
           id={listedProperty?.property_id!}
-          title={"Room " + listedProperty?.address!}
+          title={ listedProperty?.address!}
           price_pcm={listedProperty?.price_pcm!}
           description={listedProperty?.description!}
         />

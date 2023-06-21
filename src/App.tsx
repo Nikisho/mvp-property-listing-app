@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { LoginPage, HomePage, PropertyDetailsPage } from './pages'
+import { LoginPage, HomePage, PropertyDetailsPage, PostListingPage } from './pages'
 
 
 function App() {
@@ -15,6 +15,10 @@ function App() {
     {
       path: "/PropertyDetails/:id",
       element: <PropertyDetailsPage />,
+    },
+    {
+      path: "/postlisting",
+      element: <PostListingPage/>,
     },
   ]);
   return (

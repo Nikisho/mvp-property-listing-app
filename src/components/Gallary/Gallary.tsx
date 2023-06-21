@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './Gallary.module.css';
 
 interface GallaryProps {
   image: string;
@@ -7,9 +6,9 @@ interface GallaryProps {
 const Gallary: React.FC<GallaryProps> = ({ image }) => {
   
   return (
-    <div className={styles['gallary']}>
-      <div className='w-4/5'>
-        <img className='rounded-xl hover:animate-pulse' src={image} />
+    <div className='flex justify-center w-full p-2 md:w-2/5'>
+      <div className=''>
+        <img className='rounded-xl' src={image}/>
       </div>
     </div>
   )
