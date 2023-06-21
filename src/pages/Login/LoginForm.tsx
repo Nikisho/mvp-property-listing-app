@@ -14,7 +14,7 @@ function LoginForm() {
           <input className='h-10 border p-2' type="password" name="pass" required placeholder='Enter Password' />
           {/* {renderErrorMessage("pass")} */}
         </div>
-        <div className='bg-green-400 rounded-xl p-3'>
+        <div className='bg-green-400 rounded-xl text-lg font-bold p-3 flex justify-center transition duration-700 hover:scale-95'>
           <input type="submit" />
         </div>
       </form>

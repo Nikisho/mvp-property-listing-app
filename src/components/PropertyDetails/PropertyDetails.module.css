@@ -1,8 +1,8 @@
 .property-details {
-    margin-top: 24px;
+    margin-top: 0px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 14px;
 }
 
 .property-details .title {
