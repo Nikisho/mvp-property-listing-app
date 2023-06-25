@@ -11,7 +11,7 @@ function Header() {
   };
 
   return (
-    <div className=' flex p-3 bg-emerald-200 justify-between items-center'>
+    <div className=' sticky top-0 z-50 flex p-3 bg-emerald-200 justify-between items-center'>
       {/* {git test} */}
       {/* Company logo and home button */}
       <div className='text-xl font-semibold px-3 py-2 bg-white rounded-xl shadow-lg hover:opacity-80' onClick={() => navigateHomePage()}>
