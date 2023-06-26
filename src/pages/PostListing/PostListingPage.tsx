@@ -1,6 +1,10 @@
 import { useState, useRef } from 'react';
 import Header from "../../components/Header"
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { getStorage, ref, getDownloadURL, uploadBytesResumable, uploadString } from "firebase/storage";
+import { app, storage } from '../../../firebase';
+import { uuidv4 } from '../../utils/uuidv4';
+
 const PostListingPage = () => {
 
   const [allValues, setAllValues] = useState({
@@ -10,10 +14,11 @@ const PostListingPage = () => {
     costOfRoom: '',
     roomDescription: ''
   });
-  console.log(allValues.address);
   
   const [listingImage, seListingImage] = useState<string | ArrayBuffer>();
   const filePickerRef = useRef<HTMLInputElement>(null);
+  const [ firestoreUid, setFirestoreUid ]= useState(null);
+  const [ listingImageUrl, setListingImageUrl] = useState<string>();
   const changeHandler = (e: { target: { name: string; value: string; }; }) => {
     setAllValues({ ...allValues, [e.target.name]: e.target.value })
   };
@@ -29,13 +34,35 @@ const PostListingPage = () => {
     ;
   };
 
-  const postListing = async (e: any) => {
-    console.log('test')
-    e.preventDefault();
+  const uploadListingImage = async () => {
+
+    const image_uuid = uuidv4();
+    if (!listingImage) return;
+    const storageRef = ref(storage, `listings/${image_uuid}`);
+    const uploadTask = uploadString(storageRef, listingImage as string, 'data_url');
+    const uploadTaskBytes = uploadBytesResumable(storageRef, listingImage as ArrayBuffer);
+    uploadTaskBytes.on(
+        'state_changed',
+        null,
+        (error) => console.error(error),
+        async () => {
+            await getDownloadURL(ref(storage, `listings/${image_uuid}`)).then((url) => {
+                setListingImageUrl(url);
+                setFirestoreUid(image_uuid);
+                console.log(url)
+            })
+        }
+    )
+  }
+
+  const postListing = async () => {
+    
     if (Object.values(allValues).includes("") || filePickerRef === null) {
       return;
     }
+    
     try {
+      
       const response = await fetch("http://localhost:5000/listed_properties",
         {
           method: "POST",
@@ -45,13 +72,23 @@ const PostListingPage = () => {
             "price_pcm": allValues.costOfRoom,
             "address": allValues.address,
             "number_of_bedrooms": allValues.numberOfRooms,
-            "number_of_bathrooms": allValues.numberOfBathrooms
+            "number_of_bathrooms": allValues.numberOfBathrooms,
+            "image_url" : listingImageUrl,
+            "firestore_uid": firestoreUid
           })
         });
       console.log(response)
     } catch (err: any) {
       console.error(err.message);
     }
+  };
+  
+  const submitListingInfo = async (e: React.MouseEvent) => {
+
+      e.preventDefault();
+      await uploadListingImage();
+      await postListing();
+
   };
 
   return (
@@ -62,7 +99,7 @@ const PostListingPage = () => {
 
         {/* {Property Info} */}
         <div className="flex flex-col md:w-1/2 rounded-xl shadow-lg p-3 space-y-4">
-          <text className="text-xl font-semibold">Information about the property</text>
+          <div className="text-xl font-semibold">Information about the property</div>
           <div className="space-x-2 text-lg flex justify-between">
             <text>Address:</text>
             <input type="text"
@@ -145,7 +182,7 @@ const PostListingPage = () => {
               />
             </div>
           }
-          <div className='w-1/4 rounded-xl p-3 bg-blue-200' >
+          <div className='w-1/4 rounded-xl p-3 bg-blue-200' onClick={submitListingInfo}>
             {/* <button type='submit' onClick={postListing} /> */}
           </div>
         </div>

@@ -24,14 +24,17 @@ app.post("/listed_properties", async (req, res) => {
         const { image_url } = req.body;
         const { number_of_bedrooms } = req.body;
         const { number_of_bathrooms } = req.body;
+        const { firestore_uid } = req.body;
 
-        const new_listing = await pool.query("INSERT INTO listed_properties (description, price_pcm, address, image_url, number_of_bedrooms, number_of_bathrooms) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
+        const new_listing = await pool.query("INSERT INTO listed_properties (description, price_pcm, address, image_url, number_of_bedrooms, number_of_bathrooms, firestore_uid) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *",
             [
                 description,
                 price_pcm,
                 address,
+                image_url,
                 number_of_bedrooms,
-                number_of_bathrooms
+                number_of_bathrooms,
+                firestore_uid
 
             ])
         res.json(new_listing.rows[0]);
