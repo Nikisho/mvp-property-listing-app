@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import Header from "../../components/Header"
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { getStorage, ref, getDownloadURL, uploadBytesResumable, uploadString } from "firebase/storage";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { ref, getDownloadURL, uploadBytesResumable, uploadString } from "firebase/storage";
 import { app, storage } from '../../../firebase';
 import { uuidv4 } from '../../utils/uuidv4';
 
@@ -14,11 +14,9 @@ const PostListingPage = () => {
     costOfRoom: '',
     roomDescription: ''
   });
-  
+
   const [listingImage, seListingImage] = useState<string | ArrayBuffer>();
   const filePickerRef = useRef<HTMLInputElement>(null);
-  const [ firestoreUid, setFirestoreUid ]= useState(null);
-  const [ listingImageUrl, setListingImageUrl] = useState<string>();
   const changeHandler = (e: { target: { name: string; value: string; }; }) => {
     setAllValues({ ...allValues, [e.target.name]: e.target.value })
   };
@@ -30,64 +28,51 @@ const PostListingPage = () => {
     }
     reader.onload = (readerEvent) => {
       seListingImage(readerEvent.target?.result!);
-    }
-    ;
+    };
   };
 
   const uploadListingImage = async () => {
 
+    if ((Object.values(allValues).includes("")) || (filePickerRef === null) || (!listingImage)) {
+      return;
+    }
+
     const image_uuid = uuidv4();
-    if (!listingImage) return;
     const storageRef = ref(storage, `listings/${image_uuid}`);
     const uploadTask = uploadString(storageRef, listingImage as string, 'data_url');
     const uploadTaskBytes = uploadBytesResumable(storageRef, listingImage as ArrayBuffer);
+
     uploadTaskBytes.on(
-        'state_changed',
-        null,
-        (error) => console.error(error),
-        async () => {
-            await getDownloadURL(ref(storage, `listings/${image_uuid}`)).then((url) => {
-                setListingImageUrl(url);
-                setFirestoreUid(image_uuid);
-                console.log(url)
-            })
-        }
+      'state_changed',
+      null,
+      (error) => console.error(error),
+      async () => {
+
+        await getDownloadURL(ref(storage, `listings/${image_uuid}`)).then((url) => {
+          fetch("http://localhost:5000/listed_properties",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                "description": allValues.roomDescription,
+                "price_pcm": allValues.costOfRoom,
+                "address": allValues.address,
+                "number_of_bedrooms": allValues.numberOfRooms,
+                "number_of_bathrooms": allValues.numberOfBathrooms,
+                "image_url": url,
+                "firestore_uid": image_uuid
+              })
+            });
+
+          console.log(url)
+        })
+      }
     )
   }
 
-  const postListing = async () => {
-    
-    if (Object.values(allValues).includes("") || filePickerRef === null) {
-      return;
-    }
-    
-    try {
-      
-      const response = await fetch("http://localhost:5000/listed_properties",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            "description": allValues.roomDescription,
-            "price_pcm": allValues.costOfRoom,
-            "address": allValues.address,
-            "number_of_bedrooms": allValues.numberOfRooms,
-            "number_of_bathrooms": allValues.numberOfBathrooms,
-            "image_url" : listingImageUrl,
-            "firestore_uid": firestoreUid
-          })
-        });
-      console.log(response)
-    } catch (err: any) {
-      console.error(err.message);
-    }
-  };
-  
   const submitListingInfo = async (e: React.MouseEvent) => {
-
-      e.preventDefault();
-      await uploadListingImage();
-      await postListing();
+    e.preventDefault();
+    await uploadListingImage();
 
   };
 
@@ -156,9 +141,9 @@ const PostListingPage = () => {
 
         {/* {Prop Picture} */}
         <div className='md:w-1/2 shadow-lg p-3 rounded-xl'>
-          <div className='flex space-x-4 p-3 items-center'>
-            <div className='hover:scale-95' onClick={() => filePickerRef.current?.click()}>
-              <AddCircleOutlineIcon
+          <div className='flex space-x-4 items-center justify-between py-3'>
+            <div className='hover:scale-95 transition duration-700 flex space-x-3 px-2 shadow-lg rounded-full border items-center ' onClick={() => filePickerRef.current?.click()}>
+              <CloudUploadIcon
                 fontSize='large'
               />
               <input ref={filePickerRef}
@@ -167,8 +152,12 @@ const PostListingPage = () => {
                 accept="image/png, image/jpeg"
                 hidden
               />
+              <div className='font-semibold'>add photo</div>
             </div>
-            <text className='font-bold'>add photo</text>
+
+            <button className='rounded-full px-3 py-2 bg-blue-300 hover:bg-blue-500 hover:shadow-lg ' type='submit' onClick={submitListingInfo}>
+              Post ad
+            </button>
           </div>
 
           {listingImage &&
@@ -182,9 +171,6 @@ const PostListingPage = () => {
               />
             </div>
           }
-          <div className='w-1/4 rounded-xl p-3 bg-blue-200' onClick={submitListingInfo}>
-            {/* <button type='submit' onClick={postListing} /> */}
-          </div>
         </div>
       </div>
     </>
