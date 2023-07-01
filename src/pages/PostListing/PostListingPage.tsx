@@ -2,11 +2,12 @@ import { useState, useRef } from 'react';
 import Header from "../../components/Header"
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { ref, getDownloadURL, uploadBytesResumable, uploadString } from "firebase/storage";
-import { app, storage } from '../../../firebase';
+import { app, auth, storage } from '../../../firebase';
 import { uuidv4 } from '../../utils/uuidv4';
+import { User } from 'firebase/auth';
 
 const PostListingPage = () => {
-
+  const user: User = auth.currentUser!;
   const [allValues, setAllValues] = useState({
     address: '',
     numberOfRooms: '',
@@ -60,7 +61,8 @@ const PostListingPage = () => {
                 "number_of_bedrooms": allValues.numberOfRooms,
                 "number_of_bathrooms": allValues.numberOfBathrooms,
                 "image_url": url,
-                "firestore_uid": image_uuid
+                "firestore_uid": image_uuid,
+                "pm_firebase_uid": user.uid
               })
             });
 

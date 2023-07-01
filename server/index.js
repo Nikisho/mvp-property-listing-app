@@ -3,19 +3,15 @@ const app = express();
 const port = 5000;
 const cors = require('cors');
 const pool = require("./db");
+const bcrypt = require("bcrypt");
 
-//middleware
+//MIDDLEWARE
 app.use(cors());
 app.use(express.json())
 
-////////////////ROUTES//////////////////
-// //CREATE
-// price_pcm
-// address VARCHAR(255),
-// number_of_bedrooms int,
-// number_of_bathrooms int,
-// image_url VARCHAR(255),
-// description VARCHAR(255),
+/*-----ROUTES-----*/
+
+//-----POST A LISTING----//
 app.post("/listed_properties", async (req, res) => {
     try {
         const { description } = req.body;
@@ -25,8 +21,9 @@ app.post("/listed_properties", async (req, res) => {
         const { number_of_bedrooms } = req.body;
         const { number_of_bathrooms } = req.body;
         const { firestore_uid } = req.body;
+        const { pm_firebase_uid } = req.body;
 
-        const new_listing = await pool.query("INSERT INTO listed_properties (description, price_pcm, address, image_url, number_of_bedrooms, number_of_bathrooms, firestore_uid) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+        const new_listing = await pool.query("INSERT INTO listed_properties (description, price_pcm, address, image_url, number_of_bedrooms, number_of_bathrooms, firestore_uid, pm_firebase_uid) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
             [
                 description,
                 price_pcm,
@@ -34,16 +31,17 @@ app.post("/listed_properties", async (req, res) => {
                 image_url,
                 number_of_bedrooms,
                 number_of_bathrooms,
-                firestore_uid
+                firestore_uid,
+                pm_firebase_uid
 
-            ])
+            ]);
         res.json(new_listing.rows[0]);
     } catch (error) {
         console.error(error.message);
     }
 });
 
-//GET
+//------GET PROPERTY ADS-----//
 app.get("/listed_properties", async (req, res) => {
     try {
         const all_listing = await pool.query("SELECT * FROM listed_properties");
@@ -53,7 +51,7 @@ app.get("/listed_properties", async (req, res) => {
     }
 });
 
-//GET SPECIFIC DATA
+//------GET SPECIFIC DATA-----//
 app.get("/listed_properties/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -65,7 +63,30 @@ app.get("/listed_properties/:id", async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log('Started!')
+//------USER AUTHENTICATION----//
+app.post('/users', async (req, res) => {
+
+    try {
+        const salt = await bcrypt.genSalt();
+        const { name } = req.body;
+        const { email } = req.body;
+        const { firebase_uid } = req.body;
+       
+        const new_user = await pool.query("INSERT INTO users (name, email, firebase_uid) VALUES($1, $2, $3) RETURNING *",
+            [
+                name,
+                email,
+                firebase_uid,
+            ]
+        )
+        res.json(new_user.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+
 });
-////////////////ROUTES//////////////////
+
+app.listen(port, () => {
+    console.log(`Listining on port ${port}.`)
+});
+/*-----ROUTES-----*/

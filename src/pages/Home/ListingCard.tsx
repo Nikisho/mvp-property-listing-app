@@ -13,7 +13,7 @@ const ListingCard: React.FC<PropertyDetailsProps> = ({ description, image_url, p
 
   const navigate = useNavigate();
   function handleClick() {
-    navigate(`/PropertyDetails/${property_id}`);
+    navigate(`/propertydetails/${property_id}`);
   };
 
   return (
@@ -24,7 +24,7 @@ const ListingCard: React.FC<PropertyDetailsProps> = ({ description, image_url, p
 
         <img
           src={image_url}
-          className='rounded-xl'
+          className='rounded-xl h-44 w-60'
         />
       </div>
 
