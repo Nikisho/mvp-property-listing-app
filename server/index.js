@@ -3,7 +3,6 @@ const app = express();
 const port = 5000;
 const cors = require('cors');
 const pool = require("./db");
-const bcrypt = require("bcrypt");
 
 //MIDDLEWARE
 app.use(cors());
@@ -67,7 +66,6 @@ app.get("/listed_properties/:id", async (req, res) => {
 app.post('/users', async (req, res) => {
 
     try {
-        const salt = await bcrypt.genSalt();
         const { name } = req.body;
         const { email } = req.body;
         const { firebase_uid } = req.body;
@@ -84,6 +82,18 @@ app.post('/users', async (req, res) => {
         console.error(err.message);
     }
 
+});
+
+//------GET SPECIFIC USER DATA-----//
+app.get("/users/:firebase_uid", async (req, res) => {
+    try {
+        const { firebase_uid } = req.params;
+        const listing = await pool.query("SELECT * FROM users WHERE firebase_uid = $1",
+            [firebase_uid]);
+        res.json(listing.rows[0])
+    } catch (error) {
+        console.error(error.message);
+    }
 });
 
 app.listen(port, () => {

@@ -7,176 +7,174 @@ import { uuidv4 } from '../../utils/uuidv4';
 import { User } from 'firebase/auth';
 
 const PostListingPage = () => {
-  const user: User = auth.currentUser!;
-  const [allValues, setAllValues] = useState({
-    address: '',
-    numberOfRooms: '',
-    numberOfBathrooms: '',
-    costOfRoom: '',
-    roomDescription: ''
-  });
+	const user: User = auth.currentUser!;
+	const [allValues, setAllValues] = useState({
+		address: '',
+		numberOfRooms: '',
+		numberOfBathrooms: '',
+		costOfRoom: '',
+		roomDescription: ''
+	});
 
-  const [listingImage, seListingImage] = useState<string | ArrayBuffer>();
-  const filePickerRef = useRef<HTMLInputElement>(null);
-  const changeHandler = (e: { target: { name: string; value: string; }; }) => {
-    setAllValues({ ...allValues, [e.target.name]: e.target.value })
-  };
+	const [listingImage, seListingImage] = useState<string | ArrayBuffer>();
+	const filePickerRef = useRef<HTMLInputElement>(null);
+	const changeHandler = (e: { target: { name: string; value: string; }; }) => {
+		setAllValues({ ...allValues, [e.target.name]: e.target.value })
+	};
 
-  const addListingImage = (e: any) => {
-    const reader = new FileReader();
-    if (e.target.files[0]) {
-      reader.readAsDataURL(e.target.files[0]);
-    }
-    reader.onload = (readerEvent) => {
-      seListingImage(readerEvent.target?.result!);
-    };
-  };
+	const addListingImage = (e: any) => {
+		const reader = new FileReader();
+		if (e.target.files[0]) {
+			reader.readAsDataURL(e.target.files[0]);
+		}
+		reader.onload = (readerEvent) => {
+			seListingImage(readerEvent.target?.result!);
+		};
+	};
 
-  const uploadListingImage = async () => {
+	const uploadListingImage = async () => {
 
-    if ((Object.values(allValues).includes("")) || (filePickerRef === null) || (!listingImage)) {
-      return;
-    }
+		if ((Object.values(allValues).includes("")) || (filePickerRef === null) || (!listingImage)) {
+			return;
+		}
 
-    const image_uuid = uuidv4();
-    const storageRef = ref(storage, `listings/${image_uuid}`);
-    const uploadTask = uploadString(storageRef, listingImage as string, 'data_url');
-    const uploadTaskBytes = uploadBytesResumable(storageRef, listingImage as ArrayBuffer);
+		const image_uuid = uuidv4();
+		const storageRef = ref(storage, `listings/${image_uuid}`);
+		const uploadTask = uploadString(storageRef, listingImage as string, 'data_url');
+		const uploadTaskBytes = uploadBytesResumable(storageRef, listingImage as ArrayBuffer);
 
-    uploadTaskBytes.on(
-      'state_changed',
-      null,
-      (error) => console.error(error),
-      async () => {
+		uploadTaskBytes.on(
+			'state_changed',
+			null,
+			(error) => console.error(error),
+			async () => {
+				await getDownloadURL(ref(storage, `listings/${image_uuid}`)).then((url) => {
+					fetch("http://localhost:5000/listed_properties",
+						{
+							method: "POST",
+							headers: { "Content-Type": "application/json" },
+							body: JSON.stringify({
+								"description": allValues.roomDescription,
+								"price_pcm": allValues.costOfRoom,
+								"address": allValues.address,
+								"number_of_bedrooms": allValues.numberOfRooms,
+								"number_of_bathrooms": allValues.numberOfBathrooms,
+								"image_url": url,
+								"firestore_uid": image_uuid,
+								"pm_firebase_uid": user.uid
+							})
+						}
+					);
+				})
+			}
+		)
+	}
 
-        await getDownloadURL(ref(storage, `listings/${image_uuid}`)).then((url) => {
-          fetch("http://localhost:5000/listed_properties",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                "description": allValues.roomDescription,
-                "price_pcm": allValues.costOfRoom,
-                "address": allValues.address,
-                "number_of_bedrooms": allValues.numberOfRooms,
-                "number_of_bathrooms": allValues.numberOfBathrooms,
-                "image_url": url,
-                "firestore_uid": image_uuid,
-                "pm_firebase_uid": user.uid
-              })
-            });
+	const submitListingInfo = async (e: React.MouseEvent) => {
+		e.preventDefault();
+		await uploadListingImage();
 
-          console.log(url)
-        })
-      }
-    )
-  }
+	};
 
-  const submitListingInfo = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    await uploadListingImage();
+	return (
+		<>
+			<Header />
 
-  };
+			<div className="p-10 flex flex-col md:flex-row md:space-x-4 min-w-fit">
 
-  return (
-    <>
-      <Header />
+				{/* {Property Info} */}
+				<div className="flex flex-col md:w-1/2 rounded-xl shadow-lg p-3 space-y-4">
+					<div className="text-xl font-semibold">Information about the property</div>
+					<div className="space-x-2 text-lg flex justify-between">
+						<text>Address:</text>
+						<input type="text"
+							placeholder="Enter a location"
+							className="rounded-xl p-2 border "
+							name='address'
+							id='address'
+							onChange={changeHandler}
+						/>
+					</div>
 
-      <div className="p-10 flex flex-col md:flex-row md:space-x-4 min-w-fit">
+					<div className="space-x-2 text-lg flex justify-between">
+						<text> Number of rooms </text>
+						<input type="number"
+							placeholder="Enter a number"
+							className="rounded-xl p-2 border"
+							name='numberOfRooms'
+							id='numberOfRooms'
+							onChange={changeHandler}
+						/>
+					</div>
 
-        {/* {Property Info} */}
-        <div className="flex flex-col md:w-1/2 rounded-xl shadow-lg p-3 space-y-4">
-          <div className="text-xl font-semibold">Information about the property</div>
-          <div className="space-x-2 text-lg flex justify-between">
-            <text>Address:</text>
-            <input type="text"
-              placeholder="Enter a location"
-              className="rounded-xl p-2 border "
-              name='address'
-              id='address'
-              onChange={changeHandler}
-            />
-          </div>
+					<div className="space-x-2 text-lg flex justify-between">
+						<text> Number of bathrooms </text>
+						<input type="number"
+							placeholder="Enter a number"
+							className="rounded-xl p-2 border "
+							name='numberOfBathrooms'
+							id='numberOfBathrooms'
+							onChange={changeHandler}
+						/>
+					</div>
 
-          <div className="space-x-2 text-lg flex justify-between">
-            <text> Number of rooms </text>
-            <input type="number"
-              placeholder="Enter a number"
-              className="rounded-xl p-2 border"
-              name='numberOfRooms'
-              id='numberOfRooms'
-              onChange={changeHandler}
-            />
-          </div>
+					<div className="space-x-2 text-lg flex justify-between">
+						<text> Cost of room </text>
+						<input type="number"
+							placeholder="Enter a price"
+							className="rounded-xl p-2 border "
+							name='costOfRoom'
+							id='costOfRoom'
+							onChange={changeHandler}
+						/>
+					</div>
+					<div className="text-lg flex flex-col">
+						<text> Description  </text>
+						<textarea placeholder="Add a brief description"
+							className="rounded-xl p-2 border h-28 "
+							name='roomDescription'
+							id='roomDescription'
+							onChange={changeHandler}
+						/>
+					</div>
+				</div>
 
-          <div className="space-x-2 text-lg flex justify-between">
-            <text> Number of bathrooms </text>
-            <input type="number"
-              placeholder="Enter a number"
-              className="rounded-xl p-2 border "
-              name='numberOfBathrooms'
-              id='numberOfBathrooms'
-              onChange={changeHandler}
-            />
-          </div>
+				{/* {Prop Picture} */}
+				<div className='md:w-1/2 shadow-lg p-3 rounded-xl'>
+					<div className='flex space-x-4 items-center justify-between py-3'>
+						<div className='hover:scale-95 transition duration-700 flex space-x-3 px-2 shadow-lg rounded-full border items-center ' onClick={() => filePickerRef.current?.click()}>
+							<CloudUploadIcon
+								fontSize='large'
+							/>
+							<input ref={filePickerRef}
+								onChange={addListingImage}
+								type="file"
+								accept="image/png, image/jpeg"
+								hidden
+							/>
+							<div className='font-semibold'>add photo</div>
+						</div>
 
-          <div className="space-x-2 text-lg flex justify-between">
-            <text> Cost of room </text>
-            <input type="number"
-              placeholder="Enter a price"
-              className="rounded-xl p-2 border "
-              name='costOfRoom'
-              id='costOfRoom'
-              onChange={changeHandler}
-            />
-          </div>
-          <div className="text-lg flex flex-col">
-            <text> Description  </text>
-            <textarea placeholder="Add a brief description"
-              className="rounded-xl p-2 border h-28 "
-              name='roomDescription'
-              id='roomDescription'
-              onChange={changeHandler}
-            />
-          </div>
-        </div>
+						<button className='rounded-full px-3 py-2 bg-blue-300 hover:bg-blue-500 hover:shadow-lg ' type='submit' onClick={submitListingInfo}>
+							Post ad
+						</button>
+					</div>
 
-        {/* {Prop Picture} */}
-        <div className='md:w-1/2 shadow-lg p-3 rounded-xl'>
-          <div className='flex space-x-4 items-center justify-between py-3'>
-            <div className='hover:scale-95 transition duration-700 flex space-x-3 px-2 shadow-lg rounded-full border items-center ' onClick={() => filePickerRef.current?.click()}>
-              <CloudUploadIcon
-                fontSize='large'
-              />
-              <input ref={filePickerRef}
-                onChange={addListingImage}
-                type="file"
-                accept="image/png, image/jpeg"
-                hidden
-              />
-              <div className='font-semibold'>add photo</div>
-            </div>
-
-            <button className='rounded-full px-3 py-2 bg-blue-300 hover:bg-blue-500 hover:shadow-lg ' type='submit' onClick={submitListingInfo}>
-              Post ad
-            </button>
-          </div>
-
-          {listingImage &&
-            <div className='px-3 flex items-center'>
-              <img
-                src={listingImage as string}
-                className='object-contain w-full rounded-xl'
-                alt=""
-                height={50}
-                width={70}
-              />
-            </div>
-          }
-        </div>
-      </div>
-    </>
-  )
+					{listingImage &&
+						<div className='px-3 flex items-center'>
+							<img
+								src={listingImage as string}
+								className='object-contain w-full rounded-xl'
+								alt=""
+								height={50}
+								width={70}
+							/>
+						</div>
+					}
+				</div>
+			</div>
+		</>
+	)
 }
 
 export default PostListingPage

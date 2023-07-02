@@ -1,11 +1,11 @@
 import SigninForm from "./SigninForm"
 
 function SigninPage() {
-  return (
-    <div>
-        <SigninForm />
-    </div>
-  )
+	return (
+		<div>
+			<SigninForm />
+		</div>
+	)
 }
 
 export default SigninPage

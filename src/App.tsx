@@ -1,63 +1,71 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { LoginPage, HomePage, PropertyDetailsPage, PostListingPage, SigninPage } from './pages'
+import { LoginPage, HomePage, PropertyDetailsPage, PostListingPage, SigninPage, ProfilePage } from './pages'
 import { auth } from '../firebase';
 import { useEffect, useState } from 'react';
 import { User } from 'firebase/auth';
 
 function App() {
-  const [user, setUser] = useState<User | null>(null);
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <HomePage />,
-    },
-    {
-      path: "/login",
-      element: <LoginPage />,
-    },
-    {
-      path: '/signin',
-      element: <SigninPage />
-    },
-    {
-      path: "/propertydetails/:id",
-      element: <PropertyDetailsPage />,
-    },
-    {
-      path: "/postlisting",
-      element: <PostListingPage />,
-    },
-  ]);
+	const [user, setUser] = useState<User | null>(null);
+	const router = createBrowserRouter([
+		{
+			path: "/",
+			element: <HomePage />,
+		},
+		{
+			path: "/login",
+			element: <LoginPage />,
+		},
+		{
+			path: '/signin',
+			element: <SigninPage />
+		},
+		{
+			path: "/propertydetails/:id",
+			element: <PropertyDetailsPage />,
+		},
+		{
+			path: "/postlisting",
+			element: <PostListingPage />,
+		},
+		{
+			path: "/profilepage/:firebase_uid",
+			element: <ProfilePage />,
+		},
+	]);
 
-  const loginRouter = createBrowserRouter([
+	const loginRouter = createBrowserRouter([
 
-    {
-      path: "/",
-      element: <SigninPage />,
-    },
-    {
-      path: '/login',
-      element: <LoginPage />
-    },
-  ])
-  //--watches auth state--//
-  useEffect(() => {
-    auth.onAuthStateChanged(() => {
-      setUser(auth.currentUser);
-    })
-  }, []);
-  
-  if (!user) return (
-    <>
-    <RouterProvider router={loginRouter}/>
-    </>
-  )
+		{
+			path: "/",
+			element: <SigninPage />,
+		},
+		{
+			path: '/login',
+			element: <LoginPage />
+		},
+		{
+			path: '*',
+			element: <SigninPage />
+		},
+	])
+	//--watches auth state--//
+	useEffect(() => {
+		auth.onAuthStateChanged(() => {
+			setUser(auth.currentUser);
+		})
+	}, []);
 
-  return (
-    <>
-      <RouterProvider router={router} />
-    </>
-  )
+	if (!user) return (
+		<>
+			<RouterProvider router={loginRouter} fallbackElement={<SigninPage />} />
+		</>
+	)
+
+	return (
+		<>
+			<RouterProvider router={router} />
+		</>
+	)
 }
 
 export default App
