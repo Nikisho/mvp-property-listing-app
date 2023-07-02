@@ -12,12 +12,15 @@ interface PropertyDetailsProps {
 	create: number;
 	address: string;
 	pm_firebase_uid: string;
+	number_of_bedrooms: string;
+    number_of_bathrooms: string;
 };
 
 interface pmDetailsProps {
 	name: string;
 	email: string;
 	firebase_uid: string;
+	image_url: string;
 };
 
 function PropertyDetailsPage() {
@@ -67,6 +70,10 @@ function PropertyDetailsPage() {
 					description={listedProperty?.description!}
 					pm_name={pmDetails?.name!}
 					pm_firebase_uid={pmDetails?.firebase_uid!}
+					pm_image_url={pmDetails?.image_url!}
+					number_of_bathrooms={listedProperty?.number_of_bathrooms!}
+					number_of_bedrooms={listedProperty?.number_of_bedrooms!}
+
 				/>
 			</section>
 		</div>

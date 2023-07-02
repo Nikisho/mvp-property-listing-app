@@ -5,9 +5,11 @@ import { ref, getDownloadURL, uploadBytesResumable, uploadString } from "firebas
 import { app, auth, storage } from '../../../firebase';
 import { uuidv4 } from '../../utils/uuidv4';
 import { User } from 'firebase/auth';
+import LoadingComponent from '../../components/LoadingComponent';
 
 const PostListingPage = () => {
 	const user: User = auth.currentUser!;
+	const [postButtonClicked, setPostButtonClicked] = useState(false);
 	const [allValues, setAllValues] = useState({
 		address: '',
 		numberOfRooms: '',
@@ -35,6 +37,7 @@ const PostListingPage = () => {
 	const uploadListingImage = async () => {
 
 		if ((Object.values(allValues).includes("")) || (filePickerRef === null) || (!listingImage)) {
+			alert("Please fill in all the required fields.")
 			return;
 		}
 
@@ -64,7 +67,11 @@ const PostListingPage = () => {
 								"pm_firebase_uid": user.uid
 							})
 						}
-					);
+					).then((response) => {
+						if (response.ok) {
+							setPostButtonClicked(true);
+						}
+					})
 				})
 			}
 		)
@@ -73,8 +80,14 @@ const PostListingPage = () => {
 	const submitListingInfo = async (e: React.MouseEvent) => {
 		e.preventDefault();
 		await uploadListingImage();
-
 	};
+
+	if (postButtonClicked) {
+		return (
+
+			<LoadingComponent />
+		)
+	}
 
 	return (
 		<>
