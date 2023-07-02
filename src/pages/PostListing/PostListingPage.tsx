@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import Header from "../../components/Header"
+import Header from "../../components/Header/Header"
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { ref, getDownloadURL, uploadBytesResumable, uploadString } from "firebase/storage";
 import { app, auth, storage } from '../../../firebase';

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Gallary from '../../components/Gallary/Gallary';
 import PropertyDetails from '../../components/PropertyDetails/PropertyDetails';
-import Header from '../../components/Header';
+import Header from '../../components/Header/Header';
 import { useParams } from 'react-router-dom';
 
 interface PropertyDetailsProps {
