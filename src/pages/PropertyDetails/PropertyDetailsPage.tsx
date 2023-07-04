@@ -3,7 +3,8 @@ import Gallary from '../../components/Gallary/Gallary';
 import PropertyDetails from '../../components/PropertyDetails/PropertyDetails';
 import Header from '../../components/Header/Header';
 import { useParams } from 'react-router-dom';
-
+import { supabase } from "../../../supabase"
+import { uuidv4 } from '../../utils/uuidv4';
 interface PropertyDetailsProps {
 	property_id: number;
 	description: string;
@@ -24,33 +25,36 @@ interface pmDetailsProps {
 };
 
 function PropertyDetailsPage() {
-	const { id } = useParams();
+	const { property_id } = useParams();
 	const [listedProperty, setListedProperty] = useState<PropertyDetailsProps>();
 	const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
-
+	console.log(uuidv4(9))
 	const getListedProperty: VoidFunction = async () => {
-
+	
 		try {
-			const response = await fetch(`http://localhost:5000/listed_properties/${id}`)
-			const json_data = await response.json();
+			const { data, error } = await supabase
+				.from('listed_properties')
+				.select()
+				.eq('property_id', `${property_id}`);
+				
+			const json_data: PropertyDetailsProps = data![0];
 			setListedProperty(json_data);
 			getPropManagerDetails(json_data.pm_firebase_uid);
 		} catch (error: any) {
 			console.error(error.message);
 		}
-
-		console.log(pmDetails)
 	};
 
 	const getPropManagerDetails = async (pm_firebase_uid: string) => {
 		try {
-			const response = await fetch(`http://localhost:5000/users/${pm_firebase_uid}`)
-			const json_data = await response.json();
-			setPmDetails(json_data);
+			const { data, error } = await supabase
+				.from("users")
+				.select()
+				.eq("firebase_uid", `${pm_firebase_uid}`)
+			setPmDetails(data![0]);
 		} catch (error: any) {
 			console.error(error.message);
 		}
-		console.log('first');
 	};
 
 	useEffect(() => {
@@ -73,7 +77,6 @@ function PropertyDetailsPage() {
 					pm_image_url={pmDetails?.image_url!}
 					number_of_bathrooms={listedProperty?.number_of_bathrooms!}
 					number_of_bedrooms={listedProperty?.number_of_bedrooms!}
-
 				/>
 			</section>
 		</div>

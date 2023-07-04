@@ -6,6 +6,7 @@ import { app, auth, storage } from '../../../firebase';
 import { uuidv4 } from '../../utils/uuidv4';
 import { User } from 'firebase/auth';
 import LoadingComponent from '../../components/LoadingComponent';
+import { supabase } from '../../../supabase';
 
 const PostListingPage = () => {
 	const user: User = auth.currentUser!;
@@ -41,8 +42,8 @@ const PostListingPage = () => {
 			return;
 		}
 
-		const image_uuid = uuidv4();
-		const storageRef = ref(storage, `listings/${image_uuid}`);
+		const property_id = uuidv4(9);
+		const storageRef = ref(storage, `listings/${property_id}`);
 		const uploadTask = uploadString(storageRef, listingImage as string, 'data_url');
 		const uploadTaskBytes = uploadBytesResumable(storageRef, listingImage as ArrayBuffer);
 
@@ -51,28 +52,24 @@ const PostListingPage = () => {
 			null,
 			(error) => console.error(error),
 			async () => {
-				await getDownloadURL(ref(storage, `listings/${image_uuid}`)).then((url) => {
-					fetch("http://localhost:5000/listed_properties",
-						{
-							method: "POST",
-							headers: { "Content-Type": "application/json" },
-							body: JSON.stringify({
-								"description": allValues.roomDescription,
-								"price_pcm": allValues.costOfRoom,
-								"address": allValues.address,
-								"number_of_bedrooms": allValues.numberOfRooms,
-								"number_of_bathrooms": allValues.numberOfBathrooms,
-								"image_url": url,
-								"firestore_uid": image_uuid,
-								"pm_firebase_uid": user.uid
-							})
-						}
-					).then((response) => {
-						if (response.ok) {
-							setPostButtonClicked(true);
-						}
-					})
-				})
+				try {
+					const url = await getDownloadURL(ref(storage, `listings/${property_id}`));
+					const { error } = await supabase
+						.from('listed_properties')
+						.insert({
+							property_id: property_id,
+							description: allValues.roomDescription,
+							price_pcm: allValues.costOfRoom,
+							address: allValues.address,
+							number_of_bedrooms: allValues.numberOfRooms,
+							number_of_bathrooms: allValues.numberOfBathrooms,
+							image_url: url,
+							pm_firebase_uid: user.uid,
+						})
+					setPostButtonClicked(true);
+				} catch (err: any) {
+					console.error(err);
+				}
 			}
 		)
 	}

@@ -84,7 +84,7 @@ app.post('/users', async (req, res) => {
 
 });
 
-//------GET SPECIFIC USER DATA-----//
+//------GET SPECIFIC USER DATA-----//migrated
 app.get("/users/:firebase_uid", async (req, res) => {
     try {
         const { firebase_uid } = req.params;

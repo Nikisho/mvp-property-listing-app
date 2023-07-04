@@ -24,7 +24,7 @@ const ListingCard: React.FC<PropertyDetailsProps> = ({ description, image_url, p
 
         <img
           src={image_url}
-          className='rounded-xl xl:h-40 w-60 2xl:w-full h-60'
+          className='rounded-xl xl:h-40 xl:w-60 2xl:w-80 2xl:h-60 w-full'
         />
       </div>
 

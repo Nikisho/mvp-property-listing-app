@@ -20,7 +20,7 @@ function App() {
 			element: <SigninPage />
 		},
 		{
-			path: "/propertydetails/:id",
+			path: "/propertydetails/:property_id",
 			element: <PropertyDetailsPage />,
 		},
 		{

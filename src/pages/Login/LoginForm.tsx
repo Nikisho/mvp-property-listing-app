@@ -1,7 +1,8 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { UserCredential, createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../../firebase';
+import { supabase } from '../../../supabase';
 
 function LoginForm() {
 	const [user, setUser] = useState({
@@ -14,34 +15,39 @@ function LoginForm() {
 		setUser({ ...user, [e.target.name]: e.target.value })
 	};
 
+	const insertIntoUsers = async (userCredential: UserCredential) => {
+		const { error } = await supabase
+		.from('users')
+		.insert({
+			name: user.name,
+			email: userCredential.user.email,
+			firebase_uid: userCredential.user.uid,
+			user_id: userCredential.user.uid,
+			// image_url: 'foo'
+		})
+	}
 	const signUpEmail = (e: React.MouseEvent) => {
 		e.preventDefault();
 		if (Object.values(user).includes("")) {
-			alert("Please Fill In All Required Fields.");
+			alert("Please Fill In all Required Fields.");
 			return;
 		};
+		
 		createUserWithEmailAndPassword(auth, user.email, user.password)
-			.then((userCredential) => {
-				// Signed in 
-				console.log(user);
-				fetch("http://localhost:5000/users", {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						"name": user.name,
-						"email": userCredential.user.email,
-						"firebase_uid": userCredential.user.uid,
-					})
-				});
-				if (auth.currentUser) {
-					navigate('/');
-				};
-			})
-			.catch((error) => {
-				console.error(error.message);
-				console.log(error.code);
-			});
-
+		.then((userCredential) => {
+			insertIntoUsers(userCredential);
+			}
+		)
+		.then(() => {
+			// Signed in 
+			if (auth.currentUser) {
+				navigate('/');
+			};
+		})
+		.catch((error) => {
+			console.error(error.message);
+			console.log(error.code);
+		});
 	};
 
 	return (
