@@ -96,7 +96,7 @@ const PostListingPage = () => {
 				<div className="flex flex-col md:w-1/2 rounded-xl shadow-lg p-3 space-y-4">
 					<div className="text-xl font-semibold">Information about the property</div>
 					<div className="space-x-2 text-lg flex justify-between">
-						<text>Address:</text>
+						<div>Address:</div>
 						<input type="text"
 							placeholder="Enter a location"
 							className="rounded-xl p-2 border "
@@ -107,7 +107,7 @@ const PostListingPage = () => {
 					</div>
 
 					<div className="space-x-2 text-lg flex justify-between">
-						<text> Number of rooms </text>
+						<div> Number of rooms </div>
 						<input type="number"
 							placeholder="Enter a number"
 							className="rounded-xl p-2 border"
@@ -118,7 +118,7 @@ const PostListingPage = () => {
 					</div>
 
 					<div className="space-x-2 text-lg flex justify-between">
-						<text> Number of bathrooms </text>
+						<div> Number of bathrooms </div>
 						<input type="number"
 							placeholder="Enter a number"
 							className="rounded-xl p-2 border "
@@ -129,7 +129,7 @@ const PostListingPage = () => {
 					</div>
 
 					<div className="space-x-2 text-lg flex justify-between">
-						<text> Cost of room </text>
+						<div> Cost of room </div>
 						<input type="number"
 							placeholder="Enter a price"
 							className="rounded-xl p-2 border "
@@ -139,7 +139,7 @@ const PostListingPage = () => {
 						/>
 					</div>
 					<div className="text-lg flex flex-col">
-						<text> Description  </text>
+						<div> Description  </div>
 						<textarea placeholder="Add a brief description"
 							className="rounded-xl p-2 border h-28 "
 							name='roomDescription'

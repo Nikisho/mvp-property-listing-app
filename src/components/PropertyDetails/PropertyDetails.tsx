@@ -33,7 +33,11 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
     };
     const handleApplyButtonClick = () => {
         setApplyButtonClicked(true);
-    };    
+    };
+    
+    const handleCancelButtonClick = () => {
+        setApplyButtonClicked(false);
+    }; 
     return (
         <div className={styles['property-details']}>
             <span className={styles['title']}>{title}</span>
@@ -88,9 +92,13 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
                 {/* {Placeholder for more details} */}
             </div>
             <div>
-                {
+                {/* {
                     applyButtonClicked ? <ApplicationQuestions/> : <></>
-                }
+                } */}
+                <ApplicationQuestions
+                    applyBtnClicked={applyButtonClicked}
+                    cancelBtnClicked={handleCancelButtonClick}
+                />
             </div>
         </div>
     )
