@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './PropertyDetails.module.css';
 import StarIcon from '@mui/icons-material/Star';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
+import ApplicationQuestions from '../../pages/PropertyDetails/ApplicationQuestions';
 interface PropertyDetailsProps {
     id: number;
     title: string;
@@ -10,13 +11,9 @@ interface PropertyDetailsProps {
     description: string;
     pm_name: string;
     pm_image_url: string;
-    pm_firebase_uid: string;
+    pm_user_id: string;
     number_of_bedrooms: string;
     number_of_bathrooms: string;
-}
-
-function clickMe(){
-    alert('You clicked me!');
 }
 
 const PropertyDetails: React.FC<PropertyDetailsProps> = ({
@@ -25,15 +22,18 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
     description,
     pm_name,
     pm_image_url,
-    pm_firebase_uid,
+    pm_user_id,
     number_of_bedrooms,
     number_of_bathrooms
 }) => {
     const navigate = useNavigate();
+    const [applyButtonClicked, setApplyButtonClicked] = useState(false);
     function handleClick() {
-        navigate(`/profilepage/${pm_firebase_uid}`);
+        navigate(`/profilepage/${pm_user_id}`);
     };
-
+    const handleApplyButtonClick = () => {
+        setApplyButtonClicked(true);
+    };    
     return (
         <div className={styles['property-details']}>
             <span className={styles['title']}>{title}</span>
@@ -71,7 +71,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
                 {/* <button onClick={clickMe} className={`${styles['btn']} ${styles['outline']}`}>
                     Speak to Landlord
                 </button> */}
-                <button onClick={clickMe} className={styles['btn']}>
+                <button onClick={handleApplyButtonClick} className={styles['btn']}>
                     Apply for Property
                 </button>
                 <div className='font-semibold '>
@@ -86,6 +86,11 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
             
             <div>
                 {/* {Placeholder for more details} */}
+            </div>
+            <div>
+                {
+                    applyButtonClicked ? <ApplicationQuestions/> : <></>
+                }
             </div>
         </div>
     )

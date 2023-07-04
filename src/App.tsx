@@ -28,7 +28,7 @@ function App() {
 			element: <PostListingPage />,
 		},
 		{
-			path: "/profilepage/:firebase_uid",
+			path: "/profilepage/:user_id",
 			element: <ProfilePage />,
 		},
 	]);

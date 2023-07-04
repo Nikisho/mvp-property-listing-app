@@ -1,28 +1,31 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import Header from '../../components/Header/Header';
+import { supabase } from '../../../supabase';
 
 interface pmDetailsProps {
     name: string;
     email: string;
-    firebase_uid: string;
+    user_id: string;
 };
 
 function ProfilePage() {
     const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
-    const { firebase_uid } = useParams();
-    console.log(firebase_uid);
-    const getPropManagerDetails = async (pm_firebase_uid: string) => {
+    const { user_id } = useParams();
+    console.log(user_id);
+    const getPropManagerDetails = async (pm_user_id: string) => {
         try {
-            const response = await fetch(`http://localhost:5000/users/${pm_firebase_uid}`)
-            const json_data = await response.json();
-            setPmDetails(json_data);
+            const { data, error } = await supabase
+                .from('users')
+                .select()
+                .eq('user_id',`${pm_user_id}`);
+            setPmDetails(data![0]);
         } catch (error: any) {
             console.error(error.message);
         }
     };
     useEffect(() => {
-        getPropManagerDetails(firebase_uid as string);
+        getPropManagerDetails(user_id as string);
     },[]);
 
     return (

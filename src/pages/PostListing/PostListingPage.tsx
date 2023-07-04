@@ -64,7 +64,7 @@ const PostListingPage = () => {
 							number_of_bedrooms: allValues.numberOfRooms,
 							number_of_bathrooms: allValues.numberOfBathrooms,
 							image_url: url,
-							pm_firebase_uid: user.uid,
+							pm_user_id: user.uid,
 						})
 					setPostButtonClicked(true);
 				} catch (err: any) {

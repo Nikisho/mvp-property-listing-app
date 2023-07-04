@@ -21,9 +21,7 @@ function LoginForm() {
 		.insert({
 			name: user.name,
 			email: userCredential.user.email,
-			firebase_uid: userCredential.user.uid,
 			user_id: userCredential.user.uid,
-			// image_url: 'foo'
 		})
 	}
 	const signUpEmail = (e: React.MouseEvent) => {

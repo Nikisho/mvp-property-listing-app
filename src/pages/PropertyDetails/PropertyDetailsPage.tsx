@@ -12,7 +12,7 @@ interface PropertyDetailsProps {
 	price_pcm: number;
 	create: number;
 	address: string;
-	pm_firebase_uid: string;
+	pm_user_id: string;
 	number_of_bedrooms: string;
     number_of_bathrooms: string;
 };
@@ -20,7 +20,7 @@ interface PropertyDetailsProps {
 interface pmDetailsProps {
 	name: string;
 	email: string;
-	firebase_uid: string;
+	user_id: string;
 	image_url: string;
 };
 
@@ -39,18 +39,18 @@ function PropertyDetailsPage() {
 				
 			const json_data: PropertyDetailsProps = data![0];
 			setListedProperty(json_data);
-			getPropManagerDetails(json_data.pm_firebase_uid);
+			getPropManagerDetails(json_data.pm_user_id);
 		} catch (error: any) {
 			console.error(error.message);
 		}
 	};
 
-	const getPropManagerDetails = async (pm_firebase_uid: string) => {
+	const getPropManagerDetails = async (pm_user_id: string) => {
 		try {
 			const { data, error } = await supabase
 				.from("users")
 				.select()
-				.eq("firebase_uid", `${pm_firebase_uid}`)
+				.eq("user_id", `${pm_user_id}`)
 			setPmDetails(data![0]);
 		} catch (error: any) {
 			console.error(error.message);
@@ -73,7 +73,7 @@ function PropertyDetailsPage() {
 					price_pcm={listedProperty?.price_pcm!}
 					description={listedProperty?.description!}
 					pm_name={pmDetails?.name!}
-					pm_firebase_uid={pmDetails?.firebase_uid!}
+					pm_user_id={pmDetails?.user_id!}
 					pm_image_url={pmDetails?.image_url!}
 					number_of_bathrooms={listedProperty?.number_of_bathrooms!}
 					number_of_bedrooms={listedProperty?.number_of_bedrooms!}

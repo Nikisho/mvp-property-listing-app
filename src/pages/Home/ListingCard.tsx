@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import { currencyFormatter } from '../../utils/currencyFormat';
 
 interface PropertyDetailsProps {
   property_id: number;
@@ -28,9 +29,9 @@ const ListingCard: React.FC<PropertyDetailsProps> = ({ description, image_url, p
         />
       </div>
 
-      <div className=' flex justify-between'>
+      <div className=''>
         <p className='text-lg font-bold'>{address}</p>
-        <p className='text-md font-bold' >£{price_pcm}pcm</p>
+        <p className='text-md font-semibold' >{currencyFormatter('currency','GBP').format(price_pcm)} pcm</p>
       </div>
 
       {/* description */}
