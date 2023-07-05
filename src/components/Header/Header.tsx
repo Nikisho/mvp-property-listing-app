@@ -53,6 +53,7 @@ function Header() {
 							<AccountCircleIcon
 								fontSize='large'
 								className='hover:opacity-20'
+								sx={{ fontSize: 45 }}
 							/>
 
 						</Menu.Button>
@@ -63,6 +64,7 @@ function Header() {
 										<a
 											className={`${active ? 'bg-blue-300 text-white' : 'text-gray-900'
 												} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+											href='/mylistings'
 										>
 											My listings
 										</a>

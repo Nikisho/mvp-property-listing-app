@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import { supabase } from '../../../supabase';
-
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 interface pmDetailsProps {
     name: string;
     email: string;
@@ -18,7 +18,7 @@ function ProfilePage() {
             const { data, error } = await supabase
                 .from('users')
                 .select()
-                .eq('user_id',`${pm_user_id}`);
+                .eq('user_id', `${pm_user_id}`);
             setPmDetails(data![0]);
         } catch (error: any) {
             console.error(error.message);
@@ -26,13 +26,61 @@ function ProfilePage() {
     };
     useEffect(() => {
         getPropManagerDetails(user_id as string);
-    },[]);
+    }, []);
 
     return (
         <>
             <Header />
-            <div>
-                {pmDetails?.email}
+            <div className='flex justify-center '>
+                {/* {profile} */}
+                <div className='border w-5/12 p-4 rounded-xl shadow-lg'>
+                    {/* {picture and name} */}
+                    <div className='flex justify-between items-center border-b'>
+                        <AccountBoxIcon
+                            sx={{ fontSize: 100 }}
+                        />
+                        <div className='text-2xl font-bold'>
+                            {pmDetails?.name}
+                        </div>
+                        <div>
+                            {/* {space to justify name} */}
+                        </div>
+                    </div>
+                    {/* {About section} */}
+                    <div className='p-3'>
+                        <div className='text-xl font-bold pb-2 '>
+                            About
+                        </div>
+                        <div>
+                            I have been a landlord for over 10 years in the
+                            South East area. I make sure that my tenants are always 
+                            happy with the property and jump on any queries whenever needed.
+                            I also have a few agents looking at some of my listed_properties
+                            to ensure that my tenants are always looked after.
+                        </div>
+                    </div>
+                    {/* {Review section} */}
+                    <div className='p-3'>
+                        <div className='text-xl font-bold pb-2 '>
+                            Reviews
+                        </div>
+                        <div>
+                            <i>No reviews yet.</i>
+                        </div>
+                    </div>
+                    {/* {Contact section} */}
+                    <div className='p-3'>
+                        <div className='text-xl font-bold pb-2 '>
+                            Contact Information
+                        </div>
+                        <div>
+                            Email: {pmDetails?.email}
+                        </div>
+                        <div>
+                            Mobile number:
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     )
