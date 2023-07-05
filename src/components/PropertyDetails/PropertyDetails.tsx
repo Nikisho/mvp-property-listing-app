@@ -4,6 +4,7 @@ import StarIcon from '@mui/icons-material/Star';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
 import ApplicationQuestions from '../../pages/PropertyDetails/ApplicationQuestions';
+import { currencyFormatter } from '../../utils/currencyFormat';
 interface PropertyDetailsProps {
     id: number;
     title: string;
@@ -41,7 +42,7 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
     return (
         <div className={styles['property-details']}>
             <span className={styles['title']}>{title}</span>
-            <span className={styles['price']}>£{price_pcm} pcm</span>
+            <span className={styles['price']}>{currencyFormatter('currency','GBP').format(price_pcm)} pcm</span>
             <p className={styles['description-wrapper']}>{description}</p>
             <button className='flex space-x-5 p-4 items-center shadow-lg rounded-xl hover:opacity-80 my-2' onClick={handleClick}>
                 {   
