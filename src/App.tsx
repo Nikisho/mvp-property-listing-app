@@ -57,7 +57,7 @@ function App() {
 		auth.onAuthStateChanged(() => {
 			setUser(auth.currentUser);
 		})
-	}, []);
+	}, [auth.currentUser]);
 
 	if (!user) return (
 		<>

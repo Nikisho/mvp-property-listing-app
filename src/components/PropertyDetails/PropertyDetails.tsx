@@ -3,7 +3,6 @@ import styles from './PropertyDetails.module.css';
 import StarIcon from '@mui/icons-material/Star';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
-import ApplicationQuestions from '../../pages/PropertyDetails/ApplicationQuestions';
 import { currencyFormatter } from '../../utils/currencyFormat';
 interface PropertyDetailsProps {
     id: number;
@@ -32,10 +31,13 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
     function handleClick() {
         navigate(`/profilepage/${pm_user_id}`);
     };
-    const handleApplyButtonClick = () => {
-        setApplyButtonClicked(true);
+    // const handleApplyButtonClick = () => {
+    //     setApplyButtonClicked(true);
+    // };
+    const handleApplyButtonClick: VoidFunction = () => {
+        const questionsLink: string = "https://docs.google.com/forms/d/e/1FAIpQLSdADoLJPZuPxUce3CnkwpBGa88fEDR1h7gnR86j1rPV5W5QCA/viewform?usp=sharing "
+        window.open(questionsLink, "_blank");
     };
-    
     const handleCancelButtonClick = () => {
         setApplyButtonClicked(false);
     }; 
@@ -76,6 +78,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
                 {/* <button onClick={clickMe} className={`${styles['btn']} ${styles['outline']}`}>
                     Speak to Landlord
                 </button> */}
+                {/* <button onClick={handleApplyButtonClick} className={styles['btn']}>
+                    Apply for Property
+                </button> */}
                 <button onClick={handleApplyButtonClick} className={styles['btn']}>
                     Apply for Property
                 </button>
@@ -91,15 +96,6 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
             
             <div>
                 {/* {Placeholder for more details} */}
-            </div>
-            <div>
-                {/* {
-                    applyButtonClicked ? <ApplicationQuestions/> : <></>
-                } */}
-                <ApplicationQuestions
-                    applyBtnClicked={applyButtonClicked}
-                    cancelBtnClicked={handleCancelButtonClick}
-                />
             </div>
         </div>
     )

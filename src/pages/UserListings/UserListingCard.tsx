@@ -26,13 +26,13 @@ const UserListingCard: React.FC<UserListingsProps> = ({
                 <div className='flex flex-col justify-between'>
                     <div className='text-xl font-semibold'>{address}</div>
                     <div>{currencyFormatter('currency', 'GBP').format(price_pcm)}</div>
-                    <div>
+                    {/* <div>
                         <NotificationsIcon
                             fontSize='small'
                             className=' animate-bounce'
                             style={{ color: 'red' }}
                         />
-                    </div>
+                    </div> */}
                 </div>
 
             </div>
