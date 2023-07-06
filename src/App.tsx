@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { LoginPage, HomePage, PropertyDetailsPage, PostListingPage, SigninPage, ProfilePage, UserListingsPage, LoaderPage } from './pages'
+import { LoginPage, HomePage, PropertyDetailsPage, PostListingPage, SigninPage, ProfilePage, UserListingsPage } from './pages'
 import { auth } from '../firebase';
 import { useEffect, useState } from 'react';
 import { User } from 'firebase/auth';
@@ -35,10 +35,6 @@ function App() {
 			path: "/mylistings",
 			element: <UserListingsPage />,
 		},
-		{
-			path: '/test',
-			element: <LoaderPage />
-		},
 	]);
 
 	const loginRouter = createBrowserRouter([
@@ -53,7 +49,7 @@ function App() {
 		},
 		{
 			path: '*',
-			element: <LoaderPage />
+			element: <SigninPage />
 		},
 	])
 	//--watches auth state--//
