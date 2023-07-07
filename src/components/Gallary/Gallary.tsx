@@ -6,9 +6,9 @@ interface GallaryProps {
 const Gallary: React.FC<GallaryProps> = ({ image }) => {
   
   return (
-    <div className='flex justify-center w-full p-2 md:w-3/5'>
+    <div className=' w-full md:w-1/2'>
       <div className=''>
-        <img className='rounded-xl h-full' src={image}/>
+        <img className='rounded-lg w-full' src={image}/>
       </div>
     </div>
   )
