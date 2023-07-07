@@ -77,7 +77,7 @@ function PropertyDetailsPage() {
 					<div className='flex  md:flex md:flex-row space-x-12'>
 						<Gallary image={listedProperty?.image_url!} />
 						{/* {property details} */}
-						<div className='space-y-3 rounded-lg shadow-lg p-5 2xl:w-1/3 w-1/2'>
+						<div className='space-y-3 rounded-lg shadow-lg flex flex-col justify-center p-5 2xl:w-1/3 w-1/2'>
 							<div className='text-2xl font-bold'>
 								{listedProperty?.address}
 							</div>
@@ -100,7 +100,7 @@ function PropertyDetailsPage() {
 						</div>
 
 					</div>
-					{/* {further detailas} */}
+					{/* {further details} */}
 					<div className='flex space-x-10 '>
 						{/* {description} */}
 						<div className='md:w-1/2 w-full 2xl:w-1/3 lg:w-1/2'>
