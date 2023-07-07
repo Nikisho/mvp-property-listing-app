@@ -15,7 +15,7 @@ function ProfilePage() {
     console.log(user_id);
     const getPropManagerDetails = async (pm_user_id: string) => {
         try {
-            const { data, error } = await supabase
+            const { data } = await supabase
                 .from('users')
                 .select()
                 .eq('user_id', `${pm_user_id}`);

@@ -14,15 +14,13 @@ interface PropertyDetailsProps {
 function Listing() {
 
 	const [listed_properties, setListedProperties] = useState<PropertyDetailsProps[]>([])
-
+	
 	const getListedProperties: VoidFunction = async () => {
-		try {
-			const { data, error } = await supabase
-				.from('listed_properties')
-				.select()
-			setListedProperties(data!);
-
-		} catch (error: any) {
+		const { data, error } = await supabase
+			.from('listed_properties')
+			.select()
+		setListedProperties(data!);
+		if (error) {
 			console.error(error.message);
 		}
 	}

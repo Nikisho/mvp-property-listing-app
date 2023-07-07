@@ -23,7 +23,11 @@ function LoginForm() {
 			email: userCredential.user.email,
 			user_id: userCredential.user.uid,
 		})
-	}
+		if (error) {
+			console.error(error.message)
+		}
+	};
+
 	const signUpEmail = (e: React.MouseEvent) => {
 		e.preventDefault();
 		if (Object.values(user).includes("")) {

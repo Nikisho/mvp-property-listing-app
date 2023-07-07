@@ -1,6 +1,6 @@
 import React from 'react'
 import { currencyFormatter } from '../../utils/currencyFormat'
-import NotificationsIcon from '@mui/icons-material/Notifications';
+// import NotificationsIcon from '@mui/icons-material/Notifications';
 interface UserListingsProps {
     image_url: string;
     address: string;

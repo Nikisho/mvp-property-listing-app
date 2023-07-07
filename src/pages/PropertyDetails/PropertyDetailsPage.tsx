@@ -32,29 +32,28 @@ function PropertyDetailsPage() {
 	console.log(uuidv4(9))
 	const getListedProperty: VoidFunction = async () => {
 
-		try {
-			const { data, error } = await supabase
-				.from('listed_properties')
-				.select()
-				.eq('property_id', `${property_id}`);
+		const { data, error } = await supabase
+			.from('listed_properties')
+			.select()
+			.eq('property_id', `${property_id}`);
 
-			const json_data: PropertyDetailsProps = data![0];
-			setListedProperty(json_data);
-			getPropManagerDetails(json_data.pm_user_id);
-		} catch (error: any) {
-			console.error(error.message);
+		const json_data: PropertyDetailsProps = data![0];
+		setListedProperty(json_data);
+		getPropManagerDetails(json_data.pm_user_id);
+		if (error) {
+			console.error(error);
 		}
+
 	};
 
 	const getPropManagerDetails = async (pm_user_id: string) => {
-		try {
-			const { data, error } = await supabase
-				.from("users")
-				.select()
-				.eq("user_id", `${pm_user_id}`)
-			setPmDetails(data![0]);
-		} catch (error: any) {
-			console.error(error.message);
+		const { data, error } = await supabase
+			.from("users")
+			.select()
+			.eq("user_id", `${pm_user_id}`)
+		setPmDetails(data![0]);
+		if (error) {
+			console.error(error)
 		}
 	};
 
@@ -65,7 +64,7 @@ function PropertyDetailsPage() {
 
 	useEffect(() => {
 		getListedProperty();
-	}, [])
+	}, []);
 
 	return (
 
@@ -101,9 +100,9 @@ function PropertyDetailsPage() {
 
 					</div>
 					{/* {further details} */}
-					<div className='flex space-x-10 '>
+					<div className='flex space-x-10 space-y-5 '>
 						{/* {description} */}
-						<div className='md:w-1/2 w-full 2xl:w-1/3 lg:w-1/2'>
+						<div className='md:w-1/2 w-full 2xl:w-1/3 lg:w-1/2 space-y-3'>
 
 							<div className='text-2xl font-bold'>
 								Description
