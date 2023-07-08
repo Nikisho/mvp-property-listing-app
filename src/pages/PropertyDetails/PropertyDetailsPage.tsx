@@ -60,7 +60,6 @@ function PropertyDetailsPage() {
 			console.error(error)
 		}
 	};
-	console.log( listedImages)
 	const handleApplyButtonClick: VoidFunction = () => {
 		const questionsLink: string = "https://docs.google.com/forms/d/e/1FAIpQLSdADoLJPZuPxUce3CnkwpBGa88fEDR1h7gnR86j1rPV5W5QCA/viewform?usp=sharing "
 		window.open(questionsLink, "_blank");
