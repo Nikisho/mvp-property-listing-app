@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ListingCard from './ListingCard';
 import { supabase } from '../../../supabase';
+import convertUrlsToJSON from '../../utils/convertUrlsToJSON';
 
 interface PropertyDetailsProps {
 	property_id: number,
@@ -8,13 +9,13 @@ interface PropertyDetailsProps {
 	image_url: string,
 	price_pcm: number
 	create: number,
-	address: string
+	address: string,
+	image_arr: string[]
 };
 
 function Listing() {
 
-	const [listed_properties, setListedProperties] = useState<PropertyDetailsProps[]>([])
-	
+	const [listed_properties, setListedProperties] = useState<PropertyDetailsProps[]>([]);
 	const getListedProperties: VoidFunction = async () => {
 		const { data, error } = await supabase
 			.from('listed_properties')
@@ -23,7 +24,7 @@ function Listing() {
 		if (error) {
 			console.error(error.message);
 		}
-	}
+	};
 
 	useEffect(() => {
 		getListedProperties();
@@ -35,7 +36,7 @@ function Listing() {
 				{listed_properties.map((listing) =>
 					<ListingCard
 						key={listing.property_id}
-						image_url={listing.image_url}
+						image_url={convertUrlsToJSON(listing?.image_arr[0]!)}
 						description={listing.description}
 						price_pcm={listing.price_pcm}
 						address={listing.address}

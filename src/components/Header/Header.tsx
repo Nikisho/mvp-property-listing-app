@@ -23,7 +23,8 @@ function Header() {
 
 
 	return (
-		<div className=' sticky top-0 z-50 flex p-3 bg-emerald-200 justify-between items-center'>
+		<div className='bg-emerald-200 sticky top-0 z-50 flex p-0 p-2 space-x-1
+						lg:p-3 justify-between items-center'>
 			{/* {git test} */}
 			{/* Company logo and home button */}
 			<div className='text-xl font-semibold px-3 py-2 bg-white rounded-xl shadow-lg hover:opacity-80' onClick={() => navigateHomePage()}>
@@ -42,7 +43,9 @@ function Header() {
 
 			{/* Options and proile button */}
 			<div className='flex space-x-4 items-center'>
-				<button className='bg-blue-400 py-4 px-2 hover:bg-blue-900 hover:border-white'>
+				<button className='	bg-blue-400 hover:bg-blue-900 hover:border-white
+									rounded-2xl py-1 w-16
+									lg:py-4 lg:px-2 lg:w-auto lg:rounded-lg '>
 					<div className='text-white' onClick={() => navigatePostListingPage()}>Post a listing</div>
 				</button>
 

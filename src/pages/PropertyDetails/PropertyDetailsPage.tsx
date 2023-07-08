@@ -3,9 +3,9 @@ import Gallary from '../../components/Gallary/Gallary';
 import Header from '../../components/Header/Header';
 import { useParams } from 'react-router-dom';
 import { supabase } from "../../../supabase"
-import { uuidv4 } from '../../utils/uuidv4';
 import { currencyFormatter } from '../../utils/currencyFormat';
 import { PropertyManagerCard } from '../../components';
+import { pushImagesToArray } from '../../utils/pushImagesToArray';
 interface PropertyDetailsProps {
 	property_id: number;
 	description: string;
@@ -16,6 +16,7 @@ interface PropertyDetailsProps {
 	pm_user_id: string;
 	number_of_bedrooms: string;
 	number_of_bathrooms: string;
+	image_arr: string
 };
 
 interface pmDetailsProps {
@@ -29,7 +30,8 @@ function PropertyDetailsPage() {
 	const { property_id } = useParams();
 	const [listedProperty, setListedProperty] = useState<PropertyDetailsProps>();
 	const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
-	console.log(uuidv4(9))
+	const [listedImages, setListedImages] = useState<string[]>([]);
+
 	const getListedProperty: VoidFunction = async () => {
 
 		const { data, error } = await supabase
@@ -38,12 +40,14 @@ function PropertyDetailsPage() {
 			.eq('property_id', `${property_id}`);
 
 		const json_data: PropertyDetailsProps = data![0];
+		
+		const images: string[] = pushImagesToArray(json_data?.image_arr);
+		setListedImages(images)
 		setListedProperty(json_data);
 		getPropManagerDetails(json_data.pm_user_id);
 		if (error) {
 			console.error(error);
 		}
-
 	};
 
 	const getPropManagerDetails = async (pm_user_id: string) => {
@@ -56,7 +60,7 @@ function PropertyDetailsPage() {
 			console.error(error)
 		}
 	};
-
+	console.log( listedImages)
 	const handleApplyButtonClick: VoidFunction = () => {
 		const questionsLink: string = "https://docs.google.com/forms/d/e/1FAIpQLSdADoLJPZuPxUce3CnkwpBGa88fEDR1h7gnR86j1rPV5W5QCA/viewform?usp=sharing "
 		window.open(questionsLink, "_blank");
@@ -68,15 +72,29 @@ function PropertyDetailsPage() {
 
 	return (
 
-		<div className='space-y-5 '>
+		<div className='space-y-1 
+		  				overflow-hidden
+						md:space-y-2
+						lg:space-y-5
+						xl:space-y-5'>
 			<Header />
-			<div className='flex justify-center'>
+			<div className='flex flex-col items-center p-5 
+							lg:flex lg:justify-center
+							xl:flex xl:justify-center'>
 
-				<div className='w-3/4 space-y-5'>
-					<div className='flex  md:flex md:flex-row space-x-12'>
-						<Gallary image={listedProperty?.image_url!} />
+				<div className='space-y-5 
+								lg:p-3 lg:w-3/4
+								 '>
+					<div className='flex flex-col space-y-2
+									md:flex md:flex-row md:space-x-12
+									lg:space-x-10  
+									xl:justify-center '>
+						<Gallary images={listedImages} />
 						{/* {property details} */}
-						<div className='space-y-3 rounded-lg shadow-lg flex flex-col justify-center p-5 2xl:w-1/3 w-1/2'>
+						<div className='space-y-3 flex flex-col justify-center py-1
+										md:w-1/2
+										lg:w-1/2 lg:p-5
+										xl:w-1/3 '>
 							<div className='text-2xl font-bold'>
 								{listedProperty?.address}
 							</div>
@@ -90,7 +108,12 @@ function PropertyDetailsPage() {
 								pm_user_id={pmDetails?.user_id!}
 							/>
 							<div className='flex space-x-4'>
-								<button onClick={handleApplyButtonClick} className='cursor-pointer w-2/3 py-5 rounded-lg bg-blue-300 border-2 border-gray-200 hover:border-blue-200 hover:bg-blue-400'>
+								<button onClick={handleApplyButtonClick} className='py-5 rounded-lg bg-blue-300 border-2 cursor-pointer border-gray-200 hover:border-blue-200 hover:bg-blue-400
+																					w-full 
+																					md:w-full
+																					lg:w-full
+																					xl:w-full
+																					2xl:w-full'>
 									Apply for Property
 								</button>
 
@@ -100,18 +123,26 @@ function PropertyDetailsPage() {
 
 					</div>
 					{/* {further details} */}
-					<div className='flex space-x-10 space-y-5 '>
+					<div className='flex flex-col space-y-5 
+									md:flex md:flex-col md:space-y-2
+									lg:flex lg:flex-row lg:space-x-10 lg:space-y-2 lg:justify-between
+									xl:justify-center xl:space-x-10 
+									2xl:justify-center 2xl:flex 2xl:space-x-10'>
 						{/* {description} */}
-						<div className='md:w-1/2 w-full 2xl:w-1/3 lg:w-1/2 space-y-3'>
+						<div className='space-y-3
+										md:w-1/2 
+										lg:w-1/2 
+										xl:w-1/2 
+										2xl:w-1/3'>
 
-							<div className='text-2xl font-bold'>
+							<div className='text-2xl font-bold '>
 								Description
 							</div>
-							<div className='text-md'>
+							<div className='text-md '>
 								{listedProperty?.description!}
 							</div>
 						</div>
-						<div className='font-semibold w-1/2'>
+						<div className='font-semibold w-1/3'>
 							<div className='text-xl'>
 								Amenities
 							</div>
