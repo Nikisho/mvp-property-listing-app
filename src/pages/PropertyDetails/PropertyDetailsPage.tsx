@@ -82,6 +82,7 @@ function PropertyDetailsPage() {
 							xl:flex xl:justify-center'>
 
 				<div className='space-y-5 
+								sm:w-2/3
 								lg:p-3 lg:w-3/4
 								 '>
 					<div className='flex flex-col space-y-2
