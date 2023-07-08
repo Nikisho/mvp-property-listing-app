@@ -33,7 +33,8 @@ function ProfilePage() {
             <Header />
             <div className='flex justify-center '>
                 {/* {profile} */}
-                <div className='border w-5/12 p-4 rounded-xl shadow-lg'>
+                <div className='border w-full rounded-xl p-4 space-y-10
+                                xl:w-5/12 xl:space-y-1 xl:shadow-lg '>
                     {/* {picture and name} */}
                     <div className='flex justify-between items-center border-b'>
                         <AccountBoxIcon

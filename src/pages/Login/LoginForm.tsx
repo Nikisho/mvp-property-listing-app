@@ -41,7 +41,7 @@ function LoginForm() {
 			}
 		)
 		.then(() => {
-			// Signed in 
+			// IF SIGNED IN => HOMEPAGE
 			if (auth.currentUser) {
 				navigate('/');
 			};
