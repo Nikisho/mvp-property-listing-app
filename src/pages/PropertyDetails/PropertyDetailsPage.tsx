@@ -81,7 +81,7 @@ function PropertyDetailsPage() {
 							lg:flex lg:justify-center
 							xl:flex xl:justify-center'>
 
-				<div className='space-y-5 
+				<div className='space-y-5 w-full
 								sm:w-2/3
 								lg:p-3 lg:w-3/4
 								 '>

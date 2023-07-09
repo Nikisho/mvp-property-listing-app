@@ -25,10 +25,10 @@ const PostListingPage = () => {
 	const filePickerRef = useRef<HTMLInputElement>(null);
 	const [imageFiles, setImageFiles] = useState<Array<File>>([]);
 	const [maxNumberOfPicturesReached, setMaxNumberOfPicturesReached] = useState<boolean>(false);
-
+	const maxNumberOfPicturesAllowed = 9;
 	const addListingImage = async (e: any) => {
 		const reader = new FileReader();
-		if (listedImages.length === 6) {
+		if (listedImages.length === maxNumberOfPicturesAllowed) {
 			setMaxNumberOfPicturesReached(true);
 			return;
 		}
@@ -93,7 +93,10 @@ const PostListingPage = () => {
 
 	const submitListingInfo = async (e: React.MouseEvent) => {
 		e.preventDefault();
-		await uploadListing()
+		var startTime = performance.now();
+		await uploadListing();
+		var endTime = performance.now();
+		console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
 	};
 
 	if (postButtonClicked) {

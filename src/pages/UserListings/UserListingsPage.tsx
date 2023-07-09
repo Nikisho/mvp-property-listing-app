@@ -21,16 +21,18 @@ function UserListingsPage() {
             const { data, error } = await supabase
                 .from('listed_properties')
                 .select()
-                .eq("pm_user_id", `${user.uid}`)
-
-            setUserListings(data!)
-        } catch (err) {
-            console.error(err);
+                .eq("pm_user_id", `${user.uid}`);
+            if (error) {
+                console.error(error.message);
+            }
+            setUserListings(data!);
+        } catch (err:any) {
+            console.error(err.message);
         }
-    }
+    };
     useEffect(() => {
         fetchUserListings();
-    }, [])
+    }, []);
     return (
         <div>
             <Header />
