@@ -3,9 +3,10 @@ import { auth } from '../../../firebase'
 import { supabase } from '../../../supabase';
 import UserListingCard from './UserListingCard';
 import Header from '../../components/Header/Header';
+import convertUrlsToJSON from '../../utils/convertUrlsToJSON';
 
 interface UserListingsProps {
-    image_url: string;
+    image_arr: string;
     property_id: string;
     price_pcm: number;
     address: string;
@@ -41,7 +42,7 @@ function UserListingsPage() {
                         userListings?.map((listing) =>
                             <UserListingCard
                                 key={listing.property_id}
-                                image_url={listing?.image_url}
+                                image_url={convertUrlsToJSON(listing?.image_arr[0]!)}
                                 address={listing.address}
                                 price_pcm={listing.price_pcm}
                                 description={listing.description}

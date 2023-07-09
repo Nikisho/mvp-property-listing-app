@@ -214,7 +214,7 @@ const PostListingPage = () => {
 										lg:grid-cols-3 '>
 
 								{listedImages?.map((image: string) => (
-									<div className='px-3 pb-2'>
+									<div className='px-3 pb-2 max-h-36'>
 										<img
 											src={image as string}
 											className='rounded-lg w-full h-full'

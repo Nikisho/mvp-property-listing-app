@@ -100,7 +100,7 @@ function PropertyDetailsPage() {
 							</div>
 
 							<div className='text-xl'>
-								{currencyFormatter('currency', 'GBP').format(listedProperty?.price_pcm!)}
+								{currencyFormatter('currency', 'GBP').format(listedProperty?.price_pcm!)} pcm
 							</div>
 							<PropertyManagerCard
 								pm_image_url={pmDetails?.image_url!}
@@ -124,7 +124,7 @@ function PropertyDetailsPage() {
 					</div>
 					{/* {further details} */}
 					<div className='flex flex-col space-y-5 
-									md:flex md:flex-col md:space-y-2
+									md:flex md:flex-row md:space-x-10
 									lg:flex lg:flex-row lg:space-x-10 lg:space-y-2 lg:justify-between
 									xl:justify-center xl:space-x-10 
 									2xl:justify-center 2xl:flex 2xl:space-x-10'>
@@ -135,10 +135,10 @@ function PropertyDetailsPage() {
 										xl:w-1/2 
 										2xl:w-1/3'>
 
-							<div className='text-2xl font-bold '>
+							<div className='text-2xl font-bold'>
 								Description
 							</div>
-							<div className='text-md '>
+							<div className='text-md  whitespace-pre-wrap'>
 								{listedProperty?.description!}
 							</div>
 						</div>
