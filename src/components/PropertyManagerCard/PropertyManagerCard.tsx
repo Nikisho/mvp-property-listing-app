@@ -20,7 +20,7 @@ const PropertyManagerCard: React.FC<PropertyManagerCardProps> = ({
 
     return (
         <div>
-            <button className='flex space-x-5 p-4 w-full items-center shadow-lg rounded-xl hover:opacity-80 my-2 hover:bg-gray-300' onClick={handleClick}>
+            <button className='flex space-x-5 p-4 w-full items-center shadow-lg rounded-xl my-2'>
                 {
                     (pm_image_url) ?
                         <img

@@ -22,14 +22,19 @@ const Gallary: React.FC<GallaryProps> = ({ images }) => {
 		}
 	}
 	return (
-		<div className='h-60 
+		<div className='h-60 bg-gray-300
 						md:w-1/2 md:h-auto
 						lg:w-1/2 lg:h-auto
 						xl:w-1/2 xl:h-auto
 						2xl:w-1/3 2xl:h-auto'>
 			<div
-				style={{ backgroundImage: `url(${images[currentIndex]})`, backgroundSize: 'cover' }}
-				className='flex h-full rounded-lg duration-500'
+				style={{ backgroundImage: 
+							`url(${	images[currentIndex]})`, 
+									backgroundSize: 'contain' , 
+									backgroundRepeat: 'no-repeat',
+									backgroundPosition: 'center'
+						}}
+				className='flex h-full  duration-500'
 			>
 				<div className='flex flex-col justify-center w-full '>
 					<div className=' flex justify-between hover:visible '>

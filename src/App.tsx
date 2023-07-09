@@ -9,32 +9,32 @@ function App() {
 	const router = createBrowserRouter([
 		{
 			path: "/",
-			element: <HomePage />,
+			element:<PropertyDetailsPage />,
 		},
-		{
-			path: "/login",
-			element: <LoginPage />,
-		},
-		{
-			path: '/signin',
-			element: <SigninPage />
-		},
-		{
-			path: "/propertydetails/:property_id",
-			element: <PropertyDetailsPage />,
-		},
-		{
-			path: "/postlisting",
-			element: <PostListingPage />,
-		},
-		{
-			path: "/profilepage/:user_id",
-			element: <ProfilePage />,
-		},
-		{
-			path: "/mylistings",
-			element: <UserListingsPage />,
-		},
+		// {
+		// 	path: "/login",
+		// 	element: <LoginPage />,
+		// },
+		// {
+		// 	path: '/signin',
+		// 	element: <SigninPage />
+		// },
+		// {
+		// 	path: "/propertydetails/:property_id",
+		// 	element: <PropertyDetailsPage />,
+		// },
+		// {
+		// 	path: "/postlisting",
+		// 	element: <PostListingPage />,
+		// },
+		// {
+		// 	path: "/profilepage/:user_id",
+		// 	element: <ProfilePage />,
+		// },
+		// {
+		// 	path: "/mylistings",
+		// 	element: <UserListingsPage />,
+		// },
 	]);
 
 	const loginRouter = createBrowserRouter([
@@ -53,17 +53,17 @@ function App() {
 		},
 	])
 	//--watches auth state--//
-	useEffect(() => {
-		auth.onAuthStateChanged(() => {
-			setUser(auth.currentUser);
-		})
-	}, [auth.currentUser]);
+	// useEffect(() => {
+	// 	auth.onAuthStateChanged(() => {
+	// 		setUser(auth.currentUser);
+	// 	})
+	// }, [auth.currentUser]);
 
-	if (!user) return (
-		<>
-			<RouterProvider router={loginRouter} fallbackElement={<SigninPage />} />
-		</>
-	)
+	// if (!user) return (
+	// 	<>
+	// 		<RouterProvider router={loginRouter} fallbackElement={<SigninPage />} />
+	// 	</>
+	// )
 
 	return (
 		<>

@@ -25,10 +25,10 @@ const PostListingPage = () => {
 	const filePickerRef = useRef<HTMLInputElement>(null);
 	const [imageFiles, setImageFiles] = useState<Array<File>>([]);
 	const [maxNumberOfPicturesReached, setMaxNumberOfPicturesReached] = useState<boolean>(false);
-
+	const maxNumberOfPicturesAllowed = 10;
 	const addListingImage = async (e: any) => {
 		const reader = new FileReader();
-		if (listedImages.length === 6) {
+		if (listedImages.length === maxNumberOfPicturesAllowed) {
 			setMaxNumberOfPicturesReached(true);
 			return;
 		}
@@ -214,7 +214,7 @@ const PostListingPage = () => {
 										lg:grid-cols-3 '>
 
 								{listedImages?.map((image: string) => (
-									<div className='px-3 pb-2'>
+									<div className='px-3 pb-2 max-h-36'>
 										<img
 											src={image as string}
 											className='rounded-lg w-full h-full'

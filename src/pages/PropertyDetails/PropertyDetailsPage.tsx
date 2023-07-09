@@ -27,7 +27,8 @@ interface pmDetailsProps {
 };
 
 function PropertyDetailsPage() {
-	const { property_id } = useParams();
+	// const { property_id } = useParams();
+	const property_id: string = "MXwhr5j9Z"
 	const [listedProperty, setListedProperty] = useState<PropertyDetailsProps>();
 	const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
 	const [listedImages, setListedImages] = useState<string[]>([]);
@@ -40,7 +41,7 @@ function PropertyDetailsPage() {
 			.eq('property_id', `${property_id}`);
 
 		const json_data: PropertyDetailsProps = data![0];
-		
+
 		const images: string[] = pushImagesToArray(json_data?.image_arr);
 		setListedImages(images)
 		setListedProperty(json_data);
@@ -69,6 +70,20 @@ function PropertyDetailsPage() {
 		getListedProperty();
 	}, []);
 
+	//----------manually added reviews for poc------------//
+	const reviews = [
+		{
+			name: 'Romain',
+			review: `I've had a great experience renting with premier living. The property was well looked after and the agents are very 
+					responsive and helpful. Small issues were dealt with very quickly and the property was very comfortable to live in.
+					I would recommend Premier Living to anyone looking for accommodation in Luton!`
+		},
+		{
+			name: 'Bhumra',
+			review: `I've been renting with Premier Living for the past four years. I am very happy with the quality of their service
+					As well as being responsive, they keep the rent really low and assist with any type of enquiry.`
+		},
+	]
 	return (
 
 		<div className='space-y-1 
@@ -76,7 +91,7 @@ function PropertyDetailsPage() {
 						md:space-y-2
 						lg:space-y-5
 						xl:space-y-5'>
-			<Header />
+			{/* <Header /> */}
 			<div className='flex flex-col items-center p-5 
 							lg:flex lg:justify-center
 							xl:flex xl:justify-center'>
@@ -100,7 +115,7 @@ function PropertyDetailsPage() {
 							</div>
 
 							<div className='text-xl'>
-								{currencyFormatter('currency', 'GBP').format(listedProperty?.price_pcm!)}
+								{currencyFormatter('currency', 'GBP').format(listedProperty?.price_pcm!)} pcm
 							</div>
 							<PropertyManagerCard
 								pm_image_url={pmDetails?.image_url!}
@@ -138,23 +153,52 @@ function PropertyDetailsPage() {
 							<div className='text-2xl font-bold '>
 								Description
 							</div>
-							<div className='text-md '>
+							<div className='text-md whitespace-pre-wrap '>
 								{listedProperty?.description!}
 							</div>
+							<div className='space-y-3'>
+								<div className='text-2xl font-bold '>
+									Reviews
+								</div>
+								{
+									reviews.map((review) => (
+										<div className='flex flex-col space-y-2 p-3 rounded-xl shadow-lg'>
+											<div className='text-xl font-bold'>{review.name}</div>
+											<div className=''>
+												{review.review}
+											</div>
+										</div>
+
+									))
+								}
+							</div>
 						</div>
-						<div className='font-semibold w-1/3'>
-							<div className='text-xl'>
-								Amenities
-							</div>
+						<div className=' w-1/3 space-y-4'>
 							<div>
-								Bedrooms: {listedProperty?.number_of_bathrooms!}
+								<div className='text-xl font-semibold'>
+									Amenities
+								</div>
+								<div>
+									Bedrooms: {listedProperty?.number_of_bedrooms!}
+								</div>
+								<div>
+									Bathrooms: {listedProperty?.number_of_bathrooms!}
+								</div>
 							</div>
+
 							<div>
-								Bathrooms: {listedProperty?.number_of_bedrooms!}
+								<div className='text-xl font-semibold'>
+									Extra costs
+								</div>
+								<div>
+									Deposit: £550
+								</div>
+								<div>
+									Bills Included: Yes
+								</div>
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
