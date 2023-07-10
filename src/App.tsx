@@ -1,11 +1,11 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { LoginPage, HomePage, PropertyDetailsPage, PostListingPage, SigninPage, ProfilePage, UserListingsPage } from './pages'
-import { auth } from '../firebase';
-import { useEffect, useState } from 'react';
-import { User } from 'firebase/auth';
+import {  PropertyDetailsPage  } from './pages'
+// import { auth } from '../firebase';
+// import { useEffect, useState } from 'react';
+// import { User } from 'firebase/auth';
 
 function App() {
-	const [user, setUser] = useState<User | null>(null);
+	// const [user, setUser] = useState<User | null>(null);
 	const router = createBrowserRouter([
 		{
 			path: "/",
@@ -37,21 +37,21 @@ function App() {
 		// },
 	]);
 
-	const loginRouter = createBrowserRouter([
+	// const loginRouter = createBrowserRouter([
 
-		{
-			path: "/",
-			element: <SigninPage />,
-		},
-		{
-			path: '/login',
-			element: <LoginPage />
-		},
-		{
-			path: '*',
-			element: <SigninPage />
-		},
-	])
+	// 	{
+	// 		path: "/",
+	// 		element: <SigninPage />,
+	// 	},
+	// 	{
+	// 		path: '/login',
+	// 		element: <LoginPage />
+	// 	},
+	// 	{
+	// 		path: '*',
+	// 		element: <SigninPage />
+	// 	},
+	// ])
 	//--watches auth state--//
 	// useEffect(() => {
 	// 	auth.onAuthStateChanged(() => {

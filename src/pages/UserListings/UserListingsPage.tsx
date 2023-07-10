@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { auth } from '../../../firebase'
 import { supabase } from '../../../supabase';
 import UserListingCard from './UserListingCard';
@@ -21,7 +21,7 @@ function UserListingsPage() {
                 .from('listed_properties')
                 .select()
                 .eq("pm_user_id", `${user.uid}`)
-
+            console.log(error)
             setUserListings(data!)
         } catch (err) {
             console.error(err);

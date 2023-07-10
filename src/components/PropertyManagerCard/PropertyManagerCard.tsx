@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 interface PropertyManagerCardProps {
@@ -12,12 +12,7 @@ const PropertyManagerCard: React.FC<PropertyManagerCardProps> = ({
     pm_image_url,
     pm_user_id,
 }) => {
-
-    const navigate = useNavigate();
-    function handleClick() {
-        navigate(`/profilepage/${pm_user_id}`);
-    };
-
+    console.log(pm_user_id)
     return (
         <div>
             <button className='flex space-x-5 p-4 w-full items-center shadow-lg rounded-xl my-2'>

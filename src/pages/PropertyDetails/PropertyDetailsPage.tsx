@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
 import Gallary from '../../components/Gallary/Gallary';
-import Header from '../../components/Header/Header';
-import { useParams } from 'react-router-dom';
 import { supabase } from "../../../supabase"
 import { currencyFormatter } from '../../utils/currencyFormat';
 import { PropertyManagerCard } from '../../components';
