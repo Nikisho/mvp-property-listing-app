@@ -28,7 +28,7 @@ interface pmDetailsProps {
 
 function PropertyDetailsPage() {
 	// const { property_id } = useParams();
-	const property_id: string = "MXwhr5j9Z"
+	const property_id: string = "geQ5B1JLk"
 	const [listedProperty, setListedProperty] = useState<PropertyDetailsProps>();
 	const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
 	const [listedImages, setListedImages] = useState<string[]>([]);
