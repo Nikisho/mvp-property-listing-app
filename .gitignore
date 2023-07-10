@@ -11,7 +11,11 @@ node_modules
 dist
 dist-ssr
 *.local
-
+src/components/Header
+src/pages/Login/
+src/pages/PostListing
+src/pages/Signin
+src/pages/UserListings
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
