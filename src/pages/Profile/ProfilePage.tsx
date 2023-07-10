@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import Header from '../../components/Header/Header';
+// import Header from '../../components/Header/Header';
 import { supabase } from '../../../supabase';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 interface pmDetailsProps {
@@ -30,7 +30,7 @@ function ProfilePage() {
 
     return (
         <>
-            <Header />
+            {/* <Header /> */}
             <div className='flex justify-center '>
                 {/* {profile} */}
                 <div className='border w-full rounded-xl p-4 space-y-10

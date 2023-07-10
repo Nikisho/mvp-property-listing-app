@@ -1,10 +1,10 @@
-import Header from '../../components/Header/Header'
+// import Header from '../../components/Header/Header'
 import Listing from './Listing'
 
 function HomePage() {
   return (
     <>
-        <Header />
+        {/* <Header /> */}
         <Listing />
     </>
   )
