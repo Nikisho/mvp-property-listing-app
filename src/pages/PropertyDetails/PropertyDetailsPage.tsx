@@ -90,7 +90,7 @@ function PropertyDetailsPage() {
 						lg:space-y-5
 						xl:space-y-5'>
 			{/* <Header /> */}
-			<div className='flex flex-col items-center p-5 
+			<div className='flex flex-col items-center p-5
 							lg:flex lg:justify-center
 							xl:flex xl:justify-center'>
 
@@ -143,60 +143,74 @@ function PropertyDetailsPage() {
 									2xl:justify-center 2xl:flex 2xl:space-x-10'>
 						{/* {description} */}
 						<div className='space-y-3
-										md:w-1/2 
-										lg:w-1/2 
-										xl:w-1/2 
-										2xl:w-1/3'>
-
-							<div className='text-2xl font-bold '>
-								Description
-							</div>
-							<div className='text-md whitespace-pre-wrap '>
-								{listedProperty?.description!}
-							</div>
-							<div className='space-y-3'>
-								<div className='text-2xl font-bold '>
-									Reviews
+										xl:w-full'>
+							<div className='flex flex-col space-y-2
+											lg:flex-row lg:space-x-12
+											xl:flex-row xl:justify-center xl:space-x-12'>
+								<div className='w-full space-y-3
+												lg:w-1/2
+												xl:w-1/2
+												2xl:w-1/3'>
+									<div className='text-2xl font-bold '>
+										Description
+									</div>
+									<div className='text-md whitespace-pre-wrap '>
+										{listedProperty?.description!}
+									</div>
 								</div>
-								{
-									reviews.map((review) => (
-										<div className='flex flex-col space-y-2 p-3 rounded-xl shadow-lg'>
-											<div className='text-xl font-bold'>{review.name}</div>
-											<div className=''>
-												{review.review}
-											</div>
+
+								<div className=' 	flex space-x-4 justify-between 
+													lg:w-1/3 lg:space-y-4 lg:space-x-0 lg:flex-col lg:justify-normal'>
+									<div className='space-y-2'>
+										<div className='text-xl font-semibold'>
+											Amenities
 										</div>
+										<div>
+											Bedrooms: {listedProperty?.number_of_bedrooms!}
+										</div>
+										<div>
+											Bathrooms: {listedProperty?.number_of_bathrooms!}
+										</div>
+										<div>
+											Wifi included: Yes
+										</div>
+									</div>
 
-									))
-								}
-							</div>
-						</div>
-						<div className=' w-1/3 space-y-4'>
-							<div>
-								<div className='text-xl font-semibold'>
-									Amenities
-								</div>
-								<div>
-									Bedrooms: {listedProperty?.number_of_bedrooms!}
-								</div>
-								<div>
-									Bathrooms: {listedProperty?.number_of_bathrooms!}
-								</div>
-								<div>
-									Wifi included: Yes
+									<div className='space-y-2'>
+										<div className='text-xl font-semibold'>
+											Extra costs
+										</div>
+										<div>
+											Deposit: £550
+										</div>
+										<div>
+											Bills Included: Yes
+										</div>
+									</div>
 								</div>
 							</div>
 
-							<div>
-								<div className='text-xl font-semibold'>
-									Extra costs
+							<div className='space-y-3 flex justify-center'>
+								<div className='w-full
+												lg:w-full
+												xl:w-[90%]
+												2xl:w-[70%]'>
+									<div className='text-2xl font-bold '>
+										Reviews
+									</div>
+									{
+										reviews.map((review) => (
+											<div className='flex flex-col space-y-2 p-3 rounded-xl shadow-lg'>
+												<div className='text-xl font-bold'>{review.name}</div>
+												<div className=''>
+													{review.review}
+												</div>
+											</div>
+
+										))
+									}
 								</div>
-								<div>
-									Deposit: £550
-								</div>
-								<div>
-									Bills Included: Yes
-								</div>
+
 							</div>
 						</div>
 					</div>
