@@ -4,6 +4,7 @@ import { supabase } from "../../../supabase"
 import { currencyFormatter } from '../../utils/currencyFormat';
 import { PropertyManagerCard } from '../../components';
 import { pushImagesToArray } from '../../utils/pushImagesToArray';
+import { useParams } from 'react-router-dom';
 interface PropertyDetailsProps {
 	property_id: number;
 	description: string;
@@ -22,11 +23,15 @@ interface pmDetailsProps {
 	email: string;
 	user_id: string;
 	image_url: string;
+	reviews: {
+		name: string,
+		review: string
+	}[]
+
 };
 
 function PropertyDetailsPage() {
-	// const { property_id } = useParams();
-	const property_id: string = "geQ5B1JLk"
+	const { property_id } = useParams();
 	const [listedProperty, setListedProperty] = useState<PropertyDetailsProps>();
 	const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
 	const [listedImages, setListedImages] = useState<string[]>([]);
@@ -68,20 +73,6 @@ function PropertyDetailsPage() {
 		getListedProperty();
 	}, []);
 
-	//----------manually added reviews for poc------------//
-	const reviews = [
-		{
-			name: 'Romain',
-			review: `I've had a great experience renting with premier living. The property was well looked after and the agents are very 
-					responsive and helpful. Small issues were dealt with very quickly and the property was very comfortable to live in.
-					I would recommend Premier Living to anyone looking for accommodation in Luton!`
-		},
-		{
-			name: 'Bhumra',
-			review: `I've been renting with Premier Living for the past four years. I am very happy with the quality of their service
-					As well as being responsive, they keep the rent really low and assist with any type of enquiry.`
-		},
-	]
 	return (
 
 		<div className='space-y-1 
@@ -151,6 +142,7 @@ function PropertyDetailsPage() {
 												lg:w-1/2
 												xl:w-1/2
 												2xl:w-1/3'>
+									<div className='text-sm font-semibold'><i>Ad ref: {property_id}</i></div>
 									<div className='text-2xl font-bold '>
 										Description
 									</div>
@@ -199,7 +191,7 @@ function PropertyDetailsPage() {
 										Reviews
 									</div>
 									{
-										reviews.map((review) => (
+										pmDetails?.reviews.map((review) => (
 											<div className='flex flex-col space-y-2 p-3 rounded-xl shadow-lg'>
 												<div className='text-xl font-bold'>{review.name}</div>
 												<div className=''>
@@ -210,7 +202,6 @@ function PropertyDetailsPage() {
 										))
 									}
 								</div>
-
 							</div>
 						</div>
 					</div>
