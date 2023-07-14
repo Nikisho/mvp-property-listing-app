@@ -47,7 +47,7 @@ const PostListingPage = () => {
 			alert("Please fill in all the required fields.")
 			return;
 		}
-		const property_id: string = uuidv4(9);
+		const storageRef: string = uuidv4(9);
 		let imageUrls: { publicUrl: string; }[] = [];
 
 		try {
@@ -55,7 +55,7 @@ const PostListingPage = () => {
 				const { data, error } = await supabase
 					.storage
 					.from('listings')
-					.upload(`${property_id}/image_${i}`, imageFiles[i])
+					.upload(`${storageRef}/image_${i}`, imageFiles[i])
 				if (error) {
 					console.error(error);
 				}
@@ -63,7 +63,7 @@ const PostListingPage = () => {
 					const { data } = supabase
 						.storage
 						.from('listings')
-						.getPublicUrl(`${property_id}/image_${i}`);
+						.getPublicUrl(`${storageRef}/image_${i}`);
 					if (data) {
 						imageUrls.push(data);
 					}
@@ -73,7 +73,6 @@ const PostListingPage = () => {
 			const { error } = await supabase
 				.from('listed_properties')
 				.insert({
-					property_id: property_id,
 					description: allValues.roomDescription,
 					price_pcm: allValues.costOfRoom,
 					address: allValues.address,
