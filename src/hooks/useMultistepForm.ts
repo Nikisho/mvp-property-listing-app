@@ -1,18 +1,19 @@
 import { ReactElement, useState } from "react";
 
 export function useMultistepForm(steps: ReactElement[]) {
-    const [currentStepIndex, setCurrentStepIndex] = useState(1);
+    const [currentStepIndex, setCurrentStepIndex] = useState(0);
 
     function next() {
         setCurrentStepIndex(i => {
-            if ( i > steps.length -1 ) {
-                return i;
+            if ( i == steps.length - 1 ) {
+                return i ;
             }
             return i + 1;
         })
     };
 
-    function back() {
+    function back(e: React.MouseEvent) {
+        e.preventDefault();
         setCurrentStepIndex(i => {
             if ( i <= 0 ) {
                 return i;
