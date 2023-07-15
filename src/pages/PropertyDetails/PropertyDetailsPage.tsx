@@ -4,7 +4,7 @@ import { supabase } from "../../../supabase"
 import { currencyFormatter } from '../../utils/currencyFormat';
 import { PropertyManagerCard } from '../../components';
 import { pushImagesToArray } from '../../utils/pushImagesToArray';
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 interface PropertyDetailsProps {
 	property_id: number;
 	description: string;
@@ -34,8 +34,8 @@ interface pmDetailsProps {
 };
 
 function PropertyDetailsPage() {
-	// const { property_id } = useParams();
-	const property_id = 3
+	const { property_id } = useParams();
+	// const property_id = 3
 	const [listedProperty, setListedProperty] = useState<PropertyDetailsProps>();
 	const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
 	const [listedImages, setListedImages] = useState<string[]>([]);
