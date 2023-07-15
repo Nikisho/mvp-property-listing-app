@@ -8,7 +8,7 @@ function App() {
 	// const [user, setUser] = useState<User | null>(null);
 	const router = createBrowserRouter([
 		{
-			path: "/",
+			path: "/propertydetails",
 			element:<PropertyDetailsPage />,
 		},
 		// {
