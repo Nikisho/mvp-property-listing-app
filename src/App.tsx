@@ -7,10 +7,10 @@ import {  PropertyDetailsPage  } from './pages'
 function App() {
 	// const [user, setUser] = useState<User | null>(null);
 	const router = createBrowserRouter([
-		// {
-		// 	path: "/",
-		// 	element:<PropertyDetailsPage />,
-		// },
+		{
+			path: "/",
+			element:<PropertyDetailsPage />,
+		},
 		// {
 		// 	path: "/login",
 		// 	element: <LoginPage />,
@@ -19,10 +19,10 @@ function App() {
 		// 	path: '/signin',
 		// 	element: <SigninPage />
 		// },
-		{
-			path: "/propertydetails/:property_id",
-			element: <PropertyDetailsPage />,
-		},
+		// {
+		// 	path: "/propertydetails/:property_id",
+		// 	element: <PropertyDetailsPage />,
+		// },
 		// {
 		// 	path: "/postlisting",
 		// 	element: <PostListingPage />,
