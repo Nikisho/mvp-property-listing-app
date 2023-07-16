@@ -15,7 +15,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ address, updateFields }) => {
             </div>
             <div className='flex flex-col h-full justify-center items-center text-lg font-bold'>
                 <div className='flex space-x-3 w-1/2 justify-center'>
-                    <input className='p-3 rounded-xl'
+                    <input className='p-3 rounded-xl border-2'
                         value={address}
                         onChange={e => updateFields({ address: e.target.value })}
                         required

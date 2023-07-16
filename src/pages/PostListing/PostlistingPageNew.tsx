@@ -3,6 +3,7 @@ import { useMultistepForm } from '../../hooks/useMultistepForm'
 import { Header } from '../../components'
 import PropertyTypeForm from './PropertyTypeForm'
 import AddressForm from './AddressForm'
+import UploadImagesForm from './UploadImagesForm'
 
 interface FormData {
     address: string;
@@ -41,7 +42,8 @@ const PostlistingPageNew = () => {
     } = useMultistepForm(
         [
             <PropertyTypeForm {...formData} updateFields={updateFields}/>,
-            <AddressForm  {...formData} updateFields={updateFields}/>
+            <AddressForm  {...formData} updateFields={updateFields}/>,
+            <UploadImagesForm />
         ]);
 
         function onSubmit(e: React.MouseEvent) {
@@ -51,12 +53,12 @@ const PostlistingPageNew = () => {
             }
             alert('Posted');
         }
-    console.log(formData.address)
+    console.log(formData.propertyType)
     return (
         <div className='space-y-3'>
             <Header />
             <form className='flex justify-center h-screen'>
-                <div className=' w-1/2 h-2/3 flex  flex-col  justify-between bg-blue-100 p-3 rounded-xl shadow-lg '>
+                <div className=' w-1/2 h-2/3 flex  flex-col  justify-between  p-3 rounded-xl shadow-lg '>
                     
                     {step}
                     <div className=' flex justify-end space-x-2'>
