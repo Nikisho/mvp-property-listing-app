@@ -16,6 +16,9 @@ interface PropertyDetailsProps {
 	number_of_bedrooms: string;
 	number_of_bathrooms: string;
 	image_arr: string
+	wifi_included: string;
+	bills_included: string;
+	deposit: number;
 };
 
 interface pmDetailsProps {
@@ -164,7 +167,7 @@ function PropertyDetailsPage() {
 											Bathrooms: {listedProperty?.number_of_bathrooms!}
 										</div>
 										<div>
-											Wifi included: Yes
+											Wifi: {listedProperty?.wifi_included!}
 										</div>
 									</div>
 
@@ -173,10 +176,10 @@ function PropertyDetailsPage() {
 											Extra costs
 										</div>
 										<div>
-											Deposit: £550
+											Deposit: {currencyFormatter('currency','GBP').format(listedProperty?.deposit!)} 
 										</div>
 										<div>
-											Bills Included: Yes
+											Bills Included: {listedProperty?.bills_included!}
 										</div>
 									</div>
 								</div>
@@ -190,7 +193,7 @@ function PropertyDetailsPage() {
 									<div className='text-2xl font-bold '>
 										Reviews
 									</div>
-									{
+									{	pmDetails?.reviews ?
 										pmDetails?.reviews.map((review) => (
 											<div className='flex flex-col space-y-2 p-3 rounded-xl shadow-lg'>
 												<div className='text-xl font-bold'>{review.name}</div>
@@ -199,7 +202,10 @@ function PropertyDetailsPage() {
 												</div>
 											</div>
 
-										))
+										)) : 
+										<div>
+											<i>No reviews yet.</i>
+										</div>
 									}
 								</div>
 							</div>
