@@ -50,20 +50,20 @@ const UploadImagesForm = () => {
                     </button>
                 </div>
             </div>
-            <div className=' p-3 '>
+            <div className=''>
                 <div className=' grid grid-cols-1 
 										sm:grid-cols-2 
-										md:grid-cols-3 
-										lg:grid-cols-3 '>
+										md:grid-cols-5 
+										lg:grid-cols-5 '>
 
                     {listedImages?.map((image: string) => (
-                        <div className='px-3 pb-2 max-h-36'>
+                        <div className='px-2 pb-2 max-h-36'>
                             <img
                                 src={image as string}
-                                className='rounded-lg w-full h-full'
+                                className='rounded-lg w-[80%]'
                                 alt=""
-                                height={25}
-                                width={35}
+                                height={50}
+                                width={70}
                             />
                         </div>
                     ))

@@ -11,17 +11,15 @@ const PropertyTypeForm: React.FC<PropertyTypeFormProps> = ({ propertyType, updat
 	const [selectedType, setSelectedType] = useState<string>();
 	function clickFlat(e: React.MouseEvent) {
 		e.preventDefault();
+		updateFields({propertyType: 'Flat'})
 		setSelectedType('Flat');
-		updateFields({propertyType: selectedType})
 	};
 
 	function clickHouse(e: React.MouseEvent) {
 		e.preventDefault();
+		updateFields({propertyType: 'House'});
 		setSelectedType('House');
-		updateFields({propertyType: selectedType})
 	};
-
-	propertyType = selectedType as string;
 
 	return (
 		<>
