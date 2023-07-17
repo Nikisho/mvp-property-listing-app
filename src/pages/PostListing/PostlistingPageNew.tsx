@@ -8,8 +8,8 @@ import NumberOfRoomsForm from './NumberOfRoomsForm'
 
 interface FormData {
     address: string;
-    numberOfRooms: number;
-    numberOfBathrooms: number;
+    numberOfRooms: string;
+    numberOfBathrooms: string;
     costOfRoom: number;
     roomDescription: string;
     propertyType: string;
@@ -19,8 +19,8 @@ const PostlistingPageNew = () => {
 
     const [formData, setFormData] = useState<FormData>({
         address: '',
-        numberOfRooms: 0,
-        numberOfBathrooms: 0,
+        numberOfRooms: '',
+        numberOfBathrooms: '',
         costOfRoom: 0,
         roomDescription: '',
         propertyType: ''
@@ -43,7 +43,7 @@ const PostlistingPageNew = () => {
     } = useMultistepForm(
         [
             <PropertyTypeForm {...formData} updateFields={updateFields} />,
-            <NumberOfRoomsForm />,
+            <NumberOfRoomsForm {...formData} updateFields={updateFields}  />,
             <AddressForm  {...formData} updateFields={updateFields} />,
             <UploadImagesForm />
         ]);
@@ -55,7 +55,7 @@ const PostlistingPageNew = () => {
         }
         alert('Posted');
     }
-    console.log(formData.propertyType)
+    console.log(formData)
     return (
         <div className='space-y-3'>
             <Header />
