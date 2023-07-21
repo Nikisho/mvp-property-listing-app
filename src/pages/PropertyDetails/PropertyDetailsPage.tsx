@@ -39,7 +39,7 @@ function PropertyDetailsPage() {
 	const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
 	const [listedImages, setListedImages] = useState<string[]>([]);
 
-	const getListedProperty: VoidFunction = async () => {
+	const getListedProperty = async (): Promise<void> => {
 
 		const { data, error } = await supabase
 			.from('listed_properties')
