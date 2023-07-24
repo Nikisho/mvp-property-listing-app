@@ -8,7 +8,7 @@ interface PropertyTypeFormProps extends FormData {
 }
 
 const PropertyTypeForm: React.FC<PropertyTypeFormProps> = ({ propertyType, updateFields }) => {
-	const [selectedType, setSelectedType] = useState<string>();
+	const [selectedType, setSelectedType] = useState<string>(propertyType);
 	function clickFlat(e: React.MouseEvent) {
 		e.preventDefault();
 		updateFields({propertyType: 'Flat'})

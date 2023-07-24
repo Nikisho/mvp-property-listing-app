@@ -1,48 +1,64 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 interface FormData {
-    listingImages: File[];
+    ImageFiles: File[];
+    ImageFilesURL: string[];
 };
 
 interface UploadImagesFormProps extends FormData {
     updateFields: (fields: Partial<FormData>) => void;
 }
-let imageFiles: File[] = [];
-const UploadImagesForm:React.FC<UploadImagesFormProps> = ({updateFields}) => {
-    const [listedImages, setListedImages] = useState<Array<string>>([]);
+
+const UploadImagesForm: React.FC<UploadImagesFormProps> = ({
+
+    ImageFilesURL,
+    ImageFiles,
+    updateFields
+
+}) => {
+
+    const [ArrayOfImageURLs, setArrayOfImageURLs] = useState<string[]>(ImageFilesURL);
     const filePickerRef = useRef<HTMLInputElement>(null);
-    // const [imageFiles, setImageFiles] = useState<Array<File>>([]);
+    const [ArrayOfImageFiles, setArrayOfImageFiles] = useState<Array<File>>(ImageFiles);
     const [maxNumberOfPicturesReached, setMaxNumberOfPicturesReached] = useState<boolean>(false);
     const maxNumberOfPicturesAllowed = 9;
-    
+
 
     const addListingImage = async (e: any) => {
         const reader = new FileReader();
-        if (listedImages.length === maxNumberOfPicturesAllowed - 1 ) {
+        if (ArrayOfImageURLs.length === maxNumberOfPicturesAllowed - 1) {
             setMaxNumberOfPicturesReached(true);
             return;
         }
         if (e.target.files[0]) {
             reader.readAsDataURL(e.target.files[0]);
-            // setImageFiles((file: File[]) => [...file, e.target.files[0]]);
-            imageFiles.push(e.target.files[0])
+            setArrayOfImageFiles((ArrayOfImageFiles: File[]) => [...ArrayOfImageFiles, e.target.files[0]],
+
+            );
+            // ArrayOfImageFiles.push(e.target.files[0])
         }
         reader.onload = (readerEvent) => {
-            setListedImages((image: any[]) => [...image, readerEvent.target?.result!]);
+            setArrayOfImageURLs((ArrayOfImageURLs: any[]) => [...ArrayOfImageURLs, readerEvent.target?.result!]);
             // COULDNT FIGURE OUT TYPE FOR IMAGE? STRING SURELY..
         };
-        updateFields({listingImages: imageFiles });
-       
     };
 
-    console.log(imageFiles.length)
+    useEffect(() => {
+        updateFields({
+            ImageFiles: ArrayOfImageFiles,
+            ImageFilesURL: ArrayOfImageURLs
+        });
+    }, [ArrayOfImageFiles, ArrayOfImageURLs]);
+    
+    console.log(ArrayOfImageFiles)
+    console.log(ArrayOfImageURLs)
     return (
 
         <div className='md:h-full  p-3 rounded-xl'>
             <div className='flex space-x-4 items-center justify-between py-3'>
                 <div className='flex justify-between w-full  p-2 h-31'>
-                    <button  type="button" className={`
+                    <button type="button" className={`
 										 flex h-8 space-x-3 px-2 shadow-lg rounded-xl border items-center
 										${maxNumberOfPicturesReached ? 'opacity-50 cursor-not-allowed disabled:' : 'hover:scale-95 transition duration-700'}
 									`}
@@ -67,7 +83,7 @@ const UploadImagesForm:React.FC<UploadImagesFormProps> = ({updateFields}) => {
                                     md:grid-cols-5 
                                     lg:grid-cols-5 '>
 
-                    {listedImages?.map((image: string) => (
+                    {ArrayOfImageURLs?.map((image: string) => (
                         <div className='px-1 pb-2 max-h-36'>
                             <img
                                 src={image as string}

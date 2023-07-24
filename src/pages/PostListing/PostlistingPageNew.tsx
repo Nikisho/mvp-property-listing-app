@@ -10,10 +10,12 @@ interface FormData {
     address: string;
     numberOfRooms: string;
     numberOfBathrooms: string;
-    costOfRoom: number;
+    costOfRoom: string;
+    deposit: string;
     roomDescription: string;
     propertyType: string;
-    listingImages: File[]
+    ImageFiles: File[];
+    ImageFilesURL: string[];
 }
 
 const PostlistingPageNew = () => {
@@ -22,10 +24,12 @@ const PostlistingPageNew = () => {
         address: '',
         numberOfRooms: '',
         numberOfBathrooms: '',
-        costOfRoom: 0,
+        costOfRoom: '',
+        deposit:'',
         roomDescription: '',
         propertyType: '',
-        listingImages: []
+        ImageFiles: [],
+        ImageFilesURL: []
     });
 
     function updateFields(fields: Partial<FormData>) {
