@@ -23,14 +23,14 @@ function Header() {
 
 
 	return (
-		<div className='bg-emerald-200 sticky top-0 z-50 flex p-0 p-2 space-x-1
+		<div className='bg-sky-800 sticky top-0 z-50 flex p-0 p-2 space-x-1
 						lg:p-3 justify-between items-center'>
 			{/* {git test} */}
 			{/* Company logo and home button */}
-			<div className='text-xl font-semibold px-3 py-2 bg-white rounded-xl shadow-lg hover:opacity-80' onClick={() => navigateHomePage()}>
+			<div className='text-xl font-semibold  hover:opacity-80' onClick={() => navigateHomePage()}>
 				<img
-					src='https://firebasestorage.googleapis.com/v0/b/mvp-prop-listing-app.appspot.com/o/rentopialogo.png?alt=media&token=0c1367d4-67c6-4ba4-8f85-47c041f3e168'
-					className='h-10'
+					src='https://firebasestorage.googleapis.com/v0/b/mvp-prop-listing-app.appspot.com/o/logo.png?alt=media&token=e42179b4-4850-4a1c-9ffa-eade49909985'
+					className='h-12 rounded-xl shadow-lg'
 				/>
 			</div>
 
@@ -45,8 +45,8 @@ function Header() {
 			<div className='flex space-x-4 items-center'>
 				<button className='	bg-blue-400 hover:bg-blue-900 hover:border-white
 									rounded-2xl py-1 w-16
-									lg:py-4 lg:px-2 lg:w-auto lg:rounded-lg '>
-					<div className='text-white' onClick={() => navigatePostListingPage()}>Post a listing</div>
+									lg:py-2 lg:px-2 lg:w-auto lg:rounded-sm '>
+					<div className='text-white' onClick={() => navigatePostListingPage()}>Post an Ad</div>
 				</button>
 
 				<div className=''>
@@ -56,7 +56,7 @@ function Header() {
 							<AccountCircleIcon
 								fontSize='large'
 								className='hover:opacity-20'
-								sx={{ fontSize: 45 }}
+								sx={{ fontSize: 45, color: '#fff' }}
 							/>
 
 						</Menu.Button>

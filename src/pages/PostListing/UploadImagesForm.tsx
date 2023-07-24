@@ -1,13 +1,21 @@
 import React, { useRef, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-const UploadImagesForm = () => {
+interface FormData {
+    listingImages: File[];
+};
+
+interface UploadImagesFormProps extends FormData {
+    updateFields: (fields: Partial<FormData>) => void;
+}
+let imageFiles: File[] = [];
+const UploadImagesForm:React.FC<UploadImagesFormProps> = ({updateFields}) => {
     const [listedImages, setListedImages] = useState<Array<string>>([]);
     const filePickerRef = useRef<HTMLInputElement>(null);
-    const [imageFiles, setImageFiles] = useState<Array<File>>([]);
+    // const [imageFiles, setImageFiles] = useState<Array<File>>([]);
     const [maxNumberOfPicturesReached, setMaxNumberOfPicturesReached] = useState<boolean>(false);
     const maxNumberOfPicturesAllowed = 9;
-
+    
 
     const addListingImage = async (e: any) => {
         const reader = new FileReader();
@@ -17,15 +25,18 @@ const UploadImagesForm = () => {
         }
         if (e.target.files[0]) {
             reader.readAsDataURL(e.target.files[0]);
-            setImageFiles((file: File[]) => [...file, e.target.files[0]]);
+            // setImageFiles((file: File[]) => [...file, e.target.files[0]]);
+            imageFiles.push(e.target.files[0])
         }
         reader.onload = (readerEvent) => {
             setListedImages((image: any[]) => [...image, readerEvent.target?.result!]);
             // COULDNT FIGURE OUT TYPE FOR IMAGE? STRING SURELY..
         };
+        updateFields({listingImages: imageFiles });
+       
     };
 
-
+    console.log(imageFiles.length)
     return (
 
         <div className='md:h-full  p-3 rounded-xl'>
@@ -51,16 +62,16 @@ const UploadImagesForm = () => {
                 </div>
             </div>
             <div className=''>
-                <div className=' grid grid-cols-1 
-										sm:grid-cols-2 
-										md:grid-cols-5 
-										lg:grid-cols-5 '>
+                <div className='    grid grid-cols-1
+                                    sm:grid-cols-2 
+                                    md:grid-cols-5 
+                                    lg:grid-cols-5 '>
 
                     {listedImages?.map((image: string) => (
-                        <div className='px-2 pb-2 max-h-36'>
+                        <div className='px-1 pb-2 max-h-36'>
                             <img
                                 src={image as string}
-                                className='rounded-lg w-[80%]'
+                                className='rounded-lg w-full h-24'
                                 alt=""
                                 height={50}
                                 width={70}

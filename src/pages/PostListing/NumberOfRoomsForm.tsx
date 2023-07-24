@@ -20,7 +20,7 @@ const NumberOfRoomsForm: React.FC<NumberOfRoomsFormProps> = ({numberOfRooms, num
 
                     <div>Bedrooms:  </div>
                     <input type="number"
-                        placeholder=""
+                        placeholder="1"
                         className=" p-2 border w-1/5 h-2/3 "
                         name='numberOfBathrooms'
                         id='numberOfBathrooms'
@@ -34,7 +34,7 @@ const NumberOfRoomsForm: React.FC<NumberOfRoomsFormProps> = ({numberOfRooms, num
 
                     <div>Bathrooms: </div>
                     <input type="number"
-                        placeholder="0"
+                        placeholder="1"
                         className=" p-2 border w-1/5 h-2/3  "
                         name='numberOfBathrooms'
                         id='numberOfBathrooms'

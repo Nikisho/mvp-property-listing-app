@@ -13,6 +13,7 @@ interface FormData {
     costOfRoom: number;
     roomDescription: string;
     propertyType: string;
+    listingImages: File[]
 }
 
 const PostlistingPageNew = () => {
@@ -23,7 +24,8 @@ const PostlistingPageNew = () => {
         numberOfBathrooms: '',
         costOfRoom: 0,
         roomDescription: '',
-        propertyType: ''
+        propertyType: '',
+        listingImages: []
     });
 
     function updateFields(fields: Partial<FormData>) {
@@ -45,7 +47,7 @@ const PostlistingPageNew = () => {
             <PropertyTypeForm {...formData} updateFields={updateFields} />,
             <NumberOfRoomsForm {...formData} updateFields={updateFields}  />,
             <AddressForm  {...formData} updateFields={updateFields} />,
-            <UploadImagesForm />
+            <UploadImagesForm {...formData} updateFields={updateFields}/>
         ]);
 
     function onSubmit(e: React.MouseEvent) {
