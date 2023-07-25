@@ -5,6 +5,7 @@ import PropertyTypeForm from './PropertyTypeForm'
 import AddressForm from './AddressForm'
 import UploadImagesForm from './UploadImagesForm'
 import NumberOfRoomsForm from './NumberOfRoomsForm'
+import CostForm from './CostForm'
 
 interface FormData {
     address: string;
@@ -12,6 +13,7 @@ interface FormData {
     numberOfBathrooms: string;
     costOfRoom: string;
     deposit: string;
+    billsIncluded: string;
     roomDescription: string;
     propertyType: string;
     ImageFiles: File[];
@@ -26,6 +28,7 @@ const PostlistingPageNew = () => {
         numberOfBathrooms: '',
         costOfRoom: '',
         deposit:'',
+        billsIncluded: '',
         roomDescription: '',
         propertyType: '',
         ImageFiles: [],
@@ -51,7 +54,8 @@ const PostlistingPageNew = () => {
             <PropertyTypeForm {...formData} updateFields={updateFields} />,
             <NumberOfRoomsForm {...formData} updateFields={updateFields}  />,
             <AddressForm  {...formData} updateFields={updateFields} />,
-            <UploadImagesForm {...formData} updateFields={updateFields}/>
+            <UploadImagesForm {...formData} updateFields={updateFields}/>,
+            <CostForm {...formData} updateFields={updateFields}/>
         ]);
 
     function onSubmit(e: React.MouseEvent) {

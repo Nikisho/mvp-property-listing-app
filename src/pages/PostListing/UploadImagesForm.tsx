@@ -5,7 +5,6 @@ interface FormData {
     ImageFiles: File[];
     ImageFilesURL: string[];
 };
-
 interface UploadImagesFormProps extends FormData {
     updateFields: (fields: Partial<FormData>) => void;
 }
@@ -22,8 +21,7 @@ const UploadImagesForm: React.FC<UploadImagesFormProps> = ({
     const filePickerRef = useRef<HTMLInputElement>(null);
     const [ArrayOfImageFiles, setArrayOfImageFiles] = useState<Array<File>>(ImageFiles);
     const [maxNumberOfPicturesReached, setMaxNumberOfPicturesReached] = useState<boolean>(false);
-    const maxNumberOfPicturesAllowed = 9;
-
+    const maxNumberOfPicturesAllowed: number = 9;
 
     const addListingImage = async (e: any) => {
         const reader = new FileReader();
@@ -36,7 +34,6 @@ const UploadImagesForm: React.FC<UploadImagesFormProps> = ({
             setArrayOfImageFiles((ArrayOfImageFiles: File[]) => [...ArrayOfImageFiles, e.target.files[0]],
 
             );
-            // ArrayOfImageFiles.push(e.target.files[0])
         }
         reader.onload = (readerEvent) => {
             setArrayOfImageURLs((ArrayOfImageURLs: any[]) => [...ArrayOfImageURLs, readerEvent.target?.result!]);
@@ -51,8 +48,6 @@ const UploadImagesForm: React.FC<UploadImagesFormProps> = ({
         });
     }, [ArrayOfImageFiles, ArrayOfImageURLs]);
     
-    console.log(ArrayOfImageFiles)
-    console.log(ArrayOfImageURLs)
     return (
 
         <div className='md:h-full  p-3 rounded-xl'>
@@ -98,7 +93,6 @@ const UploadImagesForm: React.FC<UploadImagesFormProps> = ({
                 </div>
             </div>
         </div>
-
     )
 }
 

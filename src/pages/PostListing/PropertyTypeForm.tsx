@@ -9,18 +9,13 @@ interface PropertyTypeFormProps extends FormData {
 
 const PropertyTypeForm: React.FC<PropertyTypeFormProps> = ({ propertyType, updateFields }) => {
 	const [selectedType, setSelectedType] = useState<string>(propertyType);
-	function clickFlat(e: React.MouseEvent) {
-		e.preventDefault();
-		updateFields({propertyType: 'Flat'})
-		setSelectedType('Flat');
-	};
 
-	function clickHouse(e: React.MouseEvent) {
+	function handleClick(e: React.MouseEvent, propertyType: string) {
 		e.preventDefault();
-		updateFields({propertyType: 'House'});
-		setSelectedType('House');
+		updateFields({propertyType: propertyType});
+		setSelectedType(propertyType);
 	};
-
+	
 	return (
 		<>
 			<div className='flex justify-center'>
@@ -29,12 +24,12 @@ const PropertyTypeForm: React.FC<PropertyTypeFormProps> = ({ propertyType, updat
 			<div className='flex flex-col h-full justify-center items-center text-lg font-bold'>
 				<div className='flex space-x-3 h-1/3 w-1/2 justify-center'>
 					<button className={`p-4 rounded-lg bg-blue-300 w-1/2  ${selectedType === 'Flat' && 'bg-blue-700 hover:animate-none'}`}
-						onClick={clickFlat}
+						onClick={(e) => handleClick(e,'Flat')}
 					>
 						Flat
 					</button>
 					<button className={`p-4 rounded-lg bg-blue-300 w-1/2 ${selectedType === 'House' && 'bg-blue-700 hover:animate-none'}`}
-						onClick={clickHouse}>
+						onClick={(e) => handleClick(e,'House')}>
 						House
 					</button>
 				</div>

@@ -29,7 +29,7 @@ function Header() {
 			{/* Company logo and home button */}
 			<div className='text-xl font-semibold  hover:opacity-80' onClick={() => navigateHomePage()}>
 				<img
-					src='https://firebasestorage.googleapis.com/v0/b/mvp-prop-listing-app.appspot.com/o/logo.png?alt=media&token=e42179b4-4850-4a1c-9ffa-eade49909985'
+					src='https://dwhhfiboburmnbvsmhjn.supabase.co/storage/v1/object/public/application-bucket/logo.png'
 					className='h-12 rounded-xl shadow-lg'
 				/>
 			</div>
