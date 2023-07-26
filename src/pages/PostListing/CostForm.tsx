@@ -41,6 +41,7 @@ const CostForm: React.FC<CostFormProps> = ({
 							type='number'
 							value={costOfRoom}
 							onChange={e => updateFields({ costOfRoom: e.target.value })}
+							required
 							/>
 					</div>
 					<div>
@@ -52,6 +53,7 @@ const CostForm: React.FC<CostFormProps> = ({
 							type='number'
 							value={deposit}
 							onChange={e => updateFields({ deposit: e.target.value })}
+							required
 							/>
 					</div>
 					<div className=''>

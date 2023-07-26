@@ -18,7 +18,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ address, updateFields }) => {
                     <input className='p-3 rounded-xl border shadow-lg'
                         value={address}
                         onChange={e => updateFields({ address: e.target.value })}
-                        required
+                        required={true}
                     />
                 </div>
             </div>

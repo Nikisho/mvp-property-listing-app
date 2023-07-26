@@ -6,6 +6,8 @@ import AddressForm from './AddressForm'
 import UploadImagesForm from './UploadImagesForm'
 import NumberOfRoomsForm from './NumberOfRoomsForm'
 import CostForm from './CostForm'
+import AmenitiesForm from './AmenitiesForm'
+import DescriptionForm from './DescriptionForm'
 
 interface FormData {
     address: string;
@@ -18,6 +20,14 @@ interface FormData {
     propertyType: string;
     ImageFiles: File[];
     ImageFilesURL: string[];
+    livingRoom: boolean;
+    wifi: boolean;
+    parking: boolean;
+    terraceOrBalcony: boolean;
+    gardenOrPatio: boolean;
+    disabledAccess: boolean;
+    washingMachine: boolean;
+    garage: boolean;
 }
 
 const PostlistingPageNew = () => {
@@ -32,7 +42,15 @@ const PostlistingPageNew = () => {
         roomDescription: '',
         propertyType: '',
         ImageFiles: [],
-        ImageFilesURL: []
+        ImageFilesURL: [],
+        livingRoom: false,
+        wifi: false,
+        parking: false,
+        terraceOrBalcony: false,
+        gardenOrPatio: false,
+        disabledAccess: false,
+        washingMachine: false,
+        garage: false,
     });
 
     function updateFields(fields: Partial<FormData>) {
@@ -55,7 +73,9 @@ const PostlistingPageNew = () => {
             <NumberOfRoomsForm {...formData} updateFields={updateFields}  />,
             <AddressForm  {...formData} updateFields={updateFields} />,
             <UploadImagesForm {...formData} updateFields={updateFields}/>,
-            <CostForm {...formData} updateFields={updateFields}/>
+            <CostForm {...formData} updateFields={updateFields}/>,
+            <AmenitiesForm {...formData} updateFields={updateFields}/>,
+            <DescriptionForm {...formData} updateFields={updateFields}/>
         ]);
 
     function onSubmit(e: React.MouseEvent) {
