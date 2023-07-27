@@ -3,7 +3,6 @@ import { LoginPage, HomePage, PropertyDetailsPage, PostListingPage, SigninPage, 
 import { auth } from '../firebase';
 import { useEffect, useState } from 'react';
 import { User } from 'firebase/auth';
-import PostlistingPageNew from './pages/PostListing/PostlistingPageNew';
 
 function App() {
 	const [user, setUser] = useState<User | null>(null);
@@ -26,7 +25,7 @@ function App() {
 		},
 		{
 			path: "/postlisting",
-			element: <PostlistingPageNew />,
+			element: <PostListingPage />,
 		},
 		{
 			path: "/profilepage/:user_id",

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import camelCaseToTextCase from '../../utils/camelCaseToTitleCase';
 interface FormData {
-	livingRoom: boolean;
-	wifi: boolean;
-	parking: boolean;
-	terraceOrBalcony: boolean;
-	gardenOrPatio: boolean;
-	disabledAccess: boolean;
-	washingMachine: boolean;
-	garage: boolean;
+	livingRoom: string;
+	wifi: string;
+	parking: string;
+	terraceOrBalcony: string;
+	gardenOrPatio: string;
+	disabledAccess: string;
+	washingMachine: string;
+	garage: string;
 };
 
 interface AmenitiesFormProps extends FormData {
@@ -16,10 +16,10 @@ interface AmenitiesFormProps extends FormData {
 };
 
 interface AmenityProps {
-	amenityValue: boolean;
+	amenityValue: string;
 	amenity: string;
 	title: string;
-	handleClick: (e: React.MouseEvent<HTMLButtonElement>, bool: boolean) => void;
+	handleClick: (e: React.MouseEvent<HTMLButtonElement>, bool: string) => void;
 }
 const AmenitiesComponent: React.FC<AmenityProps> = ({
 	amenityValue,
@@ -33,14 +33,14 @@ const AmenitiesComponent: React.FC<AmenityProps> = ({
 				{title}
 			</div>
 			<div className='border flex justify-end items-center '>
-				<button className={` w-10 border   ${amenityValue === true && 'bg-sky-500'}`}
+				<button className={` w-10 border   ${amenityValue === 'Yes' && 'bg-sky-500'}`}
 					name={amenity}
-					onClick={(e) => handleClick(e, true)}
+					onClick={(e) => handleClick(e, 'Yes')}
 					type="button"
 				>Yes</button>
-				<button className={` w-10 border   ${amenityValue === false && 'bg-sky-500'}`}
+				<button className={` w-10 border   ${amenityValue === 'No' && 'bg-sky-500'}`}
 					name={amenity}
-					onClick={(e) => handleClick(e, false)}
+					onClick={(e) => handleClick(e, 'No')}
 					type="button"
 				>No</button>
 			</div>
@@ -72,22 +72,16 @@ const AmenitiesForm: React.FC<AmenitiesFormProps> = ({
 		garage: garage,
 	});
 
-	const handleClick = (e: React.MouseEvent<HTMLButtonElement>, bool: boolean) => {
+	const handleClick = (e: React.MouseEvent<HTMLButtonElement>, bool: string) => {
 		setAmenities({ ...amenities, [(e.target as HTMLInputElement).name]: bool })
 	}
 
 	useEffect(() => {
 		updateFields({
-			livingRoom: amenities.livingRoom,
-			wifi: amenities.wifi,
-			parking: amenities.parking,
-			terraceOrBalcony: amenities.terraceOrBalcony,
-			gardenOrPatio: amenities.gardenOrPatio,
-			disabledAccess: amenities.disabledAccess,
-			washingMachine: amenities.washingMachine,
-			garage: amenities.garage,
-		});
+			...amenities,
+		  })
 	}, [amenities]);
+	console.log(amenities)
 	return (
 		<>
 			<div className='flex justify-center'>

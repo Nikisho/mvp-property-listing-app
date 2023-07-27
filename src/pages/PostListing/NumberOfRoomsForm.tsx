@@ -7,7 +7,7 @@ interface FormData {
 interface NumberOfRoomsFormProps extends FormData {
     updateFields: (fields: Partial<FormData>) => void;
 }
-const NumberOfRoomsForm: React.FC<NumberOfRoomsFormProps> = ({numberOfRooms, numberOfBathrooms, updateFields}) => {
+const NumberOfRoomsForm: React.FC<NumberOfRoomsFormProps> = ({ numberOfRooms, numberOfBathrooms, updateFields }) => {
     return (
         <>
             <div className='flex justify-center'>
@@ -20,8 +20,9 @@ const NumberOfRoomsForm: React.FC<NumberOfRoomsFormProps> = ({numberOfRooms, num
 
                     <div>Bedrooms:  </div>
                     <input type="number"
+                        min={1}
                         placeholder="1"
-                        className=" p-2 border w-1/5 h-2/3 "
+                        className=" p-2 border w-1/5 h-2/3 flex justify-end "
                         name='numberOfBathrooms'
                         id='numberOfBathrooms'
                         value={numberOfRooms}
@@ -29,11 +30,12 @@ const NumberOfRoomsForm: React.FC<NumberOfRoomsFormProps> = ({numberOfRooms, num
                         required
                     />
                 </div>
-                
+
                 <div className='flex space-x-16 w-1/2 justify-center items-center shadow-lg rounded-lg p-1'>
 
                     <div>Bathrooms: </div>
                     <input type="number"
+                        min={1}
                         placeholder="1"
                         className=" p-2 border w-1/5 h-2/3  "
                         name='numberOfBathrooms'
