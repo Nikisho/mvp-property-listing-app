@@ -1,239 +1,184 @@
-import { useState, useRef } from 'react';
-import Header from "../../components/Header/Header"
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { auth } from '../../../firebase';
-import { uuidv4 } from '../../utils/uuidv4';
-import { User } from 'firebase/auth';
-import LoadingComponent from '../../components/LoadingComponent';
-import { supabase } from '../../../supabase';
+import React, { useState } from 'react'
+import { useMultistepForm } from '../../hooks/useMultistepForm'
+import { Header } from '../../components'
+import PropertyTypeForm from './PropertyTypeForm'
+import AddressForm from './AddressForm'
+import UploadImagesForm from './UploadImagesForm'
+import NumberOfRoomsForm from './NumberOfRoomsForm'
+import CostForm from './CostForm'
+import AmenitiesForm from './AmenitiesForm'
+import DescriptionForm from './DescriptionForm'
+import { supabase } from '../../../supabase'
+import { uuidv4 } from '../../utils/uuidv4'
+import { User } from 'firebase/auth'
+import { auth } from '../../../firebase'
+import LoadingComponent from '../../components/LoadingComponent'
+
+interface FormData {
+    address: string;
+    numberOfRooms: string;
+    numberOfBathrooms: string;
+    costOfRoom: string;
+    deposit: string;
+    billsIncluded: string;
+    roomDescription: string;
+    propertyType: string;
+    ImageFiles: File[];
+    ImageFilesURL: string[];
+    livingRoom: string;
+    wifi: string;
+    parking: string;
+    terraceOrBalcony: string;
+    gardenOrPatio: string;
+    disabledAccess: string;
+    washingMachine: string;
+    garage: string;
+}
 
 const PostListingPage = () => {
-	const user: User = auth.currentUser!;
-	const [postButtonClicked, setPostButtonClicked] = useState(false);
-	const [allValues, setAllValues] = useState({
-		address: '',
-		numberOfRooms: '',
-		numberOfBathrooms: '',
-		costOfRoom: '',
-		roomDescription: ''
-	});
-	const changeHandler = (e: { target: { name: string; value: string; }; }) => {
-		setAllValues({ ...allValues, [e.target.name]: e.target.value });
-	};
+    const user: User = auth.currentUser!;
+    const [postButtonClicked, setPostButtonClicked] = useState(false);
+    const [formData, setFormData] = useState<FormData>({
+        address: '',
+        numberOfRooms: '',
+        numberOfBathrooms: '',
+        costOfRoom: '',
+        deposit:'',
+        billsIncluded: '',
+        roomDescription: '',
+        propertyType: '',
+        ImageFiles: [],
+        ImageFilesURL: [],
+        livingRoom: 'No',
+        wifi: 'No',
+        parking: 'No',
+        terraceOrBalcony: 'No',
+        gardenOrPatio: 'No',
+        disabledAccess: 'No',
+        washingMachine: 'No',
+        garage: 'No',
+    });
 
-	const [listedImages, setListedImages] = useState<Array<string>>([]);
-	const filePickerRef = useRef<HTMLInputElement>(null);
-	const [imageFiles, setImageFiles] = useState<Array<File>>([]);
-	const [maxNumberOfPicturesReached, setMaxNumberOfPicturesReached] = useState<boolean>(false);
-	const maxNumberOfPicturesAllowed = 9;
-	const addListingImage = async (e: any) => {
-		const reader = new FileReader();
-		if (listedImages.length === maxNumberOfPicturesAllowed) {
-			setMaxNumberOfPicturesReached(true);
-			return;
-		}
-		if (e.target.files[0]) {
-			reader.readAsDataURL(e.target.files[0]);
-			setImageFiles((file: File[]) => [...file, e.target.files[0]]);
-		}
-		reader.onload = (readerEvent) => {
-			setListedImages((image: any[]) => [...image, readerEvent.target?.result!]);
-			// COULDNT FIGURE OUT TYPE FOR IMAGE? STRING SURELY..
-		};
-	};
+    function updateFields(fields: Partial<FormData>) {
+        setFormData(prev => {
+            return { ...prev, ...fields }
+        })
+    };
 
-	const uploadListing = async () => {
-		if ((Object.values(allValues).includes("")) || (filePickerRef === null) || (!listedImages)) {
-			alert("Please fill in all the required fields.")
-			return;
-		}
-		const storageRef: string = uuidv4(9);
-		let imageUrls: { publicUrl: string; }[] = [];
+    const {
+        steps,
+        currentStepIndex,
+        step,
+        isFirstStep,
+        isLastStep,
+        next,
+        back
+    } = useMultistepForm(
+        [
+            <PropertyTypeForm {...formData} updateFields={updateFields} />,
+            <NumberOfRoomsForm {...formData} updateFields={updateFields}  />,
+            <AddressForm  {...formData} updateFields={updateFields} />,
+            <UploadImagesForm {...formData} updateFields={updateFields}/>,
+            <CostForm {...formData} updateFields={updateFields}/>,
+            <AmenitiesForm {...formData} updateFields={updateFields}/>,
+            <DescriptionForm {...formData} updateFields={updateFields}/>
+        ]);
 
-		try {
-			for (let i = 0; i < imageFiles.length; i++) {
-				const { data, error } = await supabase
-					.storage
-					.from('listings')
-					.upload(`${storageRef}/image_${i}`, imageFiles[i])
-				if (error) {
-					console.error(error);
-				}
-				if (data) {
-					const { data } = supabase
-						.storage
-						.from('listings')
-						.getPublicUrl(`${storageRef}/image_${i}`);
-					if (data) {
-						imageUrls.push(data);
-					}
-				}
-			};
+    async function postListing() {
 
-			const { error } = await supabase
-				.from('listed_properties')
-				.insert({
-					description: allValues.roomDescription,
-					price_pcm: allValues.costOfRoom,
-					address: allValues.address,
-					number_of_bedrooms: allValues.numberOfRooms,
-					number_of_bathrooms: allValues.numberOfBathrooms,
-					image_arr: imageUrls,
-					pm_user_id: user.uid,
-				});
-			if (error) {
-				console.error(error)
-			};
-			setPostButtonClicked(true);
+        const property_id: string = uuidv4(9);
+        let imageUrls: { publicUrl: string; }[] = [];
+        try {
+            
+            for (let i = 0; i < formData.ImageFiles.length; i++) {
+                const { data, error } = await supabase
+                .storage
+                .from('listings')
+                .upload(`${user.uid}/${property_id}/image_${i}`, formData.ImageFiles[i])
+                if (error) {
+                    console.error(error);
+                }
+                if (data) {
+                    const { data } = supabase
+                    .storage
+                    .from('listings')
+                    .getPublicUrl(`${user.uid}/${property_id}/image_${i}`);
+                    if (data) {
+                        imageUrls.push(data);
+                    }
+                }
+            };
+
+            const { error } = await supabase
+            .from('listed_properties')
+            .insert({
+                description: formData.roomDescription,
+                price_pcm: formData.costOfRoom,
+                address: formData.address,
+                number_of_bedrooms: formData.numberOfRooms,
+                number_of_bathrooms: formData.numberOfBathrooms,
+                image_arr: imageUrls,
+                pm_user_id: user.uid,
+                bills_included: formData.billsIncluded,
+                deposit: formData.deposit,
+                property_type: formData.propertyType,
+                living_room: formData.livingRoom,
+                wifi_included: formData.wifi,
+                parking: formData.parking,
+                terrace_or_balcony: formData.terraceOrBalcony,
+                garden_or_patio: formData.gardenOrPatio,
+                disabled_access: formData.disabledAccess,
+                washing_machine: formData.washingMachine,
+                garage: formData.garage
+            });
+        if (error) {
+            console.error(error);
+        };
+        setPostButtonClicked(true);
+
 		} catch (err: any) {
 			console.error(err);
 		}
-	}
-
-	const submitListingInfo = async (e: React.MouseEvent) => {
-		e.preventDefault();
-		var startTime = performance.now();
-		await uploadListing();
-		var endTime = performance.now();
-		console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
-	};
-
-	if (postButtonClicked) {
+    };
+        
+    function onSubmit(e: React.MouseEvent<HTMLFormElement>) {
+        e.preventDefault();
+        if (!isLastStep) {
+            return next();
+        }
+        postListing();
+    }
+    if (postButtonClicked) {
 		return (
 			<LoadingComponent />
 		)
 	}
+    return (
+        <div className='space-y-3 '>
+            <Header />
+            <form className='flex justify-center h-screen transition-all delay-150 duration-300' onSubmit={onSubmit}>
+                <div className=' w-1/2 h-3/4 flex  flex-col  justify-between p-3 rounded-xl shadow-lg'>
+                    {step}
+                    <div className=' flex justify-between '>
+                        <div className='flex p-2'>
+                            Step {currentStepIndex + 1} / {steps.length}
+                        </div>
+                        <div className='space-x-2'>
 
-	return (
-		<>
-			<Header />
-			<div className='flex flex-col 
-							lg:flex-none lg:justify-none
-							2xl:flex 2xl:flex-row 2xl:justify-center'>
-
-				<div className="flex flex-col p-2
-								md:flex-col 
-								lg:flex-row xl:space-x-10 lg:p-10
-								xl:flex-row xl:space-x-10 xl:p-10
-								2xl:flex-row 2xl:space-x-10 2xl:w-2/3 ">
-					{/* {Property Info} */}
-					<div className="flex flex-col rounded-xl p-3 space-y-4
-									md:w-1/2 md:shadow-lg  ">
-						<div className="text-xl font-semibold">Information about the property</div>
-						<div className=" text-lg flex flex-col 
-										lg:justify-between lg:flex-row lg:space-x-2">
-							<div>Address:</div>
-							<input type="text"
-								placeholder="Enter a location"
-								className="rounded-xl p-2 border "
-								name='address'
-								id='address'
-								onChange={changeHandler}
-							/>
-						</div>
-
-						<div className="text-lg flex flex-col 
-										lg:justify-between lg:flex-row lg:space-x-2">
-							<div> Number of rooms </div>
-							<input type="number"
-								placeholder="Enter a number"
-								className="rounded-xl p-2 border"
-								name='numberOfRooms'
-								id='numberOfRooms'
-								onChange={changeHandler}
-							/>
-						</div>
-
-						<div className="text-lg flex flex-col 
-										lg:justify-between lg:flex-row lg:space-x-2">
-							<div> Number of bathrooms </div>
-							<input type="number"
-								placeholder="Enter a number"
-								className="rounded-xl p-2 border "
-								name='numberOfBathrooms'
-								id='numberOfBathrooms'
-								onChange={changeHandler}
-							/>
-						</div>
-
-						<div className="text-lg flex flex-col 
-										lg:justify-between lg:flex-row lg:space-x-2">
-							<div> Cost of room </div>
-							<input type="number"
-								placeholder="Enter a price"
-								className="rounded-xl p-2 border "
-								name='costOfRoom'
-								id='costOfRoom'
-								onChange={changeHandler}
-							/>
-						</div>
-						<div className="text-lg flex flex-col space-y-2
-										">
-							<div> Description  </div>
-							<textarea placeholder="Add a brief description"
-								className="rounded-xl p-2 border h-28
-											xl:h-60 xl:text-sm
-											2xl:h-80 2xl:text-sm "
-								name='roomDescription'
-								id='roomDescription'
-								onChange={changeHandler}
-							/>
-						</div>
-					</div>
-
-					{/* {Prop Picture} */}
-					<div className='md:w-1/2 shadow-lg p-3 rounded-xl'>
-						<div className='flex space-x-4 items-center justify-between py-3'>
-							<div className='flex justify-between w-full  p-2 h-31'>
-								<button className={`
-										 flex h-8 space-x-3 px-2 shadow-lg rounded-xl border items-center
-										${maxNumberOfPicturesReached ? 'opacity-50 cursor-not-allowed disabled:' : 'hover:scale-95 transition duration-700'}
-									`}
-									onClick={() => { maxNumberOfPicturesReached ? 'do nothing' : filePickerRef.current?.click() }}>
-									<CloudUploadIcon
-										fontSize='large'
-									/>
-									<input ref={filePickerRef}
-										onChange={addListingImage}
-										type="file"
-										accept="image/png, image/jpeg"
-										hidden
-									/>
-									<div className='font-semibold'>add a photo</div>
-
-								</button>
-
-								<button className='rounded-md px-3 py-2 bg-blue-300 hover:bg-blue-500 hover:shadow-lg ' type='submit' onClick={submitListingInfo}>
-									Post ad
-								</button>
-
-							</div>
-						</div>
-						<div className=' p-3 '>
-							<div className=' grid grid-cols-1 
-										sm:grid-cols-2 
-										md:grid-cols-3 
-										lg:grid-cols-3 '>
-
-								{listedImages?.map((image: string) => (
-									<div className='px-3 pb-2 max-h-36'>
-										<img
-											src={image as string}
-											className='rounded-lg w-full h-full'
-											alt=""
-											height={50}
-											width={70}
-										/>
-									</div>
-								))
-								}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</>
-	)
+                            {!isFirstStep && <button className='rounded-sm bg-blue-300 px-2 py-1'
+                                onClick={back}>
+                                Back
+                            </button>}
+                            <button className='rounded-sm bg-blue-300 px-2 py-1' type='submit'
+                                >
+                                {isLastStep ? "Post Ad" : "Next"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    )
 }
 
 export default PostListingPage
