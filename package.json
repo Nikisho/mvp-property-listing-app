@@ -15,6 +15,7 @@
     "@headlessui/react": "^1.7.15",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.7",
+    "@reduxjs/toolkit": "^1.9.5",
     "@supabase/supabase-js": "^2.26.0",
     "dotenv": "^16.3.1",
     "firebase": "^9.23.0",
@@ -22,6 +23,7 @@
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.1.1",
     "react-router-dom": "^6.13.0",
     "sort-by": "^1.2.0"
   },

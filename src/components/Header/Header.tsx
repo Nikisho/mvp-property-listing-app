@@ -1,26 +1,33 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../../../firebase';
 import { Menu } from '@headlessui/react'
+import { supabase } from '../../../supabase';
+import { useDispatch } from 'react-redux'
+import { setCurrentUser } from '../../context/navSlice';
 
 function Header() {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	function navigateHomePage() {
 		navigate(`/`);
 	};
 	function navigatePostListingPage() {
 		navigate(`/postlisting`);
 	};
-	const handleSignOut = () => {
-		signOut(auth).then(() => {
-			console.log('Signout Successsful');
-			navigate(`/`);
-		}).catch((error) => {
-			console.error(error.message)
-		});
-	}
+	const handleSignOut = async () => {
 
+		const { error } = await supabase.auth.signOut();
+		if (error) {
+			console.error(error.message)
+		}
+		console.log('Signout Successsful');
+		dispatch(setCurrentUser({
+			userAuthenticationInfo: null,
+			isLoggedIn: false,
+			session: null
+		}));
+		navigate(`/`);
+	}
 
 	return (
 		<div className='bg-sky-800 sticky top-0 z-50 flex p-0 p-2 space-x-1

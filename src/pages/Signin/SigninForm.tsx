@@ -1,35 +1,43 @@
-import { auth } from "../../../firebase";
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { supabase } from '../../../supabase';
+import { useDispatch } from 'react-redux'
+import { setCurrentUser } from '../../context/navSlice';
 
 function SigninForm() {
     const [user, setUser] = useState({
         email: '',
         password: '',
     });
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const changeHandler = (e: { target: { name: string; value: string; }; }) => {
         setUser({ ...user, [e.target.name]: e.target.value })
     };
 
-    const signinEmail = (e: React.MouseEvent) => {
+    const signinEmail = async (e: React.MouseEvent) => {
         e.preventDefault();
         if (Object.values(user).includes("")) {
             alert("Please Fill In All Required Fields");
             return;
         };
-        signInWithEmailAndPassword(auth, user.email, user.password)
-            .then(() => {
-                // Signed in 
-                if (auth.currentUser) {
-                    navigate('/');
-                };
-            })
-            .catch((error) => {
-                console.error(error.message);
-                console.log(error.code);
-            });
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: user.email,
+            password: user.password,
+        });
+        if (error) {
+            console.error(error.message);
+        }
+        // IF SIGNED IN => HOMEPAGE
+        if (data) {
+            console.log(data.user);
+            dispatch(setCurrentUser({
+                userAuthenticationInfo: data.user,
+                isLoggedIn: true,
+                session: data.session
+            }));
+            navigate('/');
+        };
     };
     return (
         <div className="pt-4 grid place-items-center">

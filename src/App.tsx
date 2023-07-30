@@ -1,11 +1,13 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { LoginPage, HomePage, PropertyDetailsPage, PostListingPage, SigninPage, ProfilePage, UserListingsPage } from './pages'
-import { auth } from '../firebase';
-import { useEffect, useState } from 'react';
-import { User } from 'firebase/auth';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCurrentUser, setCurrentUser } from './context/navSlice';
+import { supabase } from '../supabase';
 
 function App() {
-	const [user, setUser] = useState<User | null>(null);
+	const currentUser = useSelector(selectCurrentUser);
+	const dispatch = useDispatch();
 	const router = createBrowserRouter([
 		{
 			path: "/",
@@ -51,15 +53,26 @@ function App() {
 			path: '*',
 			element: <SigninPage />
 		},
-	])
+	]);
+
+	const getUserSession = async () => {
+		supabase.auth.onAuthStateChange((event, session) => {
+			console.log(event, session);
+			if ((session !== null)) {
+				dispatch(setCurrentUser({
+					user: session.user,
+					session: session,
+					isLoggedIn: true
+				}))
+			}
+		})	
+	};
 	//--watches auth state--//
 	useEffect(() => {
-		auth.onAuthStateChanged(() => {
-			setUser(auth.currentUser);
-		})
-	}, [auth.currentUser]);
+		getUserSession();
+	}, []);
 
-	if (!user) return (
+	if (!currentUser.isLoggedIn) return (
 		<>
 			<RouterProvider router={loginRouter} fallbackElement={<SigninPage />} />
 		</>

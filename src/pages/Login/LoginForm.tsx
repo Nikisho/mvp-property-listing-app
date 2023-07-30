@@ -1,8 +1,9 @@
-import { UserCredential, createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../../../firebase';
 import { supabase } from '../../../supabase';
+import { useDispatch } from 'react-redux'
+import { setCurrentUser } from '../../context/navSlice';
+import { User } from '@supabase/supabase-js';
 
 function LoginForm() {
 	const [user, setUser] = useState({
@@ -10,46 +11,49 @@ function LoginForm() {
 		email: '',
 		password: '',
 	});
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const changeHandler = (e: { target: { name: string; value: string; }; }) => {
 		setUser({ ...user, [e.target.name]: e.target.value })
 	};
 
-	const insertIntoUsers = async (userCredential: UserCredential) => {
+	const insertIntoUsers = async (userCredential: User ) => {
 		const { error } = await supabase
-		.from('users')
-		.insert({
-			name: user.name,
-			email: userCredential.user.email,
-			user_id: userCredential.user.uid,
-		})
+			.from('users')
+			.insert({
+				name: user.name,
+				email: userCredential.email,
+				user_id: userCredential.id,
+			})
 		if (error) {
-			console.error(error.message)
+			console.error(error.message);
 		}
 	};
 
-	const signUpEmail = (e: React.MouseEvent) => {
+	const signUpEmail = async (e: React.MouseEvent) => {
 		e.preventDefault();
 		if (Object.values(user).includes("")) {
 			alert("Please Fill In all Required Fields.");
 			return;
 		};
-		
-		createUserWithEmailAndPassword(auth, user.email, user.password)
-		.then((userCredential) => {
-			insertIntoUsers(userCredential);
-			}
-		)
-		.then(() => {
-			// IF SIGNED IN => HOMEPAGE
-			if (auth.currentUser) {
-				navigate('/');
-			};
-		})
-		.catch((error) => {
-			console.error(error.message);
-			console.log(error.code);
+		const { data, error } = await supabase.auth.signUp({
+			email: user.email,
+			password: user.password,
 		});
+		if (error) {
+			console.error(error.message);
+		}
+		// IF SIGNED IN => HOMEPAGE
+		if (data) {
+			console.log(data.user);
+			dispatch(setCurrentUser({
+				userAuthenticationInfo: data.user,
+				isLoggedIn: true,
+				session: data.session
+			}));
+			insertIntoUsers(data.user as User)
+			navigate('/');
+		};
 	};
 
 	return (
