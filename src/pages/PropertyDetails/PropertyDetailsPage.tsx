@@ -5,6 +5,17 @@ import { currencyFormatter } from '../../utils/currencyFormat';
 import { Header, PropertyManagerCard } from '../../components';
 import { pushImagesToArray } from '../../utils/pushImagesToArray';
 import { useParams } from 'react-router-dom';
+import ShowerIcon from '@mui/icons-material/Shower';
+import BedIcon from '@mui/icons-material/Bed';
+import WifiIcon from '@mui/icons-material/Wifi';
+import ChairIcon from '@mui/icons-material/Chair';
+import BalconyIcon from '@mui/icons-material/Balcony';
+import LocalParkingIcon from '@mui/icons-material/LocalParking';
+import AccessibleIcon from '@mui/icons-material/Accessible';
+import DeckIcon from '@mui/icons-material/Deck';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import PaymentsIcon from '@mui/icons-material/Payments';
+import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
 interface PropertyDetailsProps {
 	property_id: number;
 	description: string;
@@ -18,6 +29,12 @@ interface PropertyDetailsProps {
 	image_arr: string
 	wifi_included: string;
 	bills_included: string;
+	living_room: string;
+	washing_machine: string;
+	parking: string;
+	disabled_access: string;
+	garden_or_patio: string;
+	terrace_or_balcony: string;
 	deposit: number;
 };
 
@@ -90,11 +107,13 @@ function PropertyDetailsPage() {
 
 				<div className='space-y-5 
 								sm:w-2/3
-								lg:p-3 lg:w-3/4
+								lg:p-3 lg:w-full
+								xl:p-3 xl:w-3/4
+								2xl:p-3 2xl:w-3/4
 								 '>
 					<div className='flex flex-col space-y-2
 									md:flex md:flex-row md:space-x-12
-									lg:space-x-10  
+									lg:space-x-12 
 									xl:justify-center '>
 						<Gallary images={listedImages} />
 						{/* {property details} */}
@@ -140,7 +159,7 @@ function PropertyDetailsPage() {
 										xl:w-full'>
 							<div className='flex flex-col space-y-2
 											lg:flex-row lg:space-x-12
-											xl:flex-row xl:justify-center xl:space-x-12'>
+											xl:flex-row xl:justify-center xl:space-x-10'>
 								<div className='w-full space-y-3
 												lg:w-1/2
 												xl:w-1/2
@@ -155,31 +174,105 @@ function PropertyDetailsPage() {
 								</div>
 
 								<div className=' 	flex space-x-4 justify-between 
-													lg:w-1/3 lg:space-y-4 lg:space-x-0 lg:flex-col lg:justify-normal'>
-									<div className='space-y-2'>
+													lg:w-4/7 lg:space-y-4 lg:space-x-0 lg:flex-col lg:justify-normal'>
+									<div className='space-y-5 p-3 rounded-xl shadow-lg'>
 										<div className='text-xl font-semibold'>
 											Amenities
 										</div>
-										<div>
-											Bedrooms: {listedProperty?.number_of_bedrooms!}
-										</div>
-										<div>
-											Bathrooms: {listedProperty?.number_of_bathrooms!}
-										</div>
-										<div>
-											Wifi: {listedProperty?.wifi_included!}
+										<div className='flex flex-col  text-lg
+														lg:flex-row lg:justify-between lg:space-x-6 '>
+
+											<div className='space-y-2  '>
+
+												<div className='flex space-x-2 items-center'>
+													<BedIcon
+													/>
+													<div>Bedrooms: {listedProperty?.number_of_bedrooms!}</div>
+												</div>
+												<div className='flex space-x-2 items-center'>
+													<ShowerIcon
+													/>
+													<div>
+														Bathrooms: {listedProperty?.number_of_bathrooms!}
+													</div>
+												</div>
+												<div className='flex space-x-2 items-center'>
+													<WifiIcon
+													/>
+													<div>
+														Wifi: {listedProperty?.wifi_included!}
+													</div>
+												</div>
+												<div className='flex space-x-2 items-center'>
+													<LocalLaundryServiceIcon
+													/>
+													<div>
+														Washing machine: {listedProperty?.washing_machine!}
+													</div>
+												</div>
+												<div className='flex space-x-2 items-center'>
+													<ChairIcon
+													/>
+													<div>
+														Lounge: {listedProperty?.living_room!}
+													</div>
+												</div>
+											</div>
+											<div className='space-y-2'>
+
+												<div className='flex space-x-2 items-center'>
+													<BalconyIcon
+													/>
+
+													<div>
+														Terrace or Balcony: {listedProperty?.terrace_or_balcony!}
+													</div>
+												</div>
+												<div className='flex space-x-2 items-center'>
+													<DeckIcon
+													/>
+													<div>
+
+														Garden or Patio: {listedProperty?.garden_or_patio!}
+													</div>
+												</div>
+												<div className='flex space-x-2 items-center'>
+													<LocalParkingIcon
+													/>
+													<div>
+
+														Parking: {listedProperty?.parking!}
+													</div>
+												</div>
+												<div className='flex space-x-2 items-center'>
+													<AccessibleIcon
+													/>
+													<div>
+														Disabled Access: {listedProperty?.disabled_access!}
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 
-									<div className='space-y-2'>
+									<div className='space-y-5 p-3 shadow-lg rounded-xl'>
 										<div className='text-xl font-semibold'>
 											Extra costs
 										</div>
-										<div>
-											Deposit: {currencyFormatter('currency','GBP').format(listedProperty?.deposit!)} 
-										</div>
-										<div>
-											Bills Included: {listedProperty?.bills_included!}
+										<div className='text-lg'>
+
+											<div className='flex space-x-2 items-center'>
+												<PaymentsIcon/>
+												<div>Deposit: {currencyFormatter('currency', 'GBP').format(listedProperty?.deposit!)}</div>
+											</div>
+											<div className='flex space-x-2 items-center'>
+
+												<ReceiptLongIcon />
+												<div>
+
+													Bills Included: {listedProperty?.bills_included!}
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -193,7 +286,7 @@ function PropertyDetailsPage() {
 									<div className='text-2xl font-bold '>
 										Reviews
 									</div>
-									{	pmDetails?.reviews ?
+									{pmDetails?.reviews ?
 										pmDetails?.reviews.map((review) => (
 											<div className='flex flex-col space-y-2 p-3 rounded-xl shadow-lg'>
 												<div className='text-xl font-bold'>{review.name}</div>
@@ -202,7 +295,7 @@ function PropertyDetailsPage() {
 												</div>
 											</div>
 
-										)) : 
+										)) :
 										<div>
 											<i>No reviews yet.</i>
 										</div>
