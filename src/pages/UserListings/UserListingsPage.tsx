@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { auth } from '../../../firebase'
 import { supabase } from '../../../supabase';
 import UserListingCard from './UserListingCard';
 import Header from '../../components/Header/Header';
 import convertUrlsToJSON from '../../utils/convertUrlsToJSON';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../context/navSlice';
+import { User } from '@supabase/supabase-js';
 
 interface UserListingsProps {
     image_arr: string;
@@ -13,7 +15,7 @@ interface UserListingsProps {
     description: string;
 }
 function UserListingsPage() {
-    const user = auth.currentUser!;
+    const user: User = useSelector(selectCurrentUser);
     const [userListings, setUserListings] = useState<UserListingsProps[]>([]);
 
     const fetchUserListings = async () => {
@@ -21,7 +23,7 @@ function UserListingsPage() {
             const { data, error } = await supabase
                 .from('listed_properties')
                 .select()
-                .eq("pm_user_id", `${user.uid}`);
+                .eq("pm_user_id", `${user.id}`);
             if (error) {
                 console.error(error.message);
             }

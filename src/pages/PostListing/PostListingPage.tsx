@@ -10,9 +10,10 @@ import AmenitiesForm from './AmenitiesForm'
 import DescriptionForm from './DescriptionForm'
 import { supabase } from '../../../supabase'
 import { uuidv4 } from '../../utils/uuidv4'
-import { User } from 'firebase/auth'
-import { auth } from '../../../firebase'
 import LoadingComponent from '../../components/LoadingComponent'
+import { useSelector } from 'react-redux'
+import { selectCurrentUser } from '../../context/navSlice'
+import { User } from '@supabase/supabase-js'
 
 interface FormData {
     address: string;
@@ -36,7 +37,7 @@ interface FormData {
 }
 
 const PostListingPage = () => {
-    const user: User = auth.currentUser!;
+    const user: User = useSelector(selectCurrentUser);
     const [postButtonClicked, setPostButtonClicked] = useState(false);
     const [formData, setFormData] = useState<FormData>({
         address: '',
@@ -94,7 +95,7 @@ const PostListingPage = () => {
                 const { data, error } = await supabase
                 .storage
                 .from('listings')
-                .upload(`${user.uid}/${property_id}/image_${i}`, formData.ImageFiles[i])
+                .upload(`${user.id}/${property_id}/image_${i}`, formData.ImageFiles[i])
                 if (error) {
                     console.error(error);
                 }
@@ -102,7 +103,7 @@ const PostListingPage = () => {
                     const { data } = supabase
                     .storage
                     .from('listings')
-                    .getPublicUrl(`${user.uid}/${property_id}/image_${i}`);
+                    .getPublicUrl(`${user.id}/${property_id}/image_${i}`);
                     if (data) {
                         imageUrls.push(data);
                     }
@@ -118,7 +119,7 @@ const PostListingPage = () => {
                 number_of_bedrooms: formData.numberOfRooms,
                 number_of_bathrooms: formData.numberOfBathrooms,
                 image_arr: imageUrls,
-                pm_user_id: user.uid,
+                pm_user_id: user.id,
                 bills_included: formData.billsIncluded,
                 deposit: formData.deposit,
                 property_type: formData.propertyType,
