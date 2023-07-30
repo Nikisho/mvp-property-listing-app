@@ -5,17 +5,17 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 interface PropertyManagerCardProps {
     pm_name: string;
     pm_image_url: string;
-    pm_user_id: string;
+    pm_user_uid: string;
 }
 const PropertyManagerCard: React.FC<PropertyManagerCardProps> = ({
     pm_name,
     pm_image_url,
-    pm_user_id,
+    pm_user_uid,
 }) => {
 
     const navigate = useNavigate();
     function handleClick() {
-        navigate(`/profilepage/${pm_user_id}`);
+        navigate(`/profilepage/${pm_user_uid}`);
     };
 
     return (

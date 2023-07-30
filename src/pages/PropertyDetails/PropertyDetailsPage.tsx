@@ -12,7 +12,7 @@ interface PropertyDetailsProps {
 	price_pcm: number;
 	create: number;
 	address: string;
-	pm_user_id: string;
+	pm_user_uid: string;
 	number_of_bedrooms: string;
 	number_of_bathrooms: string;
 	image_arr: string
@@ -24,7 +24,7 @@ interface PropertyDetailsProps {
 interface pmDetailsProps {
 	name: string;
 	email: string;
-	user_id: string;
+	user_uid: string;
 	image_url: string;
 	reviews: {
 		name: string,
@@ -51,17 +51,17 @@ function PropertyDetailsPage() {
 		const images: string[] = pushImagesToArray(json_data?.image_arr);
 		setListedImages(images)
 		setListedProperty(json_data);
-		getPropManagerDetails(json_data.pm_user_id);
+		getPropManagerDetails(json_data.pm_user_uid);
 		if (error) {
 			console.error(error);
 		}
 	};
 
-	const getPropManagerDetails = async (pm_user_id: string) => {
+	const getPropManagerDetails = async (pm_user_uid: string) => {
 		const { data, error } = await supabase
 			.from("users")
 			.select()
-			.eq("user_id", `${pm_user_id}`)
+			.eq("user_uid", `${pm_user_uid}`)
 		setPmDetails(data![0]);
 		if (error) {
 			console.error(error)
@@ -112,7 +112,7 @@ function PropertyDetailsPage() {
 							<PropertyManagerCard
 								pm_image_url={pmDetails?.image_url!}
 								pm_name={pmDetails?.name!}
-								pm_user_id={pmDetails?.user_id!}
+								pm_user_uid={pmDetails?.user_uid!}
 							/>
 							<div className='flex space-x-4'>
 								<button onClick={handleApplyButtonClick} className='py-5 rounded-lg bg-blue-300 border-2 cursor-pointer border-gray-200 hover:border-blue-200 hover:bg-blue-400

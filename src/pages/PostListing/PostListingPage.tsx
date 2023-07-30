@@ -119,7 +119,7 @@ const PostListingPage = () => {
                 number_of_bedrooms: formData.numberOfRooms,
                 number_of_bathrooms: formData.numberOfBathrooms,
                 image_arr: imageUrls,
-                pm_user_id: user.id,
+                pm_user_uid: user.id,
                 bills_included: formData.billsIncluded,
                 deposit: formData.deposit,
                 property_type: formData.propertyType,

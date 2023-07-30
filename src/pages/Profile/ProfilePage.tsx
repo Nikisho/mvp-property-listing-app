@@ -7,18 +7,19 @@ interface pmDetailsProps {
     name: string;
     email: string;
     user_id: string;
+    image_url: string;
 };
 
 function ProfilePage() {
     const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
     const { user_id } = useParams();
     console.log(user_id);
-    const getPropManagerDetails = async (pm_user_id: string) => {
+    const getPropManagerDetails = async (pm_user_uid: string) => {
         try {
             const { data } = await supabase
                 .from('users')
                 .select()
-                .eq('user_id', `${pm_user_id}`);
+                .eq('user_uid', `${pm_user_uid}`);
             setPmDetails(data![0]);
         } catch (error: any) {
             console.error(error.message);
@@ -37,9 +38,21 @@ function ProfilePage() {
                                 xl:w-5/12 xl:space-y-1 xl:shadow-lg '>
                     {/* {picture and name} */}
                     <div className='flex justify-between items-center border-b'>
-                        <AccountBoxIcon
-                            sx={{ fontSize: 100 }}
-                        />
+                        {
+                            pmDetails?.image_url ?
+                                <div className=''>
+                                    <img
+                                        src={pmDetails.image_url}
+                                        style={{
+                                            borderRadius: 100
+                                        }}
+                                    />
+                                </div> :
+                                <AccountBoxIcon
+                                    sx={{ fontSize: 100 }}
+                                />
+                        }
+
                         <div className='text-2xl font-bold'>
                             {pmDetails?.name}
                         </div>
@@ -54,7 +67,7 @@ function ProfilePage() {
                         </div>
                         <div>
                             I have been a landlord for over 10 years in the
-                            South East area. I make sure that my tenants are always 
+                            South East area. I make sure that my tenants are always
                             happy with the property and jump on any queries whenever needed.
                             I also have a few agents looking at some of my listed_properties
                             to ensure that my tenants are always looked after.

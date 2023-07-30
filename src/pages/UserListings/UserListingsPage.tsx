@@ -23,7 +23,7 @@ function UserListingsPage() {
             const { data, error } = await supabase
                 .from('listed_properties')
                 .select()
-                .eq("pm_user_id", `${user.id}`);
+                .eq("pm_user_uid", `${user.id}`);
             if (error) {
                 console.error(error.message);
             }
