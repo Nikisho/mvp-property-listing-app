@@ -108,19 +108,20 @@ function PropertyDetailsPage() {
 				<div className='space-y-5 
 								sm:w-2/3
 								lg:p-3 lg:w-full
-								xl:p-3 xl:w-3/4
+								xl:p-3 xl:w-5/6
 								2xl:p-3 2xl:w-3/4
 								 '>
-					<div className='flex flex-col space-y-2
+					<div className='flex flex-col space-y-2 
 									md:flex md:flex-row md:space-x-12
-									lg:space-x-12 
+									lg:space-x-12
 									xl:justify-center '>
 						<Gallary images={listedImages} />
 						{/* {property details} */}
 						<div className='space-y-3 flex flex-col justify-center py-1
 										md:w-1/2
 										lg:w-1/2 lg:p-5
-										xl:w-1/3 '>
+										xl:w-1/2 
+										2xl:w-1/3'>
 							<div className='text-2xl font-bold'>
 								{listedProperty?.address}
 							</div>
@@ -162,7 +163,7 @@ function PropertyDetailsPage() {
 											xl:flex-row xl:justify-center xl:space-x-10'>
 								<div className='w-full space-y-3
 												lg:w-1/2
-												xl:w-1/2
+												xl:w-[45%]
 												2xl:w-1/3'>
 									<div className='text-sm font-semibold'><i>Ad ref: {property_id}</i></div>
 									<div className='text-2xl font-bold '>
@@ -173,7 +174,7 @@ function PropertyDetailsPage() {
 									</div>
 								</div>
 
-								<div className=' 	flex space-x-4 justify-between 
+								<div className=' 	flex flex-col justify-between 
 													lg:w-4/7 lg:space-y-4 lg:space-x-0 lg:flex-col lg:justify-normal'>
 									<div className='space-y-5 p-3 rounded-xl shadow-lg'>
 										<div className='text-xl font-semibold'>
@@ -259,17 +260,15 @@ function PropertyDetailsPage() {
 										<div className='text-xl font-semibold'>
 											Extra costs
 										</div>
-										<div className='text-lg'>
+										<div className='text-lg space-y-2'>
 
 											<div className='flex space-x-2 items-center'>
 												<PaymentsIcon/>
 												<div>Deposit: {currencyFormatter('currency', 'GBP').format(listedProperty?.deposit!)}</div>
 											</div>
 											<div className='flex space-x-2 items-center'>
-
 												<ReceiptLongIcon />
 												<div>
-
 													Bills Included: {listedProperty?.bills_included!}
 												</div>
 											</div>
@@ -281,7 +280,7 @@ function PropertyDetailsPage() {
 							<div className='space-y-3 flex justify-center'>
 								<div className='w-full
 												lg:w-full
-												xl:w-[90%]
+												xl:w-full
 												2xl:w-[70%]'>
 									<div className='text-2xl font-bold '>
 										Reviews
