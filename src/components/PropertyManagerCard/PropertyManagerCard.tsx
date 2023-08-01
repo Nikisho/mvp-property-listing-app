@@ -15,7 +15,7 @@ const PropertyManagerCard: React.FC<PropertyManagerCardProps> = ({
 
     const navigate = useNavigate();
     function handleClick() {
-        navigate(`/profilepage/${pm_user_uid}`);
+        navigate(`/users/${pm_user_uid}`);
     };
 
     return (
@@ -25,11 +25,11 @@ const PropertyManagerCard: React.FC<PropertyManagerCardProps> = ({
                     (pm_image_url) ?
                         <img
                             src={pm_image_url}
-                            className='rounded-full h-12'
+                            className='rounded-full h-12 w-12'
                         />
                         :
                         <AccountCircleIcon
-                            fontSize='large'
+                            sx={{fontSize: 45}}
                             className='hover:opacity-20'
                         />
                 }

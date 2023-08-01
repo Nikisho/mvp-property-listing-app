@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { LoginPage, HomePage, PropertyDetailsPage, PostListingPage, SigninPage, ProfilePage, UserListingsPage } from './pages'
+import { LoginPage, HomePage, PropertyDetailsPage, PostListingPage, SigninPage, ProfilePage, UserListingsPage, MyProfilePage } from './pages'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser, setCurrentUser } from './context/navSlice';
@@ -22,7 +22,7 @@ function App() {
 			element: <SigninPage />
 		},
 		{
-			path: "/propertydetails/:property_id",
+			path: "/rooms/:property_id",
 			element: <PropertyDetailsPage />,
 		},
 		{
@@ -30,13 +30,18 @@ function App() {
 			element: <PostListingPage />,
 		},
 		{
-			path: "/profilepage/:user_id",
+			path: "/users/:user_id",
 			element: <ProfilePage />,
 		},
 		{
 			path: "/mylistings",
 			element: <UserListingsPage />,
 		},
+		{
+			path: "/myprofile",
+			element: <MyProfilePage />,
+		},
+
 	]);
 
 	const loginRouter = createBrowserRouter([

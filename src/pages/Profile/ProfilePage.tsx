@@ -8,6 +8,7 @@ interface pmDetailsProps {
     email: string;
     user_id: string;
     image_url: string;
+    description: string;
 };
 
 function ProfilePage() {
@@ -37,15 +38,14 @@ function ProfilePage() {
                 <div className='border w-full rounded-xl p-4 space-y-10
                                 xl:w-5/12 xl:space-y-1 xl:shadow-lg '>
                     {/* {picture and name} */}
-                    <div className='flex justify-between items-center border-b'>
+                    <div className='flex-col flex space-y-2 items-center border-b'>
                         {
                             pmDetails?.image_url ?
                                 <div className=''>
                                     <img
                                         src={pmDetails.image_url}
-                                        style={{
-                                            borderRadius: 100
-                                        }}
+
+                                        className='h-24 rounded-xl'
                                     />
                                 </div> :
                                 <AccountBoxIcon
@@ -66,11 +66,7 @@ function ProfilePage() {
                             About
                         </div>
                         <div>
-                            I have been a landlord for over 10 years in the
-                            South East area. I make sure that my tenants are always
-                            happy with the property and jump on any queries whenever needed.
-                            I also have a few agents looking at some of my listed_properties
-                            to ensure that my tenants are always looked after.
+                            {pmDetails?.description}
                         </div>
                     </div>
                     {/* {Review section} */}
