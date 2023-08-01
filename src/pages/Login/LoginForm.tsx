@@ -23,7 +23,7 @@ function LoginForm() {
 			.insert({
 				name: user.name,
 				email: userCredential.email,
-				user_id: userCredential.id,
+				user_uid: userCredential.id,
 			})
 		if (error) {
 			console.error(error.message);

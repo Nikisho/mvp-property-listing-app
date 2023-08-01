@@ -9,6 +9,7 @@ interface pmDetailsProps {
     user_id: string;
     image_url: string;
     description: string;
+    phone_number: string;
 };
 
 function ProfilePage() {
@@ -87,7 +88,7 @@ function ProfilePage() {
                             Email: {pmDetails?.email}
                         </div>
                         <div>
-                            Mobile number:
+                            Mobile number: {pmDetails?.phone_number}
                         </div>
                     </div>
                 </div>

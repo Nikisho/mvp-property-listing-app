@@ -40,7 +40,7 @@ function UserListingsPage() {
             <Header />
             <div className='flex justify-center '>
                 {/* {profile} */}
-                <div className='border w-2/3 p-4 rounded-xl shadow-lg space-y-3'>
+                <div className=' w-2/3 p-4  space-y-3'>
 
                     {
                         userListings?.map((listing) =>

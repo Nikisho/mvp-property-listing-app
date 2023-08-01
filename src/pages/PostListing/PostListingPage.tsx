@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMultistepForm } from '../../hooks/useMultistepForm'
 import { Header } from '../../components'
 import PropertyTypeForm from './PropertyTypeForm'
@@ -13,7 +13,7 @@ import { uuidv4 } from '../../utils/uuidv4'
 import LoadingComponent from '../../components/LoadingComponent'
 import { useSelector } from 'react-redux'
 import { selectCurrentUser } from '../../context/navSlice'
-import { User } from '@supabase/supabase-js'
+import { UserMetadata } from '@supabase/supabase-js'
 
 interface FormData {
     address: string;
@@ -37,7 +37,8 @@ interface FormData {
 }
 
 const PostListingPage = () => {
-    const user: User = useSelector(selectCurrentUser);
+    const user: UserMetadata = useSelector(selectCurrentUser);
+    const [userTechnichalKey, setUserTechnicalKey] = useState();
     const [postButtonClicked, setPostButtonClicked] = useState(false);
     const [formData, setFormData] = useState<FormData>({
         address: '',
@@ -85,8 +86,18 @@ const PostListingPage = () => {
             <DescriptionForm {...formData} updateFields={updateFields}/>
         ]);
 
-    async function postListing() {
+    const fetchUserData = async () => {
 
+        const { data, error } = await supabase
+            .from('users')
+            .select()
+            .eq('user_uid', `${user.user.id}`);
+            setUserTechnicalKey(data![0].user_id);
+
+        if (error) console.error(error.message);
+    };
+
+    async function postListing() {
         const property_id: string = uuidv4(9);
         let imageUrls: { publicUrl: string; }[] = [];
         try {
@@ -95,7 +106,7 @@ const PostListingPage = () => {
                 const { data, error } = await supabase
                 .storage
                 .from('listings')
-                .upload(`${user.id}/${property_id}/image_${i}`, formData.ImageFiles[i])
+                .upload(`${user.user.id}/${property_id}/image_${i}`, formData.ImageFiles[i])
                 if (error) {
                     console.error(error);
                 }
@@ -103,7 +114,7 @@ const PostListingPage = () => {
                     const { data } = supabase
                     .storage
                     .from('listings')
-                    .getPublicUrl(`${user.id}/${property_id}/image_${i}`);
+                    .getPublicUrl(`${user.user.id}/${property_id}/image_${i}`);
                     if (data) {
                         imageUrls.push(data);
                     }
@@ -119,7 +130,8 @@ const PostListingPage = () => {
                 number_of_bedrooms: formData.numberOfRooms,
                 number_of_bathrooms: formData.numberOfBathrooms,
                 image_arr: imageUrls,
-                pm_user_uid: user.id,
+                pm_user_uid: user.user.id,
+                pm_user_id: userTechnichalKey,
                 bills_included: formData.billsIncluded,
                 deposit: formData.deposit,
                 property_type: formData.propertyType,
@@ -154,6 +166,10 @@ const PostListingPage = () => {
 			<LoadingComponent />
 		)
 	}
+
+    useEffect(() => {
+        fetchUserData();
+    },[])
     return (
         <div className='space-y-3 '>
             <Header />
