@@ -23,7 +23,7 @@ interface PropertyDetailsProps {
 	price_pcm: number;
 	create: number;
 	address: string;
-	pm_user_uid: string;
+	pm_user_id: string;
 	number_of_bedrooms: string;
 	number_of_bathrooms: string;
 	image_arr: string
@@ -68,17 +68,17 @@ function PropertyDetailsPage() {
 		const images: string[] = pushImagesToArray(json_data?.image_arr);
 		setListedImages(images)
 		setListedProperty(json_data);
-		getPropManagerDetails(json_data.pm_user_uid);
+		getPropManagerDetails(json_data.pm_user_id);
 		if (error) {
 			console.error(error);
 		}
 	};
 
-	const getPropManagerDetails = async (pm_user_uid: string) => {
+	const getPropManagerDetails = async (pm_user_id: string) => {
 		const { data, error } = await supabase
 			.from("users")
 			.select()
-			.eq("user_uid", `${pm_user_uid}`)
+			.eq("user_id", `${pm_user_id}`)
 		setPmDetails(data![0]);
 		if (error) {
 			console.error(error)
