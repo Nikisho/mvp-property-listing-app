@@ -16,7 +16,7 @@ const NumberOfRoomsForm: React.FC<NumberOfRoomsFormProps> = ({ numberOfRooms, nu
 
             <div className='flex flex-col h-full justify-center items-center text-lg font-semibold '>
 
-                <div className='flex space-x-16 w-1/2 justify-center items-center shadow-lg rounded-lg p-1'>
+                <div className='flex space-x-16 xl:w-1/2 justify-center items-center shadow-lg rounded-lg p-1'>
 
                     <div>Bedrooms:  </div>
                     <input type="number"
@@ -31,7 +31,7 @@ const NumberOfRoomsForm: React.FC<NumberOfRoomsFormProps> = ({ numberOfRooms, nu
                     />
                 </div>
 
-                <div className='flex space-x-16 w-1/2 justify-center items-center shadow-lg rounded-lg p-1'>
+                <div className='flex space-x-16 xl:w-1/2  justify-center items-center shadow-lg rounded-lg p-1'>
 
                     <div>Bathrooms: </div>
                     <input type="number"

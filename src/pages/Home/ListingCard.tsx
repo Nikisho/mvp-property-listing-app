@@ -4,13 +4,12 @@ import { currencyFormatter } from '../../utils/currencyFormat';
 
 interface PropertyDetailsProps {
   property_id: number;
-  description: string;
+	ad_title: string;
   image_url: string;
   price_pcm: number;
-  address: string;
 };
 
-const ListingCard: React.FC<PropertyDetailsProps> = ({ description, image_url, price_pcm, address, property_id }) => {
+const ListingCard: React.FC<PropertyDetailsProps> = ({ image_url, price_pcm, property_id, ad_title }) => {
 
   const navigate = useNavigate();
   function handleClick() {
@@ -30,14 +29,14 @@ const ListingCard: React.FC<PropertyDetailsProps> = ({ description, image_url, p
       </div>
 
       <div className=''>
-        <p className='text-lg font-bold'>{address}</p>
-        <p className='text-md font-semibold' >{currencyFormatter('currency','GBP').format(price_pcm)} pcm</p>
+        <p className='text-md font-semibold'>{ad_title}</p>
+        <p className='text-lg ' >{currencyFormatter('currency','GBP').format(price_pcm)} pcm</p>
       </div>
 
       {/* description */}
-      <div>
+      {/* <div>
         <p className='truncate'>{description}</p>
-      </div>
+      </div> */}
 
     </div>
   )

@@ -2,6 +2,7 @@ import React from 'react'
 
 interface FormData {
 	roomDescription: string;
+	adTitle: string;
 };
 
 interface DescriptionFormProps extends FormData {
@@ -10,6 +11,7 @@ interface DescriptionFormProps extends FormData {
 
 const DescriptionForm: React.FC<DescriptionFormProps> = ({
 	roomDescription,
+	adTitle,
 	updateFields
 }) => {
 	return (
@@ -17,6 +19,16 @@ const DescriptionForm: React.FC<DescriptionFormProps> = ({
 			<div className='flex justify-center h-full'>
 				<div className='flex flex-col text-lg space-y-2 p-4 w-full 
 								xl:p-1'>
+					<div>
+						Title
+					</div>
+					<textarea placeholder="Enter a title for your ad"
+						className="rounded-lg p-2 border h-1/4 text-sm "
+						name='adTitle'
+						id='adTitle'
+						value={adTitle}
+						onChange={e => updateFields({ adTitle: e.target.value })}
+					/>
 					<div>
 						Description
 					</div>

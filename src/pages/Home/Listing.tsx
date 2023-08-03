@@ -4,12 +4,11 @@ import { supabase } from '../../../supabase';
 import convertUrlsToJSON from '../../utils/convertUrlsToJSON';
 
 interface PropertyDetailsProps {
-	property_id: number,
-	description: string;
+	property_id: number;
+	ad_title: string
 	image_url: string,
 	price_pcm: number
 	create: number,
-	address: string,
 	image_arr: string[]
 };
 
@@ -37,9 +36,8 @@ function Listing() {
 					<ListingCard
 						key={listing.property_id}
 						image_url={convertUrlsToJSON(listing?.image_arr[0]!)}
-						description={listing.description}
+						ad_title={listing.ad_title}
 						price_pcm={listing.price_pcm}
-						address={listing.address}
 						property_id={listing.property_id}
 					/>)}
 			</div>

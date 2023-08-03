@@ -23,6 +23,7 @@ interface FormData {
     deposit: string;
     billsIncluded: string;
     roomDescription: string;
+    adTitle: string;
     propertyType: string;
     ImageFiles: File[];
     ImageFilesURL: string[];
@@ -48,6 +49,7 @@ const PostListingPage = () => {
         deposit:'',
         billsIncluded: '',
         roomDescription: '',
+        adTitle:'',
         propertyType: '',
         ImageFiles: [],
         ImageFilesURL: [],
@@ -124,6 +126,7 @@ const PostListingPage = () => {
             const { error } = await supabase
             .from('listed_properties')
             .insert({
+                ad_title: formData.adTitle,
                 description: formData.roomDescription,
                 price_pcm: formData.costOfRoom,
                 address: formData.address,
@@ -166,15 +169,21 @@ const PostListingPage = () => {
 			<LoadingComponent />
 		)
 	}
-
+    console.log(formData.address, 'WORKING')
     useEffect(() => {
         fetchUserData();
     },[])
     return (
         <div className='space-y-3 '>
             <Header />
-            <form className='flex justify-center h-screen transition-all delay-150 duration-300' onSubmit={onSubmit}>
-                <div className=' w-1/2 h-3/4 flex  flex-col  justify-between p-3 rounded-xl shadow-lg'>
+            <form className='flex justify-center 
+                                
+                            h-screen' 
+                    onSubmit={onSubmit}>
+                <div className='flex-col  justify-between p-3 rounded-xl shadow-lg
+                                
+                                xl:w-1/2 xl:h-3/4 flex 
+                '>
                     {step}
                     <div className=' flex justify-between '>
                         <div className='flex p-2'>
