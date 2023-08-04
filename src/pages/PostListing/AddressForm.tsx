@@ -1,16 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+import { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete';
+import { Option } from 'react-google-places-autocomplete/build/types';
+
 interface FormData {
-    address: string;
+    address: Option | null;
 };
 interface AddressFormProps extends FormData {
     updateFields: (fields: Partial<FormData>) => void;
 }
+
 const AddressForm: React.FC<AddressFormProps> = ({ address, updateFields }) => {
-    const [value, setValue] = useState<any>(address);
-    useEffect(() => {
-        updateFields({address: value});
+    const [value, setValue] = useState<Option | null>(address);
+    const updateAddressObject = async (selectedAddress: any) => {
+        setValue(selectedAddress);
+        geocodeByAddress(selectedAddress?.label)
+        .then(results => getLatLng(results[0]))
+        .then(({ lat, lng }) => (
+                setValue( (state: any) => ({
+                    ...state,
+                    coordinates: {lat,lng}
+                }))
+            )
+        );
+    }
+
+    useEffect(() => { 
+        updateFields({ address: value as Option });
     }, [value]);
+    console.log(value);
 
     return (
         <>
@@ -35,7 +53,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ address, updateFields }) => {
                             apiOptions={{ language: 'en', region: 'UK' }}
                             selectProps={{
                                 value,
-                                onChange: setValue,
+                                onChange: e => updateAddressObject(e),
                             }}
                             debounce={500}
                         />
