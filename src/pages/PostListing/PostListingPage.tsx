@@ -164,15 +164,17 @@ const PostListingPage = () => {
         }
         postListing();
     }
+
+    useEffect(() => {
+        fetchUserData();
+    },[]);
+
     if (postButtonClicked) {
 		return (
 			<LoadingComponent />
 		)
 	}
-    console.log(formData.address, 'WORKING')
-    useEffect(() => {
-        fetchUserData();
-    },[])
+
     return (
         <div className='space-y-3 '>
             <Header />

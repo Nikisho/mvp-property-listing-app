@@ -23,6 +23,7 @@ interface PropertyDetailsProps {
 	price_pcm: number;
 	create: number;
 	address: string;
+	ad_title: string;
 	pm_user_id: string;
 	number_of_bedrooms: string;
 	number_of_bathrooms: string;
@@ -123,7 +124,7 @@ function PropertyDetailsPage() {
 										xl:w-1/2 
 										2xl:w-1/3'>
 							<div className='text-2xl font-bold'>
-								{listedProperty?.address}
+								{listedProperty?.ad_title}
 							</div>
 
 							<div className='text-xl'>
