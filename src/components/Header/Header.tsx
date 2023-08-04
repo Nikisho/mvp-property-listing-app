@@ -64,10 +64,10 @@ function Header() {
 			</button>
 
 			{/* search bar */}
-			<div className='hidden md:flex flex-row  p-3 px-3 shadow-lg rounded-full space-x-2 hover:animate-pulse'>
+			<div className='hidden bg-white md:flex flex-row  p-3 px-3 shadow-lg rounded-full space-x-2 hover:animate-pulse'>
 
-				{/* <div className='px-3 border-r font-semibold'>Where</div>
-				<div className='px-3 font-semibold'>When</div> */}
+				<div className='px-3 border-r font-semibold'>Where</div>
+				<div className='px-3 font-semibold'>When</div>
 			</div>
 
 			{/* Options and proile button */}
