@@ -5,6 +5,7 @@ import { supabase } from '../../../supabase';
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCurrentUser, setCurrentUser } from '../../context/navSlice';
 import { useEffect, useState } from 'react';
+import SearchComponent from './SearchComponent';
 
 function Header() {
 	const navigate = useNavigate();
@@ -62,20 +63,14 @@ function Header() {
 					className='h-12 rounded-xl shadow-lg'
 				/>
 			</button>
-
-			{/* search bar */}
-			<div className='hidden bg-white md:flex flex-row  p-3 px-3 shadow-lg rounded-full space-x-2 hover:animate-pulse'>
-
-				<div className='px-3 border-r font-semibold'>Where</div>
-				<div className='px-3 font-semibold'>When</div>
-			</div>
+			<SearchComponent />
 
 			{/* Options and proile button */}
 			<div className='flex space-x-4 items-center'>
 				<button className='	hover:bg-blue-900
 									rounded-lg py-1 w-16
 									lg:py-2 lg:px-2 lg:w-auto lg:rounded-sm '>
-					<div className='text-white ' onClick={() => navigatePostListingPage()}>Post an Ad</div>
+					<div className='text-white ' onClick={() => navigatePostListingPage()}>Post an listing</div>
 				</button>
 
 				<div className=''>
@@ -87,7 +82,7 @@ function Header() {
 
 								<img
 									src={headerPicutre}
-									className='rounded-full h-12 w-12 contain rounded-full'
+									className='rounded-full h-8 w-8 contain rounded-full'
 									/> 
 								:
 								<AccountCircleIcon

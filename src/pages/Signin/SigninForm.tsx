@@ -58,7 +58,7 @@ function SigninForm() {
                     Sign in
                 </button>
                 <div className='text-sm'>
-                    First time? <a className='text-blue-600' href='/login'>Sign up here!</a>
+                    First time? <a className='text-blue-600' href='/signup'>Sign up here!</a>
                 </div>
             </form>
         </div>

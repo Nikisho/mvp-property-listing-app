@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { setCurrentUser } from '../../context/navSlice';
 import { User } from '@supabase/supabase-js';
 
-function LoginForm() {
+function SignUpForm() {
 	const [user, setUser] = useState({
 		name: '',
 		email: '',
@@ -88,4 +88,4 @@ function LoginForm() {
 
 }
 
-export default LoginForm
+export default SignUpForm
