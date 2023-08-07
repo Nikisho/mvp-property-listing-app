@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import ListingCard from './ListingCard';
 import { supabase } from '../../../supabase';
 import convertUrlsToJSON from '../../utils/convertUrlsToJSON';
+import { useParams } from 'react-router-dom';
 
 interface PropertyDetailsProps {
 	property_id: number;
@@ -13,12 +14,16 @@ interface PropertyDetailsProps {
 };
 
 function Listing() {
-
+	const {lat, lng} = useParams();
 	const [listed_properties, setListedProperties] = useState<PropertyDetailsProps[]>([]);
 	const getListedProperties: VoidFunction = async () => {
-		const { data, error } = await supabase
-			.from('listed_properties')
-			.select()
+
+		const { data, error } = await supabase.rpc('query_location',{
+			queried_lat: lat,
+			queried_lng: lng,
+			range: 50
+		});
+
 		setListedProperties(data!);
 		if (error) {
 			console.error(error.message);
@@ -32,7 +37,7 @@ function Listing() {
 	return (
 		<div className=' p-2 grid place-items-center '>
 			<div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 justify-between xl:w-3/5 w-full'>
-				{listed_properties.map((listing) =>
+				{listed_properties?.map((listing) =>
 					<ListingCard
 						key={listing.property_id}
 						image_url={convertUrlsToJSON(listing?.image_arr[0]!)}

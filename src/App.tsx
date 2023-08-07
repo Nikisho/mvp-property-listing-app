@@ -14,7 +14,7 @@ function App() {
 			element: <HomePage />,
 		},
 		{
-			path: "/results",
+			path: "/results/:lat/:lng",
 			element: <ResultsPage />,
 		},
 		{
