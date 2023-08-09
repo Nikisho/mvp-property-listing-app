@@ -5,7 +5,6 @@ import { supabase } from '../../../supabase';
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCurrentUser, setCurrentUser } from '../../context/navSlice';
 import { useEffect, useState } from 'react';
-import SearchComponent from './SearchComponent';
 
 function Header() {
 	const navigate = useNavigate();
@@ -19,16 +18,16 @@ function Header() {
 		navigate(`/postlisting`);
 	};
 
-	const fetchUserData = async() => {
+	const fetchUserData = async () => {
 
-        const { data, error } = await supabase
-            .from('users')
-            .select()
-            .eq('user_uid', `${user.user.id}`);
+		const { data, error } = await supabase
+			.from('users')
+			.select()
+			.eq('user_uid', `${user.user.id}`);
 
-        if (error) {
-            console.error(error.message);
-        };
+		if (error) {
+			console.error(error.message);
+		};
 
 		setHeaderPicture(data![0].image_url)
 	};
@@ -48,29 +47,33 @@ function Header() {
 		navigate(`/`);
 	}
 
-	useEffect( () => {
+	useEffect(() => {
 		fetchUserData();
 	}, []);
-	
+
 	return (
 		<div className='bg-sky-800 sticky top-0 z-50 flex p-0 p-2 space-x-1
 						lg:p-3 justify-between items-center'>
 			{/* {git test} */}
 			{/* Company logo and home button */}
-			<button className='text-xl font-semibold hover:opacity-80' type='button' onClick={() => navigateHomePage()}>
+			<button className='pl-5 text-xl font-semibold hover:opacity-80' type='button' onClick={() => navigateHomePage()}>
 				<img
 					src='https://dwhhfiboburmnbvsmhjn.supabase.co/storage/v1/object/public/application-bucket/logo.png'
 					className='h-12 rounded-xl shadow-lg'
 				/>
 			</button>
-			<SearchComponent />
 
 			{/* Options and proile button */}
-			<div className='flex space-x-4 items-center'>
+			<div className='flex space-x-4 items-center pr-5 '>
 				<button className='	hover:bg-blue-900
 									rounded-lg py-1 w-16
 									lg:py-2 lg:px-2 lg:w-auto lg:rounded-sm '>
-					<div className='text-white ' onClick={() => navigatePostListingPage()}>Post an listing</div>
+					<div className='text-white text-lg ' onClick={() => navigatePostListingPage()}>About us</div>
+				</button>
+				<button className='	hover:bg-blue-900
+									rounded-lg py-1 w-16
+									lg:py-2 lg:px-2 lg:w-auto lg:rounded-sm '>
+					<div className='text-white text-lg ' onClick={() => navigatePostListingPage()}>Post an listing</div>
 				</button>
 
 				<div className=''>
@@ -78,19 +81,19 @@ function Header() {
 						<Menu.Button className="inline-flex w-full justify-cente px-4 py-2 text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
 
 							{
-								headerPicutre? 
+								headerPicutre ?
 
-								<img
-									src={headerPicutre}
-									className='rounded-full h-8 w-8 contain rounded-full'
-									/> 
-								:
-								<AccountCircleIcon
-									fontSize='large'
-									className='hover:opacity-20'
-									sx={{ fontSize: 45, color: '#fff' }}
-								/>
-						 	}
+									<img
+										src={headerPicutre}
+										className='rounded-full h-10 w-10 contain rounded-full'
+									/>
+									:
+									<AccountCircleIcon
+										fontSize='large'
+										className='hover:opacity-20'
+										sx={{ fontSize: 45, color: '#fff' }}
+									/>
+							}
 
 						</Menu.Button>
 						<Menu.Items className="absolute right-0 mt-2 w-52 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">

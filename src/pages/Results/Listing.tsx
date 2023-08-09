@@ -14,14 +14,18 @@ interface PropertyDetailsProps {
 };
 
 function Listing() {
-	const {lat, lng} = useParams();
+	const {lat, lng, radius, min_price, max_price, min_room, max_room} = useParams();
 	const [listed_properties, setListedProperties] = useState<PropertyDetailsProps[]>([]);
 	const getListedProperties: VoidFunction = async () => {
 
 		const { data, error } = await supabase.rpc('query_location',{
 			queried_lat: lat,
 			queried_lng: lng,
-			range: 50
+			range: radius,
+			min_room: min_room,
+			max_room: max_room,
+			min_price: min_price,
+			max_price: max_price
 		});
 
 		setListedProperties(data!);

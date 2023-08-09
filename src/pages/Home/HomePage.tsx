@@ -4,13 +4,17 @@ import { useNavigate } from "react-router-dom"
 
 const HomePage = () => {
     const navigate = useNavigate();
-
+    const defaultRadius = 10;
+    const defaultMinPrice = 0;
+    const defaultMaxPrice = 999999;
+    const defaultMinRoom = 1;
+    const defaultMaxRoom = 99;
     const queryLocation = async (selectedAddress: any) => {
 
         geocodeByAddress(selectedAddress?.label)
         .then(results => getLatLng(results[0]))
         .then(({ lat, lng }) => (
-                navigate(`/results/${lat}/${lng}`)
+                navigate(`/results/${lat}/${lng}/${defaultRadius}/${defaultMinPrice}/${defaultMaxPrice}/${defaultMinRoom}/${defaultMaxRoom}`)
             )
         );
     };
