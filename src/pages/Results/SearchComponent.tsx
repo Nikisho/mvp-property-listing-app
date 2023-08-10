@@ -4,15 +4,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const SearchComponent = () => {
     // const {lat, lng, radius, min_price, max_price, min_room, max_room} = useParams();
-    const { lat, lng, radius, min_price, location, min_room } = useParams();
+    const { lat, lng, radius, min_price, location, min_room, max_price, max_room } = useParams();
     const navigate = useNavigate();
     const [queriedParams, setQueriedParams] = useState({
         min_bedrooms: min_room,
-        max_bedrooms: 'Any',
+        max_bedrooms: max_room,
         radius: radius,
         location: location,
         min_price: min_price,
-        max_price: 'No max',
+        max_price: max_price,
         lat: lat,
         lng: lng
     });
@@ -35,9 +35,10 @@ const SearchComponent = () => {
         )
     };
     const handleClick = (e: React.MouseEvent) => {
-        navigate(`/results/${queriedParams.lat}/${queriedParams.lng}/${queriedParams.location}/${queriedParams.radius}/${queriedParams.min_price}/${queriedParams.max_price}/${queriedParams.min_bedrooms}/${queriedParams.min_bedrooms}`)
+        navigate(`/results/${queriedParams.lat}/${queriedParams.lng}/${queriedParams.location}/${queriedParams.radius}/${queriedParams.min_price}/${queriedParams.max_price}/${queriedParams.min_bedrooms}/${queriedParams.max_bedrooms}`);
+        window.location.reload();
     };
-
+    console.log(queriedParams)
     return (
         <>
             {/* search bar */}
@@ -52,6 +53,7 @@ const SearchComponent = () => {
                             apiKey={import.meta.env.VITE_GOOGLE_MAPS_APIKEY}
                             apiOptions={{ language: 'en', region: 'UK' }}
                             selectProps={{
+                                placeholder: `${location}`,
                                 onChange: (e) => queryLocation(e),
                             }}
                             debounce={500}
