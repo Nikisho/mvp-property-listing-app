@@ -14,7 +14,7 @@ function App() {
 			element: <HomePage />,
 		},
 		{
-			path: "/results/:lat/:lng/:radius/:min_price/:max_price/:min_room/:max_room",
+			path: "/results/:lat/:lng/:location/:radius/:min_price/:max_price/:min_room/:max_room",
 			element: <ResultsPage />,
 		},
 		{

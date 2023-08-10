@@ -14,7 +14,7 @@ const HomePage = () => {
         geocodeByAddress(selectedAddress?.label)
         .then(results => getLatLng(results[0]))
         .then(({ lat, lng }) => (
-                navigate(`/results/${lat}/${lng}/${defaultRadius}/${defaultMinPrice}/${defaultMaxPrice}/${defaultMinRoom}/${defaultMaxRoom}`)
+                navigate(`/results/${lat}/${lng}/${selectedAddress?.label}/${defaultRadius}/${defaultMinPrice}/${defaultMaxPrice}/${defaultMinRoom}/${defaultMaxRoom}`)
             )
         );
     };
