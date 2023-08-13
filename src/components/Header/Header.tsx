@@ -11,13 +11,6 @@ function Header() {
 	const dispatch = useDispatch();
 	const user = useSelector(selectCurrentUser);
 	const [headerPicutre, setHeaderPicture] = useState<string>();
-	function navigateHomePage() {
-		navigate(`/`);
-	};
-	function navigatePostListingPage() {
-		navigate(`/postlisting`);
-	};
-
 	const fetchUserData = async () => {
 
 		const { data, error } = await supabase
@@ -56,7 +49,7 @@ function Header() {
 						lg:p-3 justify-between items-center'>
 			{/* {git test} */}
 			{/* Company logo and home button */}
-			<button className='pl-5 text-xl font-semibold hover:opacity-80' type='button' onClick={() => navigateHomePage()}>
+			<button className='pl-5 text-xl font-semibold hover:opacity-80' type='button' onClick={() => navigate(`/`)}>
 				<img
 					src='https://dwhhfiboburmnbvsmhjn.supabase.co/storage/v1/object/public/application-bucket/logo.png'
 					className='h-12 rounded-xl shadow-lg'
@@ -68,12 +61,12 @@ function Header() {
 				<button className='	hover:bg-blue-900
 									rounded-lg py-1 w-16
 									lg:py-2 lg:px-2 lg:w-auto lg:rounded-sm '>
-					<div className='text-white text-lg ' onClick={() => navigatePostListingPage()}>About us</div>
+					<div className='text-white text-lg ' onClick={() => navigate(`/about`)}>About us</div>
 				</button>
 				<button className='	hover:bg-blue-900
 									rounded-lg py-1 w-16
 									lg:py-2 lg:px-2 lg:w-auto lg:rounded-sm '>
-					<div className='text-white text-lg ' onClick={() => navigatePostListingPage()}>Post an listing</div>
+					<div className='text-white text-lg ' onClick={() => navigate(`/postlisting`)}>Post a listing</div>
 				</button>
 
 				<div className=''>

@@ -7,8 +7,10 @@ import UserListingsPage from "./UserListings/UserListingsPage";
 import PostListingPage from "./PostListing/PostListingPage";
 import MyProfilePage from "./MyProfile/MyProfilePage";
 import HomePage from "./Home/HomePage";
+import AboutPage from "./About/AboutPage";
 
 export { 
+    AboutPage,
     HomePage,
     SignUpPage, 
     ResultsPage, 

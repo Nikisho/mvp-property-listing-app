@@ -12,6 +12,10 @@ interface MyProfilePageProps {
     image_url: string | ArrayBuffer;
     number: string;
     name:string;
+    reviews: {
+        name: string,
+        review: string
+    }[]
 };
 
 function MyProfilePage() {
@@ -23,7 +27,8 @@ function MyProfilePage() {
         description: '',
         image_url: '',
         number: '',
-        name: ''
+        name: '',
+        reviews:[]
     });
 
     const changeHandler = (e: { target: { name: string; value: string; }; }) => {
@@ -45,7 +50,8 @@ function MyProfilePage() {
             description: data![0].description as string,
             image_url: data![0].image_url as string,
             number: data![0].phone_number as string,
-            name: data![0].name as string
+            name: data![0].name as string,
+            reviews: data![0].reviews
         });
     };
 
@@ -150,7 +156,7 @@ function MyProfilePage() {
                         </div>
                         <textarea placeholder="Add a brief description"
                             className="rounded-lg p-2 border h-28 w-full
-											xl:h-60 xl:text-sm
+											xl:h-52 xl:text-sm
 											2xl:h-80 2xl:text-sm "
                             name='description'
                             id='description'
@@ -160,11 +166,25 @@ function MyProfilePage() {
                     </div>
                     {/* {Review section} */}
                     <div className='p-3'>
-                        <div className='text-xl font-bold pb-2 '>
+                        <div className='text-xl font-bold pb-2  '>
                             Reviews
                         </div>
-                        <div>
-                            <i>No reviews yet.</i>
+                        <div className='overflow-y-auto h-52'>
+
+                            {userInfo?.reviews ?
+                                userInfo?.reviews.map((review) => (
+                                    <div className='flex flex-col space-y-2 p-3 rounded-xl shadow-lg border '>
+                                        <div className='text-xl font-bold'>{review.name}</div>
+                                        <div className=''>
+                                            {review.review}
+                                        </div>
+                                    </div>
+
+                                )) :
+                                <div>
+                                    <i>No reviews yet.</i>
+                                </div>
+                            }
                         </div>
                     </div>
                     {/* {Contact section} */}
