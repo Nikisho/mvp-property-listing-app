@@ -21,7 +21,6 @@ function Header() {
 		if (error) {
 			console.error(error.message);
 		};
-
 		setHeaderPicture(data![0].image_url);
 	};
 
