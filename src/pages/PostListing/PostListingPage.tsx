@@ -184,7 +184,8 @@ const PostListingPage = () => {
                             h-screen' 
                     onSubmit={onSubmit}>
                 <div className='flex-col  justify-between p-3 rounded-xl shadow-lg
-                                
+                                w-full
+                                lg:w-1/2
                                 xl:w-1/2 xl:h-3/4 flex 
                 '>
                     {step}

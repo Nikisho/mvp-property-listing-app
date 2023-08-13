@@ -45,11 +45,11 @@ function Header() {
 	}, []);
 
 	return (
-		<div className='bg-sky-800 sticky top-0 z-50 flex p-0 p-2 space-x-1
+		<div className='bg-sky-800 sticky top-0 z-50 flex p-0 p-2 space-x-1 w-screen
 						lg:p-3 justify-between items-center'>
 			{/* {git test} */}
 			{/* Company logo and home button */}
-			<button className='pl-5 text-xl font-semibold hover:opacity-80' type='button' onClick={() => navigate(`/`)}>
+			<button className=' text-xl font-semibold hover:opacity-80' type='button' onClick={() => navigate(`/`)}>
 				<img
 					src='https://dwhhfiboburmnbvsmhjn.supabase.co/storage/v1/object/public/application-bucket/logo.png'
 					className='h-12 rounded-xl shadow-lg'

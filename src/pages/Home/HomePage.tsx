@@ -6,9 +6,9 @@ const HomePage = () => {
     const navigate = useNavigate();
     const defaultRadius = 10;
     const defaultMinPrice = 0;
-    const defaultMaxPrice = 999999;
+    const defaultMaxPrice = 1000;
     const defaultMinRoom = 1;
-    const defaultMaxRoom = 99;
+    const defaultMaxRoom = 5;
     const image_url = "src/assets/homepage-background.jpg"
     const queryLocation = async (selectedAddress: any) => {
 
@@ -33,7 +33,11 @@ const HomePage = () => {
             className="h-screen"
             >
 
-                <div className="p-5 bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1/2 p-4 text-lg border rounded-xl shadow-lg h-1/7"
+                <div className="p-5 bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg border rounded-xl shadow-lg h-1/7
+                w-full 
+                lg:w-1/2
+                xl:w-1/2
+                "
 
                 >
                     <div className="py-5 text-xl font-semibold">Find your dream property now</div>
