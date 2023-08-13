@@ -16,6 +16,9 @@ import DeckIcon from '@mui/icons-material/Deck';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
+import { selectCurrentUser } from '../../context/navSlice';
+import { useSelector } from 'react-redux';
+import { UserMetadata } from '@supabase/supabase-js';
 interface PropertyDetailsProps {
 	property_id: number;
 	description: string;
@@ -52,6 +55,7 @@ interface pmDetailsProps {
 };
 
 function PropertyDetailsPage() {
+    const user: UserMetadata = useSelector(selectCurrentUser);
 	const { property_id } = useParams();
 	const [listedProperty, setListedProperty] = useState<PropertyDetailsProps>();
 	const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
@@ -85,9 +89,17 @@ function PropertyDetailsPage() {
 			console.error(error)
 		}
 	};
-	const handleApplyButtonClick: VoidFunction = () => {
-		const questionsLink: string = "https://docs.google.com/forms/d/e/1FAIpQLSdADoLJPZuPxUce3CnkwpBGa88fEDR1h7gnR86j1rPV5W5QCA/viewform?usp=sharing "
-		window.open(questionsLink, "_blank");
+	const handleApplyButtonClick: VoidFunction = async () => {
+		//handle adding row to tenancy_application table
+		const { error} = await supabase
+		.from('tenancy_applications')
+		.insert({
+			tenant_uid: user.user.id,
+			property_id: property_id,
+			pm_user_id: listedProperty?.pm_user_id
+		});
+
+		if (error) console.error(error.message);
 	};
 
 	useEffect(() => {
