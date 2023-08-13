@@ -43,11 +43,12 @@ const SearchComponent = () => {
 
         <div className='p-3 w-full'>
 
-            <div className='items-center bg-white md:flex flex-row p-3 px-2 shadow-lg rounded-md space-x-1 flex overflow-x-auto w-full
-                    
+            <div className='items-center bg-white md:flex flex-row p-3 px-2 shadow-lg rounded-md space-x-1 flex w-full
+                    overflow-y-scroll
+                    lg:overflow-y-visible
                 '>
 
-                <div className=' px-2 flex flex-col w-full xl:w-1/5 font-semibold flex justify-center'>
+                <div className=' px-2 flex-col w-full xl:w-1/5 font-semibold flex justify-center'>
                     <div>Location</div>
                     <GooglePlacesAutocomplete
                         apiKey={import.meta.env.VITE_GOOGLE_MAPS_APIKEY}
