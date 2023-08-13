@@ -6,6 +6,10 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 interface pmDetailsProps {
     name: string;
     email: string;
+    reviews: {
+        name: string,
+        review: string
+    }[]
     user_id: string;
     image_url: string;
     description: string;
@@ -72,11 +76,25 @@ function ProfilePage() {
                     </div>
                     {/* {Review section} */}
                     <div className='p-3'>
-                        <div className='text-xl font-bold pb-2 '>
+                        <div className='text-xl font-bold pb-2  '>
                             Reviews
                         </div>
-                        <div>
-                            <i>No reviews yet.</i>
+                        <div className='overflow-y-auto h-52'>
+
+                            {pmDetails?.reviews ?
+                                pmDetails?.reviews.map((review) => (
+                                    <div className='flex flex-col space-y-2 p-3 rounded-xl shadow-lg border '>
+                                        <div className='text-xl font-bold'>{review.name}</div>
+                                        <div className=''>
+                                            {review.review}
+                                        </div>
+                                    </div>
+
+                                )) :
+                                <div>
+                                    <i>No reviews yet.</i>
+                                </div>
+                            }
                         </div>
                     </div>
                     {/* {Contact section} */}

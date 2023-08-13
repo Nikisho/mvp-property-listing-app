@@ -9,6 +9,7 @@ function SigninForm() {
         email: '',
         password: '',
     });
+    const [invalidCredentials, setInvalidCredentials] = useState<boolean>(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const changeHandler = (e: { target: { name: string; value: string; }; }) => {
@@ -27,10 +28,11 @@ function SigninForm() {
         });
         if (error) {
             console.error(error.message);
+            setInvalidCredentials(true)
         }
         // IF SIGNED IN => HOMEPAGE
-        if (data) {
-            console.log(data.user);
+        console.log(data.session);
+        if (data.session) {
             dispatch(setCurrentUser({
                 userAuthenticationInfo: data.user,
                 isLoggedIn: true,
@@ -39,18 +41,26 @@ function SigninForm() {
             navigate('/');
         };
     };
+    console.log(invalidCredentials)
     return (
         <div className="pt-4 grid place-items-center">
-            <form className='space-y-2 w-5/6  sm:w-2/3 md:w-1/4 border p-2 rounded-xl shadow-lg'>
+            <form className='space-y-2 w-5/6  sm:w-2/3 md:w-1/3 xl:w-1/4 border p-2 rounded-xl shadow-lg'>
                 <div className='text-2xl font-semibold'><h1>Sign in</h1></div>
                 <div className='flex flex-col'>
-                    <label className='self-start text-xl my-2 '>Email address </label>
-                    <input className='h-10 border p-2' type="email" name="email" id='email' onChange={changeHandler} required placeholder='Enter Your Email Address' />
+                    <div className={`text-red-600 ${invalidCredentials? '': 'hidden'}`}>Invalid credentials</div>
+                    <label className='self-start text-xl my-2   '>Email address </label>
+                    <input className={`h-10 border p-2
+                        ${invalidCredentials && 'border-red-600'}
+                    `}
+                        type="email" name="email" id='email' onChange={changeHandler} required placeholder='Enter Your Email Address' />
                     {/* {renderErrorMessage("uname")} */}
                 </div>
                 <div className='flex flex-col' >
                     <label className='self-start text-xl my-2 '>Password </label>
-                    <input className='h-10 border p-2' type="password" name="password" id='password' onChange={changeHandler} required placeholder='Enter Password' />
+                    <input className={`h-10 border p-2
+                        ${invalidCredentials && 'border-red-600'}
+                    `}
+                    type="password" name="password" id='password' onChange={changeHandler} required placeholder='Enter Password' />
                     {/* {renderErrorMessage("pass")} */}
                 </div>
                 <button className='bg-green-200 text-lg w-full font-semibold p-3 flex justify-center transition duration-700 hover:scale-95'
@@ -58,7 +68,7 @@ function SigninForm() {
                     Sign in
                 </button>
                 <div className='text-sm'>
-                    First time? <a className='text-blue-600' href='/login'>Sign up here!</a>
+                    First time? <a className='text-blue-600' href='/signup'>Sign up here!</a>
                 </div>
             </form>
         </div>

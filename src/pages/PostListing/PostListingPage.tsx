@@ -14,9 +14,10 @@ import LoadingComponent from '../../components/LoadingComponent'
 import { useSelector } from 'react-redux'
 import { selectCurrentUser } from '../../context/navSlice'
 import { UserMetadata } from '@supabase/supabase-js'
+import { Option } from 'react-google-places-autocomplete/build/types'
 
 interface FormData {
-    address: string;
+    address: Option | null;
     numberOfRooms: string;
     numberOfBathrooms: string;
     costOfRoom: string;
@@ -42,7 +43,7 @@ const PostListingPage = () => {
     const [userTechnichalKey, setUserTechnicalKey] = useState();
     const [postButtonClicked, setPostButtonClicked] = useState(false);
     const [formData, setFormData] = useState<FormData>({
-        address: '',
+        address: null ,
         numberOfRooms: '',
         numberOfBathrooms: '',
         costOfRoom: '',
@@ -183,7 +184,8 @@ const PostListingPage = () => {
                             h-screen' 
                     onSubmit={onSubmit}>
                 <div className='flex-col  justify-between p-3 rounded-xl shadow-lg
-                                
+                                w-full
+                                lg:w-1/2
                                 xl:w-1/2 xl:h-3/4 flex 
                 '>
                     {step}

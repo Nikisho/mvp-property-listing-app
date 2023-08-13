@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { LoginPage, HomePage, PropertyDetailsPage, PostListingPage, SigninPage, ProfilePage, UserListingsPage, MyProfilePage } from './pages'
+import { SignUpPage, PropertyDetailsPage, PostListingPage, SigninPage, ProfilePage, UserListingsPage, MyProfilePage, ResultsPage, HomePage, AboutPage } from './pages'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser, setCurrentUser } from './context/navSlice';
@@ -14,8 +14,16 @@ function App() {
 			element: <HomePage />,
 		},
 		{
-			path: "/login",
-			element: <LoginPage />,
+			path: "/about",
+			element: <AboutPage />,
+		},
+		{
+			path: "/results/:lat/:lng/:location/:radius/:min_price/:max_price/:min_room/:max_room",
+			element: <ResultsPage />,
+		},
+		{
+			path: "/signup",
+			element: <SignUpPage />,
 		},
 		{
 			path: '/signin',
@@ -51,8 +59,8 @@ function App() {
 			element: <SigninPage />,
 		},
 		{
-			path: '/login',
-			element: <LoginPage />
+			path: '/signup',
+			element: <SignUpPage />
 		},
 		{
 			path: '*',

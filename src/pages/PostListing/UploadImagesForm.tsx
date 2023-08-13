@@ -73,7 +73,7 @@ const UploadImagesForm: React.FC<UploadImagesFormProps> = ({
                 </div>
             </div>
             <div className=''>
-                <div className='    grid grid-cols-1
+                <div className='    grid grid-cols-2
                                     sm:grid-cols-2 
                                     md:grid-cols-5 
                                     lg:grid-cols-5 '>
@@ -82,7 +82,7 @@ const UploadImagesForm: React.FC<UploadImagesFormProps> = ({
                         <div className='px-1 pb-2 max-h-36'>
                             <img
                                 src={image as string}
-                                className='rounded-lg w-full h-24'
+                                className='rounded-lg w-full h-34 md:h-24 lg:h-24 xl:h-24'
                                 alt=""
                                 height={50}
                                 width={70}

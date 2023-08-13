@@ -4,15 +4,16 @@ import { supabase } from '../../../supabase';
 import { useDispatch } from 'react-redux'
 import { setCurrentUser } from '../../context/navSlice';
 import { User } from '@supabase/supabase-js';
+import LoadingComponent from '../../components/LoadingComponent';
 
-function LoginForm() {
+function SignUpForm() {
 	const [user, setUser] = useState({
 		name: '',
 		email: '',
 		password: '',
 	});
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
+	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 	const changeHandler = (e: { target: { name: string; value: string; }; }) => {
 		setUser({ ...user, [e.target.name]: e.target.value })
 	};
@@ -44,21 +45,23 @@ function LoginForm() {
 			console.error(error.message);
 		}
 		// IF SIGNED IN => HOMEPAGE
-		if (data) {
+		if (data.session) {
 			console.log(data.user);
 			dispatch(setCurrentUser({
 				userAuthenticationInfo: data.user,
 				isLoggedIn: true,
 				session: data.session
 			}));
-			insertIntoUsers(data.user as User)
-			navigate('/');
+			insertIntoUsers(data.user as User);
+			setIsLoggedIn(true);
 		};
 	};
-
+	if (isLoggedIn) {
+		return <LoadingComponent />
+	}
 	return (
 		<div className='pt-4 grid place-items-center '>
-			<form className='space-y-2 w-5/6  sm:w-2/3 md:w-1/4 border p-2 rounded-xl shadow-lg'>
+			<form className='space-y-2 w-5/6  sm:w-2/3 md:w-1/3 xl:w-1/4 border p-2 rounded-xl shadow-lg'>
 				<div className='text-2xl font-semibold'><h1>Sign up</h1></div>
 				<div className='flex flex-col'>
 					<label className='self-start text-xl my-2 '>Name </label>
@@ -88,4 +91,4 @@ function LoginForm() {
 
 }
 
-export default LoginForm
+export default SignUpForm

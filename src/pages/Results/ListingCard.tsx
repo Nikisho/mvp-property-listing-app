@@ -17,14 +17,14 @@ const ListingCard: React.FC<PropertyDetailsProps> = ({ image_url, price_pcm, pro
   };
 
   return (
-    <div className='m-3 bg-white rounded-xl hover:scale-95 space-y-1 transition'
+    <div className='m-3 bg-white hover:scale-95 space-y-1 transition'
       onClick={() => handleClick()}
     >
       <div>
 
         <img
           src={image_url}
-          className='rounded-lg h-60 xl:h-40 xl:w-60 2xl:w-80 2xl:h-60 w-full'
+          className='rounded-md h-60 xl:h-40 xl:w-60 2xl:w-80 2xl:h-60 w-full'
         />
       </div>
 

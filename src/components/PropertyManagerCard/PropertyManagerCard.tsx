@@ -35,7 +35,7 @@ const PropertyManagerCard: React.FC<PropertyManagerCardProps> = ({
                 }
 
                 <div className='text-xl font-bold'>
-                    <text>{pm_name}</text>
+                    <div>{pm_name}</div>
                     <div className='flex space-x-2'>
                         {/* <text>4.5</text> */}
                         <div>

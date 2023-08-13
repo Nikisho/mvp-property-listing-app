@@ -11,7 +11,7 @@ interface UserListingsProps {
     image_arr: string;
     property_id: string;
     price_pcm: number;
-    address: string;
+    ad_title: string;
     description: string;
 }
 function UserListingsPage() {
@@ -47,7 +47,7 @@ function UserListingsPage() {
                             <UserListingCard
                                 key={listing.property_id}
                                 image_url={convertUrlsToJSON(listing?.image_arr[0]!)}
-                                address={listing.address}
+                                ad_title={listing.ad_title}
                                 price_pcm={listing.price_pcm}
                                 description={listing.description}
                             />

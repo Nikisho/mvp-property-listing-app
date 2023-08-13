@@ -3,14 +3,14 @@ import { currencyFormatter } from '../../utils/currencyFormat'
 // import NotificationsIcon from '@mui/icons-material/Notifications';
 interface UserListingsProps {
     image_url: string;
-    address: string;
+    ad_title: string;
     price_pcm: number;
     description: string;
 }
 
 const UserListingCard: React.FC<UserListingsProps> = ({
     image_url,
-    address,
+    ad_title,
     price_pcm,
     description
 }) => {
@@ -24,7 +24,7 @@ const UserListingCard: React.FC<UserListingsProps> = ({
                     />
                 </div>
                 <div className='flex flex-col justify-between'>
-                    <div className='text-xl font-semibold'>{address}</div>
+                    <div className='text-xl font-semibold'>{ad_title}</div>
                     <div>{currencyFormatter('currency', 'GBP').format(price_pcm)}</div>
                     {/* <div>
                         <NotificationsIcon
