@@ -60,6 +60,8 @@ function PropertyDetailsPage() {
 	const [listedProperty, setListedProperty] = useState<PropertyDetailsProps>();
 	const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
 	const [listedImages, setListedImages] = useState<string[]>([]);
+	const [userTechnichalKey, setUserTechnicalKey] = useState();
+	const [applyButtonDisabled, setApplyButtonDisabled] = useState<boolean>(false);
 
 	const getListedProperty = async (): Promise<void> => {
 
@@ -79,6 +81,17 @@ function PropertyDetailsPage() {
 		}
 	};
 
+    const fetchUserData = async () => {
+
+        const { data, error } = await supabase
+            .from('users')
+            .select()
+            .eq('user_uid', `${user.user.id}`);
+            setUserTechnicalKey(data![0].user_id);
+
+        if (error) console.error(error.message);
+    };
+
 	const getPropManagerDetails = async (pm_user_id: string) => {
 		const { data, error } = await supabase
 			.from("users")
@@ -91,10 +104,15 @@ function PropertyDetailsPage() {
 	};
 	const handleApplyButtonClick: VoidFunction = async () => {
 		//handle adding row to tenancy_application table
+		if (pmDetails?.user_uid === user.user.id) {
+			alert('You cannot apply to your own property!');
+			return;
+		}
+		
 		const { error} = await supabase
 		.from('tenancy_applications')
 		.insert({
-			tenant_uid: user.user.id,
+			tenant_id: userTechnichalKey,
 			property_id: property_id,
 			pm_user_id: listedProperty?.pm_user_id
 		});
@@ -104,6 +122,7 @@ function PropertyDetailsPage() {
 
 	useEffect(() => {
 		getListedProperty();
+		fetchUserData();
 	}, []);
 
 	return (
@@ -148,14 +167,17 @@ function PropertyDetailsPage() {
 								pm_user_uid={pmDetails?.user_uid!}
 							/>
 							<div className='flex space-x-4'>
+
 								<button onClick={handleApplyButtonClick} className='py-5 rounded-lg bg-blue-300 border-2 cursor-pointer border-gray-200 hover:border-blue-200 hover:bg-blue-400
-																					w-full 
-																					md:w-full
-																					lg:w-full
-																					xl:w-full
-																					2xl:w-full'>
+								w-full 
+								md:w-full
+								lg:w-full
+								xl:w-full
+								2xl:w-full'
+								>
 									Apply for Property
 								</button>
+									
 
 							</div>
 
