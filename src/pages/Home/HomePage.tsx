@@ -9,7 +9,7 @@ const HomePage = () => {
     const defaultMaxPrice = 1000;
     const defaultMinRoom = 1;
     const defaultMaxRoom = 5;
-    const image_url = "public/homepage-background.jpg"
+    const image_url = "/homepage-background.jpg"
     const queryLocation = async (selectedAddress: any) => {
 
         geocodeByAddress(selectedAddress?.label)
