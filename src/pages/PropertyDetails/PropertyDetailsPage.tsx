@@ -15,6 +15,7 @@ import AccessibleIcon from '@mui/icons-material/Accessible';
 import DeckIcon from '@mui/icons-material/Deck';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import PaymentsIcon from '@mui/icons-material/Payments';
+import PhoneIcon from '@mui/icons-material/Phone'; 
 import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
 import { selectCurrentUser } from '../../context/navSlice';
 import { useSelector } from 'react-redux';
@@ -46,6 +47,7 @@ interface pmDetailsProps {
 	name: string;
 	email: string;
 	user_uid: string;
+	phone_number: string;
 	image_url: string;
 	reviews: {
 		name: string,
@@ -167,7 +169,7 @@ function PropertyDetailsPage() {
 							/>
 							<div className='flex space-x-4'>
 
-								<button onClick={handleApplyButtonClick} className='py-5 rounded-lg bg-blue-300 border-2 cursor-pointer border-gray-200 hover:border-blue-200 hover:bg-blue-400
+								{/* <button onClick={handleApplyButtonClick} className='py-5 rounded-lg bg-blue-300 border-2 cursor-pointer border-gray-200 hover:border-blue-200 hover:bg-blue-400
 								w-full 
 								md:w-full
 								lg:w-full
@@ -175,7 +177,17 @@ function PropertyDetailsPage() {
 								2xl:w-full'
 								>
 									Apply for Property
-								</button>
+								</button> */}
+								<div className='py-5 px-2 justify-center space-x-4 flex rounded-lg bg-blue-200 border-2 
+								w-full 
+								md:w-full
+								lg:w-full
+								xl:w-full
+								2xl:w-full'>
+									<PhoneIcon />
+									<div className='text-lg font-semibold'> {pmDetails?.phone_number} </div>
+
+								</div>
 									
 
 							</div>

@@ -6,11 +6,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectCurrentUser, setCurrentUser } from '../../context/navSlice';
 import { useEffect, useState } from 'react';
 
+interface userDataProps {
+	image_url: string;
+	phone_number: string
+};
+
 function Header() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const user = useSelector(selectCurrentUser);
-	const [headerPicutre, setHeaderPicture] = useState<string>();
+	const [userData, setUserData] = useState<userDataProps>();
 	const fetchUserData = async () => {
 
 		const { data, error } = await supabase
@@ -21,8 +26,16 @@ function Header() {
 		if (error) {
 			console.error(error.message);
 		};
-		setHeaderPicture(data![0].image_url);
+		setUserData(data![0]);
 	};
+
+	const navigatePostListing = () => {
+		if (!userData?.phone_number) {
+			alert('Please update your phone number in your profile before posting an ad.');
+			return;
+		};
+		navigate(`/postlisting`)
+	}
 
 	const handleSignOut = async () => {
 
@@ -60,12 +73,12 @@ function Header() {
 				<button className='	hover:bg-blue-900
 									rounded-lg py-1 w-16
 									lg:py-2 lg:px-2 lg:w-auto lg:rounded-sm '>
-					<div className='text-white text-lg ' onClick={() => navigate(`/about`)}>About us</div>
+					<div className='text-white text-lg ' onClick={() => navigate(`/about`)}>About</div>
 				</button>
 				<button className='	hover:bg-blue-900
 									rounded-lg py-1 w-16
 									lg:py-2 lg:px-2 lg:w-auto lg:rounded-sm '>
-					<div className='text-white text-lg ' onClick={() => navigate(`/postlisting`)}>Post a listing</div>
+					<div className='text-white text-lg ' onClick={() => navigatePostListing()}>Post a listing</div>
 				</button>
 
 				<div className=''>
@@ -73,10 +86,10 @@ function Header() {
 						<Menu.Button className="inline-flex w-full justify-cente px-4 py-2 text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
 
 							{
-								headerPicutre ?
+								userData?.image_url ?
 
 									<img
-										src={headerPicutre}
+										src={userData?.image_url}
 										className='rounded-full h-10 w-10 contain rounded-full'
 									/>
 									:
