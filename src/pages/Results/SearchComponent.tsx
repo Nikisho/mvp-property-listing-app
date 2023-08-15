@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import GooglePlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -34,7 +34,7 @@ const SearchComponent = () => {
             )
             )
     };
-    const handleClick = (e: React.MouseEvent) => {
+    const handleClick = () => {
         navigate(`/results/${queriedParams.lat}/${queriedParams.lng}/${queriedParams.location}/${queriedParams.radius}/${queriedParams.min_price}/${queriedParams.max_price}/${queriedParams.min_bedrooms}/${queriedParams.max_bedrooms}`);
         window.location.reload();
     };

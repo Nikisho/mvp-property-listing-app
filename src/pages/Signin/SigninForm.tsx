@@ -9,6 +9,7 @@ function SigninForm() {
         email: '',
         password: '',
     });
+    const image_url = 'src/assets/signinpageimage.jpg';
     const [invalidCredentials, setInvalidCredentials] = useState<boolean>(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -41,13 +42,24 @@ function SigninForm() {
             navigate('/');
         };
     };
-    console.log(invalidCredentials)
+
     return (
-        <div className="pt-4 grid place-items-center">
-            <form className='space-y-2 w-5/6  sm:w-2/3 md:w-1/3 xl:w-1/4 border p-2 rounded-xl shadow-lg'>
+        <div
+            style={{
+                backgroundImage: `url(${image_url})`,
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+            }}
+            className="pt-4 grid place-items-center h-screen">
+            <form className='bg-white space-y-2 w-5/6  sm:w-2/3 md:w-1/3 xl:w-1/4 border p-2 rounded-xl shadow-lg'>
+                <div className="pb-5">
+                    <div className='text-2xl font-semibold'>Welcome to Propzy</div>
+                    <div>Find a room now and review your landlord!</div>
+                </div>
                 <div className='text-2xl font-semibold'><h1>Sign in</h1></div>
                 <div className='flex flex-col'>
-                    <div className={`text-red-600 ${invalidCredentials? '': 'hidden'}`}>Invalid credentials</div>
+                    <div className={`text-red-600 ${invalidCredentials ? '' : 'hidden'}`}>Invalid credentials</div>
                     <label className='self-start text-xl my-2   '>Email address </label>
                     <input className={`h-10 border p-2
                         ${invalidCredentials && 'border-red-600'}
@@ -60,7 +72,7 @@ function SigninForm() {
                     <input className={`h-10 border p-2
                         ${invalidCredentials && 'border-red-600'}
                     `}
-                    type="password" name="password" id='password' onChange={changeHandler} required placeholder='Enter Password' />
+                        type="password" name="password" id='password' onChange={changeHandler} required placeholder='Enter Password' />
                     {/* {renderErrorMessage("pass")} */}
                 </div>
                 <button className='bg-green-200 text-lg w-full font-semibold p-3 flex justify-center transition duration-700 hover:scale-95'
