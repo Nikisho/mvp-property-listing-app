@@ -100,8 +100,6 @@ function MyProfilePage() {
         fetchUserData(user.user.id as string);
     }, []);
 
-    console.log(userInfo);
-
     return (
         <>
             <Header />

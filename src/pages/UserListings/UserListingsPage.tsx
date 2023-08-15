@@ -17,7 +17,6 @@ interface UserListingsProps {
 function UserListingsPage() {
     const user: UserMetadata = useSelector(selectCurrentUser);
     const [userListings, setUserListings] = useState<UserListingsProps[]>([]);
-    console.log(user.user.id)
     const fetchUserListings = async () => {
         try {
             const { data, error } = await supabase
@@ -40,7 +39,7 @@ function UserListingsPage() {
             <Header />
             <div className='flex justify-center '>
                 {/* {profile} */}
-                <div className=' w-2/3 p-4  space-y-3'>
+                <div className=' w-full md:w-full lg:w-2/3 xl:w-2/3 p-4  space-y-3'>
 
                     {
                         userListings?.map((listing) =>
