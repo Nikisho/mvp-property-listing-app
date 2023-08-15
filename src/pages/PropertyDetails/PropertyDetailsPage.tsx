@@ -120,7 +120,6 @@ function PropertyDetailsPage() {
 
 	// 	if (error) console.error(error.message);
 	// };
-
 	useEffect(() => {
 		getListedProperty();
 		fetchUserData();
