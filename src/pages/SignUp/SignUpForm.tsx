@@ -12,7 +12,7 @@ function SignUpForm() {
 		password: '',
 	});
 	const dispatch = useDispatch();
-    const image_url = 'src/assets/signinpageimage.jpg';
+    const image_url = '/src/assets/signinpageimage.jpg';
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 	const changeHandler = (e: { target: { name: string; value: string; }; }) => {
 		setUser({ ...user, [e.target.name]: e.target.value })

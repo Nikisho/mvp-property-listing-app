@@ -9,7 +9,7 @@ function SigninForm() {
         email: '',
         password: '',
     });
-    const image_url = 'src/assets/signinpageimage.jpg';
+    const image_url = '/src/assets/signinpageimage.jpg';
     const [invalidCredentials, setInvalidCredentials] = useState<boolean>(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
