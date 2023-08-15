@@ -61,7 +61,6 @@ function PropertyDetailsPage() {
 	const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
 	const [listedImages, setListedImages] = useState<string[]>([]);
 	const [userTechnichalKey, setUserTechnicalKey] = useState();
-	const [applyButtonDisabled, setApplyButtonDisabled] = useState<boolean>(false);
 
 	const getListedProperty = async (): Promise<void> => {
 
@@ -108,7 +107,7 @@ function PropertyDetailsPage() {
 			alert('You cannot apply to your own property!');
 			return;
 		}
-		
+
 		const { error} = await supabase
 		.from('tenancy_applications')
 		.insert({
