@@ -62,7 +62,7 @@ function PropertyDetailsPage() {
 	const [listedProperty, setListedProperty] = useState<PropertyDetailsProps>();
 	const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
 	const [listedImages, setListedImages] = useState<string[]>([]);
-	const [userTechnichalKey, setUserTechnicalKey] = useState();
+	// const [userTechnichalKey, setUserTechnicalKey] = useState();
 
 	const getListedProperty = async (): Promise<void> => {
 
@@ -84,11 +84,11 @@ function PropertyDetailsPage() {
 
     const fetchUserData = async () => {
 
-        const { data, error } = await supabase
+        const { error } = await supabase
             .from('users')
             .select()
             .eq('user_uid', `${user.user.id}`);
-            setUserTechnicalKey(data![0].user_id);
+            // setUserTechnicalKey(data![0].user_id);
 
         if (error) console.error(error.message);
     };
@@ -103,23 +103,23 @@ function PropertyDetailsPage() {
 			console.error(error)
 		}
 	};
-	const handleApplyButtonClick: VoidFunction = async () => {
-		//handle adding row to tenancy_application table
-		if (pmDetails?.user_uid === user.user.id) {
-			alert('You cannot apply to your own property!');
-			return;
-		}
+	// const handleApplyButtonClick: VoidFunction = async () => {
+	// 	//handle adding row to tenancy_application table
+	// 	if (pmDetails?.user_uid === user.user.id) {
+	// 		alert('You cannot apply to your own property!');
+	// 		return;
+	// 	}
 
-		const { error} = await supabase
-		.from('tenancy_applications')
-		.insert({
-			tenant_id: userTechnichalKey,
-			property_id: property_id,
-			pm_user_id: listedProperty?.pm_user_id
-		});
+	// 	const { error} = await supabase
+	// 	.from('tenancy_applications')
+	// 	.insert({
+	// 		tenant_id: userTechnichalKey,
+	// 		property_id: property_id,
+	// 		pm_user_id: listedProperty?.pm_user_id
+	// 	});
 
-		if (error) console.error(error.message);
-	};
+	// 	if (error) console.error(error.message);
+	// };
 
 	useEffect(() => {
 		getListedProperty();

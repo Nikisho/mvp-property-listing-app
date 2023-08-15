@@ -82,7 +82,7 @@ function SignUpForm() {
 			backgroundSize: 'cover',
 			backgroundRepeat: 'no-repeat',
 			backgroundPosition: 'center',
-			backdropFilter: 'unset'
+			
 	}}
 		className=' space-y-4 pt-4 grid place-items-center h-screen'>
 			<form className=' bg-white space-y-2 w-5/6  sm:w-2/3 md:w-1/3 xl:w-1/4 border p-2 rounded-xl shadow-lg'>
