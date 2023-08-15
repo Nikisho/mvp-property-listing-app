@@ -43,8 +43,7 @@ const SearchComponent = () => {
 
         <div className='p-3 w-full'>
 
-            <div className='items-center bg-white md:flex flex-row p-3 px-2 shadow-lg rounded-md space-x-1 flex w-full
-                    overflow-y-scroll
+            <div className='items-center flex-col bg-white lg:flex-row p-3 px-2 shadow-lg rounded-md space-x-1 flex w-full
                     lg:overflow-y-visible
                 '>
 
@@ -130,7 +129,7 @@ const SearchComponent = () => {
                     </div>
                 </div>
 
-                <button className='p-3 bg-blue-400 w-full xl:w-1/6 font-semibold text-white hover:bg-blue-500 flex rounded-md justify-center'
+                <button className='p-3 mt-3 bg-blue-400 w-full xl:w-1/6 font-semibold text-white hover:bg-blue-500 flex rounded-md justify-center'
                     onClick={handleClick}
                 >Search
                 </button>
