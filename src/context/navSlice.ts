@@ -4,7 +4,8 @@ const initialState = {
     currentUser: {
         user: null,
         isLoggedIn: false,
-        session: null
+        session: null,
+        userTechnicalKey: null,
     }
 };
 

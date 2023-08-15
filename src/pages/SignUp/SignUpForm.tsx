@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../../supabase';
 import { useDispatch } from 'react-redux'
 import { setCurrentUser } from '../../context/navSlice';
@@ -30,13 +29,29 @@ function SignUpForm() {
 			console.error(error.message);
 		}
 	};
+	const passwordIsvalid = (password: string): boolean => {
+		if (
+			password.length > 6 &&
+			password.search(/[A-Z]/) >= 0 &&
+			password.search(/[A-Z]/) >= 0
+		) {
+			return true;
+		}
+		return false;
+	};
 
-	const signUpEmail = async (e: React.MouseEvent) => {
+	const signUpEmail = async (e: React.MouseEvent): Promise<void> => {
 		e.preventDefault();
+		if (passwordIsvalid(user.password) === false) {
+			alert('Your password must be at least 6 characters long, contain an uppercase and lowercase charachter and a number')
+			return;
+		}
 		if (Object.values(user).includes("")) {
 			alert("Please Fill In all Required Fields.");
 			return;
 		};
+
+		
 		const { data, error } = await supabase.auth.signUp({
 			email: user.email,
 			password: user.password,
