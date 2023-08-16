@@ -10,7 +10,7 @@ const AboutPage = () => {
             <p className=''>
               Long story short, I've been renting for over 7 years and after being treated very poorly by some landlords I decided that it was enough!
               I am tired of signing leases without knowing what I am getting myself into. So I thought, how about a property listing platform where
-              tenants can review their landlords? Ultimately I want to make the renting experience more transparent for both renters and property managers.
+              tenants and landlords can review each other? Ultimately I want to make the renting experience more transparent and hassle free.
             </p>
             <p></p>
         </div>

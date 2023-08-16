@@ -5,6 +5,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../context/navSlice';
 import CreateIcon from '@mui/icons-material/Create';
+import LoadingComponent from '../../components/LoadingComponent';
 
 interface MyProfilePageProps {
     email: string;
@@ -20,6 +21,7 @@ interface MyProfilePageProps {
 
 function MyProfilePage() {
     const user = useSelector(selectCurrentUser);
+    const [profileUpdated, setProfileUpdated] = useState<boolean>(false);
     const filePickerRef = useRef<HTMLInputElement>(null);
     const [profilePictureFile, setProfilePictureFile] = useState<File>();
     const [userInfo, setUserInfo] = useState<MyProfilePageProps>({
@@ -94,12 +96,17 @@ function MyProfilePage() {
             })
             .eq('user_uid', user.user.id);
         if (error) { console.error(error.message); }
+
+        setProfileUpdated(true);
     };
 
     useEffect(() => {
         fetchUserData(user.user.id as string);
     }, []);
 
+    if (profileUpdated) {
+        return <LoadingComponent />
+    }
     return (
         <>
             <Header />
