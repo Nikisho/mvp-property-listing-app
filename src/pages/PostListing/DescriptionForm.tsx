@@ -28,6 +28,8 @@ const DescriptionForm: React.FC<DescriptionFormProps> = ({
 						id='adTitle'
 						value={adTitle}
 						onChange={e => updateFields({ adTitle: e.target.value })}
+						required
+
 					/>
 					<div>
 						Description
@@ -38,6 +40,8 @@ const DescriptionForm: React.FC<DescriptionFormProps> = ({
 						id='roomDescription'
 						value={roomDescription}
 						onChange={e => updateFields({ roomDescription: e.target.value })}
+						required
+
 					/>
 				</div>
 			</div>

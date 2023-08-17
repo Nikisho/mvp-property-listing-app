@@ -49,6 +49,7 @@ function UserListingsPage() {
                                 ad_title={listing.ad_title}
                                 price_pcm={listing.price_pcm}
                                 description={listing.description}
+                                property_id={listing.property_id}
                             />
                         )
                     }
