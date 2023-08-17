@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { currencyFormatter } from '../../utils/currencyFormat';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { supabase } from '../../../supabase';

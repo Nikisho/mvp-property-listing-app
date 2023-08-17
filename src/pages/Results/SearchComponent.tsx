@@ -21,7 +21,6 @@ const SearchComponent = () => {
         setQueriedParams({ ...queriedParams, [e.target.name]: e.target.value })
     };
     const queryLocation = async (selectedAddress: any) => {
-
         geocodeByAddress(selectedAddress?.label)
             .then(results => getLatLng(results[0]))
             .then(({ lat, lng }) => (
@@ -35,6 +34,12 @@ const SearchComponent = () => {
             )
     };
     const handleClick = () => {
+        if (Number(queriedParams.max_price) > 10000 ||
+            Number(queriedParams.min_price) > 10000 ||
+            Number(queriedParams.min_bedrooms) > 50 ||
+            Number(queriedParams.max_bedrooms ) > 100 ||
+            !queriedParams.location ||
+            Number(queriedParams.radius) > 1000 ) { alert('Limit exceeded!'); return}
         navigate(`/results/${queriedParams.lat}/${queriedParams.lng}/${queriedParams.location}/${queriedParams.radius}/${queriedParams.min_price}/${queriedParams.max_price}/${queriedParams.min_bedrooms}/${queriedParams.max_bedrooms}`);
         window.location.reload();
     };
@@ -103,7 +108,7 @@ const SearchComponent = () => {
                 <div className=' px-2 flex-col w-auto xl:w-1/4 font-semibold flex justify-center'>
 
                     <div className='flex space-x-1 '>
-                        <div className=''>
+                        <div className='w-full'>
 
                             <div>Min price (£) </div>
                             <input className='p-2 border w-full'
@@ -111,10 +116,11 @@ const SearchComponent = () => {
                                 name="min_price" id='min_price' onChange={changeHandler}
                                 placeholder='Any'
                                 value={queriedParams.min_price}
+                                min={1} max={10000}
 
                             />
                         </div>
-                        <div className=''>
+                        <div className='w-full '>
 
                             <div>Max price (£) </div>
                             <input className='p-2 border w-full'
@@ -122,7 +128,7 @@ const SearchComponent = () => {
                                 name="max_price" id='max_price' onChange={changeHandler}
                                 placeholder='No max'
                                 value={queriedParams.max_price}
-
+                                min={1} max={10000}
                             />
                         </div>
 
