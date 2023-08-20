@@ -160,7 +160,7 @@ const PostListingPage = () => {
         
     function onSubmit(e: React.MouseEvent<HTMLFormElement>) {
         e.preventDefault();
-        if(!formData.address) {
+        if(!formData.address && currentStepIndex === 2 ) {
             alert('Please enter a location');
             return
         }
