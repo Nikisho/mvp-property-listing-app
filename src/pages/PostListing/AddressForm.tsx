@@ -28,7 +28,6 @@ const AddressForm: React.FC<AddressFormProps> = ({ address, updateFields }) => {
     useEffect(() => { 
         updateFields({ address: value as Option });
     }, [value]);
-    console.log(value);
 
     return (
         <>
