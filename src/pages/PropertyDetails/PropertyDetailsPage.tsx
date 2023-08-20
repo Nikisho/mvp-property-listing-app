@@ -151,7 +151,7 @@ function PropertyDetailsPage() {
 						{/* {property details} */}
 						<div className='space-y-3 flex flex-col justify-center py-1
 										md:w-1/2
-										lg:w-1/2 lg:p-5
+										lg:w-1/2 lg:p-5 lg:pr-0
 										xl:w-1/2 
 										2xl:w-1/3'>
 							<div className='text-2xl font-bold'>
@@ -205,10 +205,14 @@ function PropertyDetailsPage() {
 										xl:w-full'>
 							<div className='flex flex-col space-y-2
 											lg:flex-row lg:space-x-12
-											xl:flex-row xl:justify-center xl:space-x-10'>
-								<div className='w-full space-y-3
+											xl:flex-row xl:space-x-20
+											2xl:flex-row justify-center 2xl:space-x-24
+											
+											'>
+											
+								<div className='w-full space-y-3 h-80 overflow-y-auto 
 												lg:w-1/2
-												xl:w-[45%]
+												xl:w-[50%]
 												2xl:w-1/3'>
 									<div className='text-sm font-semibold'><i>Ad ref: {property_id}</i></div>
 									<div className='text-2xl font-bold '>
