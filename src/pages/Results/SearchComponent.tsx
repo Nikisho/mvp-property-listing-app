@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import GooglePlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete';
 import { useNavigate, useParams } from 'react-router-dom';
+import isPositiveNumberLessThanN from '../../utils/isPositiveNumberLessThanN';
 
 const SearchComponent = () => {
-    // const {lat, lng, radius, min_price, max_price, min_room, max_room} = useParams();
     const { lat, lng, radius, min_price, location, min_room, max_price, max_room } = useParams();
     const navigate = useNavigate();
     const [queriedParams, setQueriedParams] = useState({
@@ -34,16 +34,21 @@ const SearchComponent = () => {
             )
     };
     const handleClick = () => {
-        if (Number(queriedParams.max_price) > 10000 ||
-            Number(queriedParams.min_price) > 10000 ||
-            Number(queriedParams.min_bedrooms) > 50 ||
-            Number(queriedParams.max_bedrooms ) > 100 ||
-            !queriedParams.location ||
-            Number(queriedParams.radius) > 1000 ) { alert('Limit exceeded!'); return}
+        if (
+            isPositiveNumberLessThanN(Number(queriedParams.max_price), 10000) === false ||
+            isPositiveNumberLessThanN(Number(queriedParams.min_price), 10000) === false ||
+            isPositiveNumberLessThanN(Number(queriedParams.min_bedrooms), 50) === false ||
+            isPositiveNumberLessThanN(Number(queriedParams.max_bedrooms), 100) === false ||
+            isPositiveNumberLessThanN(Number(queriedParams.radius), 50) === false ||
+            !queriedParams.location
+        ) 
+            { 
+                alert('Limit exceeded!'); 
+                return
+            }
         navigate(`/results/${queriedParams.lat}/${queriedParams.lng}/${queriedParams.location}/${queriedParams.radius}/${queriedParams.min_price}/${queriedParams.max_price}/${queriedParams.min_bedrooms}/${queriedParams.max_bedrooms}`);
         window.location.reload();
     };
-    console.log(queriedParams)
     return (
 
         <div className='p-3 w-full'>
