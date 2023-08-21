@@ -6,6 +6,10 @@ const initialState = {
         isLoggedIn: false,
         session: null,
         userTechnicalKey: null,
+        imageUrl: null,
+        name: null,
+        email: null,
+        phoneNumber: null
     }
 };
 

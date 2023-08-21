@@ -5,6 +5,7 @@ import { supabase } from '../../../supabase';
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCurrentUser, setCurrentUser } from '../../context/navSlice';
 import { useEffect, useState } from 'react';
+import MenuIcon from '@mui/icons-material/Menu';
 
 interface userDataProps {
 	image_url: string;
@@ -27,6 +28,17 @@ function Header() {
 			console.error(error.message);
 		};
 		setUserData(data![0]);
+		console.log(data![0]);
+		dispatch(setCurrentUser({
+			user: user.user,
+			isLoggedIn: user.isLoggedIn,
+			session: user.session,
+			imageUrl: data![0].image_url,
+			technicalKey: data![0].user_id,
+			name: data![0].name,
+			email: data![0].email,
+			phoneNumber: data![0].phone_number
+		}));
 	};
 
 	const navigatePostListing = () => {
@@ -71,16 +83,78 @@ function Header() {
 			{/* Options and proile button */}
 			<div className='flex space-x-4 items-center pr-5 '>
 				<button className='	hover:bg-blue-900
+									hidden
+									xl:block
 									rounded-lg py-1 w-16
 									lg:py-2 lg:px-2 lg:w-auto lg:rounded-sm '>
 					<div className='text-white text-lg ' onClick={() => navigate(`/about`)}>About</div>
 				</button>
 				<button className='	hover:bg-blue-900
 									rounded-lg py-1 w-16
+									hidden
+									xl:block
 									lg:py-2 lg:px-2 lg:w-auto lg:rounded-sm '>
 					<div className='text-white text-lg ' onClick={() => navigatePostListing()}>Post a listing</div>
 				</button>
+				<button className='	hover:bg-blue-900
+									hidden
+									xl:block
+									rounded-lg py-1 w-16
+									lg:py-2 lg:px-2 lg:w-auto lg:rounded-sm '>
+					<div className='text-white text-lg ' onClick={() => navigate(`/searchprofile`)}>Reviews</div>
+				</button>
+				<div className='block xl:hidden'>
+					<Menu>
+						<Menu.Button className="inline-flex w-full justify-cente px-4 py-2 text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
 
+							<MenuIcon
+								sx={{ color: 'white' }}
+								fontSize='large'
+
+							/>
+
+						</Menu.Button>
+						<Menu.Items className="absolute right-0 mt-2 w-52 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+							<div className="px-1 py-1 ">
+								<Menu.Item >
+									{({ active }) => (
+										<a
+											className={`${active ? 'bg-blue-300 text-white' : 'text-gray-900'
+												} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+											href='/about'
+										>
+											About
+										</a>
+									)}
+								</Menu.Item>
+								<Menu.Item >
+									{({ active }) => (
+										<a
+											className={`${active ? 'bg-blue-300 text-white' : 'text-gray-900'
+												} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+											href='/postlisting'
+										>
+											Post a listing
+										</a>
+									)}
+								</Menu.Item>
+								<Menu.Item>
+									{({ active }) => (
+										<a
+											className={`${active ? 'bg-blue-300 text-white' : 'text-gray-900'
+												} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+											href='/searchprofile'
+										>
+											Reviews
+										</a>
+									)}
+								</Menu.Item>
+							</div>
+
+						</Menu.Items>
+					</Menu>
+
+				</div>
 				<div className=''>
 					<Menu>
 						<Menu.Button className="inline-flex w-full justify-cente px-4 py-2 text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">

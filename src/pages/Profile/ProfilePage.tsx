@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import { supabase } from '../../../supabase';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../context/navSlice';
 interface pmDetailsProps {
     name: string;
     email: string;
@@ -19,20 +21,38 @@ interface pmDetailsProps {
 function ProfilePage() {
     const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
     const { user_id } = useParams();
-    console.log(user_id);
-    const getPropManagerDetails = async (pm_user_uid: string) => {
+    const currentUser = useSelector(selectCurrentUser);
+    const [review, setReview] = useState<string>('');
+    const getPropManagerDetails = async () => {
+
         try {
             const { data } = await supabase
                 .from('users')
                 .select()
-                .eq('user_uid', `${pm_user_uid}`);
+                .eq('user_uid', user_id);
             setPmDetails(data![0]);
         } catch (error: any) {
             console.error(error.message);
         }
     };
+    const publishReview =  async () => {
+        const { error } = await supabase
+            .from('users')
+            .update({
+                review: {
+                    name: currentUser.name,
+                    review: review
+                }}
+            )
+            .eq('user_uid', user_id)
+
+        if (error) {
+            console.error(error.message);
+        }
+    };
+
     useEffect(() => {
-        getPropManagerDetails(user_id as string);
+        getPropManagerDetails();
     }, []);
 
     return (
@@ -78,6 +98,22 @@ function ProfilePage() {
                     <div className='p-3'>
                         <div className='text-xl font-bold pb-2  '>
                             Reviews
+                        </div>
+                        <div className='py-2 space-y-2'>
+                            <textarea placeholder="Add a review"
+                                className="rounded-lg p-2 border w-full h-20 text-sm "
+                                value={review}
+                                onChange={e => setReview(e.target.value)}
+                                required
+
+                            />
+                            <div className='flex justify-end'>
+                                <button className='p-1 bg-blue-200 hover:scale-95 transition duration-500'
+                                onClick={() => publishReview()}
+                                >
+                                    Publish
+                                </button>
+                            </div>
                         </div>
                         <div className='overflow-y-auto h-52'>
 

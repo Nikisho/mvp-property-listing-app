@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useMultistepForm } from '../../hooks/useMultistepForm'
 import { Header } from '../../components'
 import PropertyTypeForm from './PropertyTypeForm'
@@ -40,7 +40,6 @@ interface FormData {
 
 const PostListingPage = () => {
     const user: UserMetadata = useSelector(selectCurrentUser);
-    const [userTechnichalKey, setUserTechnicalKey] = useState();
     const [postButtonClicked, setPostButtonClicked] = useState(false);
     const [formData, setFormData] = useState<FormData>({
         address: null ,
@@ -89,17 +88,6 @@ const PostListingPage = () => {
             <DescriptionForm {...formData} updateFields={updateFields}/>
         ]);
 
-    const fetchUserData = async () => {
-
-        const { data, error } = await supabase
-            .from('users')
-            .select()
-            .eq('user_uid', `${user.user.id}`);
-            setUserTechnicalKey(data![0].user_id);
-
-        if (error) console.error(error.message);
-    };
-
     async function postListing() {
         const property_id: string = uuidv4(9);
         let imageUrls: { publicUrl: string; }[] = [];
@@ -135,7 +123,7 @@ const PostListingPage = () => {
                 number_of_bathrooms: formData.numberOfBathrooms,
                 image_arr: imageUrls,
                 pm_user_uid: user.user.id,
-                pm_user_id: userTechnichalKey,
+                pm_user_id: user.technicalKey,
                 bills_included: formData.billsIncluded,
                 deposit: formData.deposit,
                 property_type: formData.propertyType,
@@ -169,10 +157,6 @@ const PostListingPage = () => {
         }
         postListing();
     }
-
-    useEffect(() => {
-        fetchUserData();
-    },[]);
 
     if (postButtonClicked) {
 		return (

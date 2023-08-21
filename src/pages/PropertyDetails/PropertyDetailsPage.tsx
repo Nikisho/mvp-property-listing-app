@@ -62,7 +62,6 @@ function PropertyDetailsPage() {
 	const [listedProperty, setListedProperty] = useState<PropertyDetailsProps>();
 	const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
 	const [listedImages, setListedImages] = useState<string[]>([]);
-	// const [userTechnichalKey, setUserTechnicalKey] = useState();
 
 	const getListedProperty = async (): Promise<void> => {
 
@@ -81,17 +80,6 @@ function PropertyDetailsPage() {
 			console.error(error);
 		}
 	};
-
-    const fetchUserData = async () => {
-
-        const { error } = await supabase
-            .from('users')
-            .select()
-            .eq('user_uid', `${user.user.id}`);
-            // setUserTechnicalKey(data![0].user_id);
-
-        if (error) console.error(error.message);
-    };
 
 	const getPropManagerDetails = async (pm_user_id: string) => {
 		const { data, error } = await supabase
@@ -113,16 +101,16 @@ function PropertyDetailsPage() {
 	// 	const { error} = await supabase
 	// 	.from('tenancy_applications')
 	// 	.insert({
-	// 		tenant_id: userTechnichalKey,
+	// 		tenant_id: user.technicalKey,
 	// 		property_id: property_id,
 	// 		pm_user_id: listedProperty?.pm_user_id
 	// 	});
 
 	// 	if (error) console.error(error.message);
 	// };
+	console.log(user.technicalKey)
 	useEffect(() => {
 		getListedProperty();
-		fetchUserData();
 	}, []);
 
 	return (

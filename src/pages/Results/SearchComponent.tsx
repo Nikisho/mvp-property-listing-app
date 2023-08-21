@@ -110,7 +110,7 @@ const SearchComponent = () => {
 
                     />
                 </div>
-                <div className=' px-2 flex-col w-auto xl:w-1/4 font-semibold flex justify-center'>
+                <div className=' px-2 flex-col w-full xl:w-1/4 font-semibold flex justify-center'>
 
                     <div className='flex space-x-1 '>
                         <div className='w-full'>
