@@ -49,19 +49,19 @@ interface pmDetailsProps {
 	user_uid: string;
 	phone_number: string;
 	image_url: string;
-	reviews: {
-		name: string,
-		review: string
-	}[]
-
 };
-
+interface reviewProps {
+    name: string;
+    review: string;
+    reviewer_user_id: number
+}
 function PropertyDetailsPage() {
     const user: UserMetadata = useSelector(selectCurrentUser);
 	const { property_id } = useParams();
 	const [listedProperty, setListedProperty] = useState<PropertyDetailsProps>();
 	const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
 	const [listedImages, setListedImages] = useState<string[]>([]);
+    const [reviews, setReviews] = useState<reviewProps[]>();
 
 	const getListedProperty = async (): Promise<void> => {
 
@@ -76,6 +76,7 @@ function PropertyDetailsPage() {
 		setListedImages(images)
 		setListedProperty(json_data);
 		getPropManagerDetails(json_data.pm_user_id);
+		fetchUserReviews(json_data.pm_user_id);
 		if (error) {
 			console.error(error);
 		}
@@ -91,6 +92,19 @@ function PropertyDetailsPage() {
 			console.error(error)
 		}
 	};
+
+	const fetchUserReviews = async (reviewd_user_id: string) => {
+        const { data, error } = await supabase
+            .from('reviews')
+            .select()
+            .eq('reviewed_user_id', reviewd_user_id);
+        if (data) {
+            setReviews(data);
+        }
+        if (error) {
+            console.error(error.message);
+        };
+    };
 	// const handleApplyButtonClick: VoidFunction = async () => {
 	// 	//handle adding row to tenancy_application table
 	// 	if (pmDetails?.user_uid === user.user.id) {
@@ -322,8 +336,8 @@ function PropertyDetailsPage() {
 									<div className='text-2xl font-bold '>
 										Reviews
 									</div>
-									{pmDetails?.reviews ?
-										pmDetails?.reviews.map((review) => (
+									{reviews ?
+										reviews.map((review) => (
 											<div className='flex flex-col space-y-2 p-3 rounded-xl shadow-lg'>
 												<div className='text-xl font-bold'>{review.name}</div>
 												<div className=''>

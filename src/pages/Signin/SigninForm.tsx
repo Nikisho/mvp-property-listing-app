@@ -24,7 +24,7 @@ function SigninForm() {
             return;
         };
         const { data, error } = await supabase.auth.signInWithPassword({
-            email: user.email,
+            email: (user.email).toLocaleLowerCase(),
             password: user.password,
         });
         if (error) {

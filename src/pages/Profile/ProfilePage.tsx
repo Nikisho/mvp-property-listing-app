@@ -5,24 +5,28 @@ import { supabase } from '../../../supabase';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../context/navSlice';
+import LoadingComponent from '../../components/LoadingComponent';
 interface pmDetailsProps {
     name: string;
     email: string;
-    reviews: {
-        name: string,
-        review: string
-    }[]
+    user_uid: string;
     user_id: string;
     image_url: string;
     description: string;
     phone_number: string;
 };
-
+interface reviewProps {
+    name: string;
+    review: string;
+    reviewer_user_id: number
+}
 function ProfilePage() {
     const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
     const { user_id } = useParams();
     const currentUser = useSelector(selectCurrentUser);
-    const [review, setReview] = useState<string>('');
+    const [reviews, setReviews] = useState<reviewProps[]>();
+    const [newReview, setNewReview] = useState<string>('')
+    const [loadingPage, setLoadingPage] = useState<boolean>(false);
     const getPropManagerDetails = async () => {
 
         try {
@@ -35,26 +39,57 @@ function ProfilePage() {
             console.error(error.message);
         }
     };
-    const publishReview =  async () => {
-        const { error } = await supabase
-            .from('users')
-            .update({
-                review: {
-                    name: currentUser.name,
-                    review: review
-                }}
-            )
-            .eq('user_uid', user_id)
 
+    const fetchUserReviews = async () => {
+        const { data, error } = await supabase
+            .from('reviews')
+            .select()
+            .eq('reviewed_user_uid', user_id);
+        if (data) {
+            setReviews(data);
+        }
         if (error) {
             console.error(error.message);
+        };
+    };
+    
+    const publishReview =  async () => {
+        if (!newReview) {
+            alert('The review cannot be blank.')
+            return;
         }
+        if (currentUser.user.id === pmDetails?.user_uid) {
+            alert('You cannot leave yourself a review')
+            return;
+        }
+        if (reviews?.some(review => review.reviewer_user_id === currentUser.technicalKey)) {
+            alert('You already left a review.');
+            return;
+        }
+        const { error } = await supabase
+            .from('reviews')
+            .insert({
+                name: currentUser.name,
+                review: newReview,
+                reviewer_user_id: currentUser.technicalKey,
+                reviewed_user_id: pmDetails?.user_id,
+                reviewed_user_uid: user_id
+            });
+
+        if (error) {
+            console.error(error?.message);
+        }
+        setLoadingPage(true);
     };
 
     useEffect(() => {
         getPropManagerDetails();
+        fetchUserReviews()
     }, []);
 
+    if (loadingPage) return (
+        < LoadingComponent />
+    )
     return (
         <>
             <Header />
@@ -102,13 +137,13 @@ function ProfilePage() {
                         <div className='py-2 space-y-2'>
                             <textarea placeholder="Add a review"
                                 className="rounded-lg p-2 border w-full h-20 text-sm "
-                                value={review}
-                                onChange={e => setReview(e.target.value)}
+                                value={newReview}
+                                onChange={e => setNewReview(e.target.value)}
                                 required
 
                             />
                             <div className='flex justify-end'>
-                                <button className='p-1 bg-blue-200 hover:scale-95 transition duration-500'
+                                <button className='p-2 rounded-lg bg-blue-400 hover:scale-95 transition duration-500'
                                 onClick={() => publishReview()}
                                 >
                                     Publish
@@ -117,8 +152,8 @@ function ProfilePage() {
                         </div>
                         <div className='overflow-y-auto h-52'>
 
-                            {pmDetails?.reviews ?
-                                pmDetails?.reviews.map((review) => (
+                            {reviews?
+                                reviews?.map((review) => (
                                     <div className='flex flex-col space-y-2 p-3 rounded-xl shadow-lg border '>
                                         <div className='text-xl font-bold'>{review.name}</div>
                                         <div className=''>

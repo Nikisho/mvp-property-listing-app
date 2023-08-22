@@ -54,7 +54,7 @@ function SignUpForm() {
 
 		
 		const { data, error } = await supabase.auth.signUp({
-			email: user.email,
+			email: (user.email).toLocaleLowerCase(),
 			password: user.password,
 		});
 		if (error) {

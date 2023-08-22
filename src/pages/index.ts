@@ -8,7 +8,7 @@ import PostListingPage from "./PostListing/PostListingPage";
 import MyProfilePage from "./MyProfile/MyProfilePage";
 import HomePage from "./Home/HomePage";
 import AboutPage from "./About/AboutPage";
-
+import SearchProfilePage from "./SearchProfile/SearchProfilePage";
 export { 
     AboutPage,
     HomePage,
@@ -20,4 +20,5 @@ export {
     ProfilePage,
     UserListingsPage,
     MyProfilePage,
+    SearchProfilePage
 };

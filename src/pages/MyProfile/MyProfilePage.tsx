@@ -12,25 +12,25 @@ interface MyProfilePageProps {
     description: string;
     image_url: string | ArrayBuffer;
     number: string;
-    name:string;
-    reviews: {
-        name: string,
-        review: string
-    }[]
-};
+    name: string;
 
+};
+interface reviewProps {
+    name: string;
+    review: string;
+}
 function MyProfilePage() {
     const user = useSelector(selectCurrentUser);
     const [profileUpdated, setProfileUpdated] = useState<boolean>(false);
     const filePickerRef = useRef<HTMLInputElement>(null);
     const [profilePictureFile, setProfilePictureFile] = useState<File>();
+    const [reviews, setReviews] = useState<reviewProps[]>();
     const [userInfo, setUserInfo] = useState<MyProfilePageProps>({
         email: '',
         description: '',
         image_url: '',
         number: '',
         name: '',
-        reviews:[]
     });
 
     const changeHandler = (e: { target: { name: string; value: string; }; }) => {
@@ -53,8 +53,19 @@ function MyProfilePage() {
             image_url: data![0].image_url as string,
             number: data![0].phone_number as string,
             name: data![0].name as string,
-            reviews: data![0].reviews
         });
+    };
+    const fetchUserReviews = async () => {
+        const { data, error } = await supabase
+            .from('reviews')
+            .select()
+            .eq('reviewed_user_uid', user.user.id);
+        if (data) {
+            setReviews(data);
+        }
+        if (error) {
+            console.error(error.message);
+        };
     };
 
     const amendProfilePicture = (e: any) => {
@@ -73,7 +84,7 @@ function MyProfilePage() {
     }
 
     const updateProfilePictureInStorageBucket = async () => {
-  
+
         const { error } = await supabase
             .storage
             .from('users')
@@ -96,17 +107,19 @@ function MyProfilePage() {
             })
             .eq('user_uid', user.user.id);
         if (error) { console.error(error.message); }
-
         setProfileUpdated(true);
     };
 
     useEffect(() => {
+        fetchUserReviews()
         fetchUserData(user.user.id as string);
     }, []);
 
+    
     if (profileUpdated) {
         return <LoadingComponent />
     }
+
     return (
         <>
             <Header />
@@ -176,8 +189,8 @@ function MyProfilePage() {
                         </div>
                         <div className='overflow-y-auto h-52'>
 
-                            {userInfo?.reviews ?
-                                userInfo?.reviews.map((review) => (
+                            {reviews ?
+                                reviews?.map((review) => (
                                     <div className='flex flex-col space-y-2 p-3 rounded-xl shadow-lg border '>
                                         <div className='text-xl font-bold'>{review.name}</div>
                                         <div className=''>
@@ -226,7 +239,7 @@ function MyProfilePage() {
                     </div>
                     <div className='p-2'>
                         <button className='p-2 rounded-xl shadow-lg bg-sky-300 text-sm font-semibold hover:scale-95 duration-500'
-                        onClick={handleClick}
+                            onClick={handleClick}
                         >
                             Update profile
                         </button>

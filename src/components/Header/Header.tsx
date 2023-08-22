@@ -28,7 +28,6 @@ function Header() {
 			console.error(error.message);
 		};
 		setUserData(data![0]);
-		console.log(data![0]);
 		dispatch(setCurrentUser({
 			user: user.user,
 			isLoggedIn: user.isLoggedIn,
