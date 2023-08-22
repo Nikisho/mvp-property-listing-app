@@ -208,7 +208,7 @@ function PropertyDetailsPage() {
 							<div className='flex flex-col space-y-2
 											lg:flex-row lg:space-x-12
 											xl:flex-row xl:space-x-20
-											2xl:flex-row justify-center 2xl:space-x-24
+											2xl:flex-row justify-center 2xl:space-x-10
 											
 											'>
 											
