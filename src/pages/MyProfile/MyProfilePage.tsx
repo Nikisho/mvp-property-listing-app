@@ -115,7 +115,7 @@ function MyProfilePage() {
         fetchUserData(user.user.id as string);
     }, []);
 
-    
+
     if (profileUpdated) {
         return <LoadingComponent />
     }
@@ -155,9 +155,20 @@ function MyProfilePage() {
                                         }}
                                     />
                                 </button> :
-                                <AccountBoxIcon
-                                    sx={{ fontSize: 100 }}
-                                />
+                                <button className='hover:opacity-50'
+                                    onClick={() => filePickerRef.current?.click()}>
+                                    <AccountBoxIcon
+                                        sx={{ fontSize: 100 }}
+                                    />
+                                    <input ref={filePickerRef}
+                                        onChange={amendProfilePicture}
+                                        type="file"
+                                        accept="image/png, image/jpeg"
+                                        hidden
+                                    />
+                                </button>
+
+
                         }
 
                         <div className='text-2xl font-bold'>
