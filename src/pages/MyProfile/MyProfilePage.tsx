@@ -32,7 +32,6 @@ function MyProfilePage() {
         number: '',
         name: '',
     });
-
     const changeHandler = (e: { target: { name: string; value: string; }; }) => {
         setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
     };
@@ -88,12 +87,14 @@ function MyProfilePage() {
         const { error } = await supabase
             .storage
             .from('users')
-            .update(`${user.user.id}/profile_picture.jpg`, profilePictureFile as File, {
+            .upload(`${user.user.id}/profile_picture.jpg`, profilePictureFile as File, {
                 cacheControl: '2',
                 upsert: true
             });
         if (error) console.error(error.message);
     }
+
+
     //Update user's profile.
     const handleClick = async (e: React.MouseEvent) => {
         e.preventDefault();
