@@ -6,6 +6,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../context/navSlice';
 import LoadingComponent from '../../components/LoadingComponent';
+import { Rating } from '@mui/material';
 interface pmDetailsProps {
     name: string;
     email: string;
@@ -19,6 +20,7 @@ interface reviewProps {
     name: string;
     review: string;
     reviewer_user_id: number
+    rating: number;
 }
 function ProfilePage() {
     const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
@@ -27,6 +29,8 @@ function ProfilePage() {
     const [reviews, setReviews] = useState<reviewProps[]>();
     const [newReview, setNewReview] = useState<string>('')
     const [loadingPage, setLoadingPage] = useState<boolean>(false);
+    const [rating, setRating] = useState<number | null>(0);
+    console.log(typeof (rating))
     const getPropManagerDetails = async () => {
 
         try {
@@ -52,8 +56,12 @@ function ProfilePage() {
             console.error(error.message);
         };
     };
-    
-    const publishReview =  async () => {
+
+    const publishReview = async () => {
+        if (rating === 0 ) {
+            alert('Choose a rating');
+            return;
+        }
         if (!newReview) {
             alert('The review cannot be blank.')
             return;
@@ -73,7 +81,8 @@ function ProfilePage() {
                 review: newReview,
                 reviewer_user_id: currentUser.technicalKey,
                 reviewed_user_id: pmDetails?.user_id,
-                reviewed_user_uid: user_id
+                reviewed_user_uid: user_id,
+                rating: rating
             });
 
         if (error) {
@@ -134,8 +143,16 @@ function ProfilePage() {
                         <div className='text-xl font-bold pb-2  '>
                             Reviews
                         </div>
+                        <Rating
+                            name="simple-controlled"
+                            value={rating}
+                            onChange={(event, newRating) => {
+                                setRating(newRating);
+                                console.log(event)
+                            }}
+                        />
                         <div className='py-2 space-y-2'>
-                            <textarea placeholder="Add a review"
+                            <textarea placeholder="Write a review"
                                 className="rounded-lg p-2 border w-full h-20 text-sm "
                                 value={newReview}
                                 onChange={e => setNewReview(e.target.value)}
@@ -144,7 +161,7 @@ function ProfilePage() {
                             />
                             <div className='flex justify-end'>
                                 <button className='p-2 rounded-lg bg-blue-400 hover:scale-95 transition duration-500'
-                                onClick={() => publishReview()}
+                                    onClick={() => publishReview()}
                                 >
                                     Publish
                                 </button>
@@ -152,10 +169,11 @@ function ProfilePage() {
                         </div>
                         <div className='overflow-y-auto h-52'>
 
-                            {reviews?
+                            {reviews ?
                                 reviews?.map((review) => (
                                     <div className='flex flex-col space-y-2 p-3 rounded-xl shadow-lg border '>
                                         <div className='text-xl font-bold'>{review.name}</div>
+                                        <Rating name="read-only" value={review.rating} readOnly />
                                         <div className=''>
                                             {review.review}
                                         </div>

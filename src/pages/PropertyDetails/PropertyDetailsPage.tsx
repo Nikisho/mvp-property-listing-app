@@ -20,6 +20,7 @@ import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
 import { selectCurrentUser } from '../../context/navSlice';
 import { useSelector } from 'react-redux';
 import { UserMetadata } from '@supabase/supabase-js';
+import { Rating } from '@mui/material';
 interface PropertyDetailsProps {
 	property_id: number;
 	description: string;
@@ -53,7 +54,8 @@ interface pmDetailsProps {
 interface reviewProps {
     name: string;
     review: string;
-    reviewer_user_id: number
+    reviewer_user_id: number;
+	rating: number;
 }
 function PropertyDetailsPage() {
     const user: UserMetadata = useSelector(selectCurrentUser);
@@ -340,6 +342,7 @@ function PropertyDetailsPage() {
 										reviews.map((review) => (
 											<div className='flex flex-col space-y-2 p-3 rounded-xl shadow-lg'>
 												<div className='text-xl font-bold'>{review.name}</div>
+												<Rating name="read-only" value={review.rating} readOnly />
 												<div className=''>
 													{review.review}
 												</div>

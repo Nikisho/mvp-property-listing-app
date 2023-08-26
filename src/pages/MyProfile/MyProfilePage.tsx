@@ -105,6 +105,7 @@ function MyProfilePage() {
                 email: userInfo.email,
                 phone_number: userInfo.number,
                 description: userInfo.description,
+                image_url: `https://dwhhfiboburmnbvsmhjn.supabase.co/storage/v1/object/public/users/${user.user.id}/profile_picture.jpg`,
             })
             .eq('user_uid', user.user.id);
         if (error) { console.error(error.message); }
@@ -135,7 +136,6 @@ function MyProfilePage() {
                                 <button
                                     style={{
                                         backgroundImage: `url(${userInfo.image_url})`,
-
                                         backgroundSize: 'contain',
                                         backgroundRepeat: 'no-repeat',
                                         backgroundPosition: 'center'
