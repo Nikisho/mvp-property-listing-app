@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../context/navSlice';
 import CreateIcon from '@mui/icons-material/Create';
 import LoadingComponent from '../../components/LoadingComponent';
+import { Rating } from '@mui/material';
 
 interface MyProfilePageProps {
     email: string;
@@ -18,6 +19,7 @@ interface MyProfilePageProps {
 interface reviewProps {
     name: string;
     review: string;
+    rating: number;
 }
 function MyProfilePage() {
     const user = useSelector(selectCurrentUser);
@@ -205,6 +207,7 @@ function MyProfilePage() {
                                 reviews?.map((review) => (
                                     <div className='flex flex-col space-y-2 p-3 rounded-xl shadow-lg border '>
                                         <div className='text-xl font-bold'>{review.name}</div>
+                                        <Rating name="read-only" value={review.rating} readOnly />
                                         <div className=''>
                                             {review.review}
                                         </div>

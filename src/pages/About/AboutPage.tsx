@@ -10,9 +10,9 @@ const AboutPage = () => {
 				<div className=' space-y-4 border w-full md:w-full lg:w-1/2 xl:w-1/2 p-3 shadow-lg rounded-xl '>
 					<div className='text-xl font-semibold'>What is it?</div>
 					<p className=''>
-						Long story short, I've been renting for over 7 years and after being treated very poorly by some landlords I decided that it was enough!
-						I am tired of signing leases without knowing what I am getting myself into. So I thought, how about a property listing platform where
-						tenants and landlords can review each other? Ultimately I want to make the renting experience more transparent and hassle free.
+						Long story short, I've been renting for over 7 years and I believe that there should be more transparency between tenants and landlords.
+						Many people are tired of signing leases without knowing what they're getting themselves into. So I thought, "how about a property listing platform where
+						tenants and landlords can review each other?" Ultimately we all want the renting experience more transparent and hassle free.
 					</p>
 					<div className='text-xl font-semibold'>What stops people from leaving bad reviews without a valid reason?</div>
 					<p className=''>
