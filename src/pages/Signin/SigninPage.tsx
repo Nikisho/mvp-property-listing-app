@@ -1,10 +1,13 @@
+import { Grow } from "@mui/material"
 import SigninForm from "./SigninForm"
 
 function SigninPage() {
 	return (
-		<div>
-			<SigninForm />
-		</div>
+		<Grow timeout={ 1000 } in>
+			<div>
+				<SigninForm />
+			</div>
+		</Grow>
 	)
 }
 

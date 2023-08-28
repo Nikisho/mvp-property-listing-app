@@ -11,18 +11,17 @@ interface userDataProps {
 	image_url: string;
 	phone_number: string
 };
-
 function Header() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const user = useSelector(selectCurrentUser);
 	const [userData, setUserData] = useState<userDataProps>();
 	const fetchUserData = async () => {
-
+		if (!user.isLoggedIn) return;
 		const { data, error } = await supabase
 			.from('users')
 			.select()
-			.eq('user_uid', `${user.user.id}`);
+			.eq('user_uid', `${user?.session.user.id}`);
 
 		if (error) {
 			console.error(error.message);
@@ -41,15 +40,21 @@ function Header() {
 	};
 
 	const navigatePostListing = () => {
+		if (!user?.isLoggedIn) {
+			navigate('/signin');
+			return;
+		}
 		if (!userData?.phone_number) {
 			alert('Please update your phone number in your profile before posting an ad.');
 			return;
 		};
 		navigate(`/postlisting`)
 	}
-
 	const handleSignOut = async () => {
-
+		if (!user?.isLoggedIn) {
+			navigate('/signin');
+			return;
+		}
 		const { error } = await supabase.auth.signOut();
 		if (error) {
 			console.error(error.message)
@@ -61,6 +66,7 @@ function Header() {
 			session: null
 		}));
 		navigate(`/`);
+		window.location.reload();
 	}
 
 	useEffect(() => {
@@ -205,7 +211,7 @@ function Header() {
 											className={`${active ? 'bg-blue-300 text-white' : 'text-gray-900'
 												} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
 										>
-											Sign out
+											{user?.isLoggedIn? 'Sign out' : 'Sign in'}
 										</a>
 									)}
 								</Menu.Item>

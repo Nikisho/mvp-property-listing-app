@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from '../../../supabase';
 import { useDispatch } from 'react-redux'
 import { setCurrentUser } from '../../context/navSlice';
+import LoadingComponent from "../../components/LoadingComponent";
 
 function SigninForm() {
     const [user, setUser] = useState({
@@ -10,6 +11,8 @@ function SigninForm() {
         password: '',
     });
     const image_url = '/signinpageimage.jpg';
+	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
     const [invalidCredentials, setInvalidCredentials] = useState<boolean>(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -40,9 +43,12 @@ function SigninForm() {
                 session: data.session
             }));
             navigate('/');
+			setIsLoggedIn(true);
         };
     };
-
+	if (isLoggedIn) {
+		return <LoadingComponent />
+	}
     return (
         <div
             style={{

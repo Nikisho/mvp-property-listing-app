@@ -60,15 +60,27 @@ function App() {
 
 		{
 			path: "/",
-			element: <SigninPage />,
+			element: <HomePage />,
 		},
 		{
 			path: '/signup',
 			element: <SignUpPage />
 		},
 		{
+			path: '/signin',
+			element: <SigninPage />
+		},
+		{
 			path: '*',
 			element: <SigninPage />
+		},
+		{
+			path: "/about",
+			element: <AboutPage />,
+		},
+		{
+			path: "/results/:lat/:lng/:location/:radius/:min_price/:max_price/:min_room/:max_room",
+			element: <ResultsPage />,
 		},
 	]);
 
