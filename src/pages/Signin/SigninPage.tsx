@@ -1,13 +1,13 @@
-import { Grow } from "@mui/material"
+import { Fade } from "@mui/material"
 import SigninForm from "./SigninForm"
 
 function SigninPage() {
 	return (
-		<Grow timeout={ 1000 } in>
+		<Fade timeout={ 1500 } in>
 			<div>
 				<SigninForm />
 			</div>
-		</Grow>
+		</Fade>
 	)
 }
 
