@@ -4,7 +4,7 @@ import { supabase } from "../../../supabase"
 import { currencyFormatter } from '../../utils/currencyFormat';
 import { Header, PropertyManagerCard } from '../../components';
 import { pushImagesToArray } from '../../utils/pushImagesToArray';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ShowerIcon from '@mui/icons-material/Shower';
 import BedIcon from '@mui/icons-material/Bed';
 import WifiIcon from '@mui/icons-material/Wifi';
@@ -15,7 +15,7 @@ import AccessibleIcon from '@mui/icons-material/Accessible';
 import DeckIcon from '@mui/icons-material/Deck';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import PaymentsIcon from '@mui/icons-material/Payments';
-import PhoneIcon from '@mui/icons-material/Phone'; 
+// import PhoneIcon from '@mui/icons-material/Phone'; 
 import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
 import { selectCurrentUser } from '../../context/navSlice';
 import { useSelector } from 'react-redux';
@@ -59,6 +59,7 @@ interface reviewProps {
 }
 function PropertyDetailsPage() {
     const user: UserMetadata = useSelector(selectCurrentUser);
+	const navigate = useNavigate();
 	const { property_id } = useParams();
 	const [listedProperty, setListedProperty] = useState<PropertyDetailsProps>();
 	const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
@@ -107,23 +108,23 @@ function PropertyDetailsPage() {
             console.error(error.message);
         };
     };
-	// const handleApplyButtonClick: VoidFunction = async () => {
-	// 	//handle adding row to tenancy_application table
-	// 	if (pmDetails?.user_uid === user.user.id) {
-	// 		alert('You cannot apply to your own property!');
-	// 		return;
-	// 	}
+	const handleApplyButtonClick: VoidFunction = async () => {
+		//handle adding row to tenancy_application table
+		if (pmDetails?.user_uid === user.user.id) {
+			alert('You cannot apply to your own property!');
+			return;
+		}
+		navigate('/apply');
+		// const { error} = await supabase
+		// .from('tenancy_applications')
+		// .insert({
+		// 	tenant_id: user.technicalKey,
+		// 	property_id: property_id,
+		// 	pm_user_id: listedProperty?.pm_user_id
+		// });
 
-	// 	const { error} = await supabase
-	// 	.from('tenancy_applications')
-	// 	.insert({
-	// 		tenant_id: user.technicalKey,
-	// 		property_id: property_id,
-	// 		pm_user_id: listedProperty?.pm_user_id
-	// 	});
-
-	// 	if (error) console.error(error.message);
-	// };
+		// if (error) console.error(error.message);
+	};
 	console.log(user.technicalKey)
 	useEffect(() => {
 		getListedProperty();
@@ -172,16 +173,17 @@ function PropertyDetailsPage() {
 							/>
 							<div className='flex space-x-4'>
 
-								{/* <button onClick={handleApplyButtonClick} className='py-5 rounded-lg bg-blue-300 border-2 cursor-pointer border-gray-200 hover:border-blue-200 hover:bg-blue-400
-								w-full 
-								md:w-full
-								lg:w-full
-								xl:w-full
-								2xl:w-full'
+								<button className='	py-5 rounded-lg bg-blue-300 border-2 cursor-pointer border-gray-200 hover:border-blue-200 hover:bg-blue-400
+													w-full 
+													md:w-full
+													lg:w-full
+													xl:w-full
+													2xl:w-full'
+								onClick={handleApplyButtonClick}
 								>
 									Apply for Property
-								</button> */}
-								<div className='py-5 px-2 justify-center space-x-4 flex rounded-lg bg-blue-200 border-2 
+								</button>
+								{/* <div className='py-5 px-2 justify-center space-x-4 flex rounded-lg bg-blue-200 border-2 
 								w-full 
 								md:w-full
 								lg:w-full
@@ -190,7 +192,7 @@ function PropertyDetailsPage() {
 									<PhoneIcon />
 									<div className='text-lg font-semibold'> {pmDetails?.phone_number} </div>
 
-								</div>
+								</div> */}
 									
 
 							</div>

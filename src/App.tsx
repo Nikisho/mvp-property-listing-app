@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { SignUpPage, PropertyDetailsPage, PostListingPage, SigninPage, ProfilePage, UserListingsPage, MyProfilePage, ResultsPage, HomePage, AboutPage, SearchProfilePage } from './pages'
+import { SignUpPage, PropertyDetailsPage, PostListingPage, SigninPage, ProfilePage, UserListingsPage, MyProfilePage, ResultsPage, HomePage, AboutPage, SearchProfilePage, ApplicationTemplatePage } from './pages'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser, setCurrentUser } from './context/navSlice';
@@ -52,6 +52,10 @@ function App() {
 		{
 			path: "/searchprofile",
 			element: <SearchProfilePage />,
+		},
+		{
+			path: "/apply",
+			element: <ApplicationTemplatePage />,
 		},
 
 	]);
