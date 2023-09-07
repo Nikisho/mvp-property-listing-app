@@ -114,7 +114,7 @@ function PropertyDetailsPage() {
 			alert('You cannot apply to your own property!');
 			return;
 		}
-		navigate('/apply');
+		navigate(`/apply/rooms/${property_id}`);
 		// const { error} = await supabase
 		// .from('tenancy_applications')
 		// .insert({
@@ -125,7 +125,6 @@ function PropertyDetailsPage() {
 
 		// if (error) console.error(error.message);
 	};
-	console.log(user.technicalKey)
 	useEffect(() => {
 		getListedProperty();
 	}, []);

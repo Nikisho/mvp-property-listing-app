@@ -54,7 +54,7 @@ function App() {
 			element: <SearchProfilePage />,
 		},
 		{
-			path: "/apply",
+			path: "/apply/rooms/:property_id",
 			element: <ApplicationTemplatePage />,
 		},
 
