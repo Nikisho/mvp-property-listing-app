@@ -7,7 +7,6 @@ const ApplicationTemplatePage = () => {
             <Grow in timeout={2000}>
                 <div>
                     <ApplicationTemplateForm />
-
                 </div>
             </Grow>
         </>

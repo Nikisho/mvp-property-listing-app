@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Header } from '../../components';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,10 +6,13 @@ import { supabase } from '../../../supabase';
 import { useParams } from 'react-router-dom';
 import convertUrlsToJSON from '../../utils/convertUrlsToJSON';
 import { currencyFormatter } from '../../utils/currencyFormat';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../context/navSlice';
 
 interface PropertyDataProps {
     ad_title: string;
     price_pcm: number;
+    pm_user_id: number;
     address: {
         label: string;
     };
@@ -17,21 +20,24 @@ interface PropertyDataProps {
 };
 
 const ApplicationTemplateForm = () => {
-    const [jobTitle, setJobTitle] = useState<string>('');
+
     const [forApplicantOnly, setForApplicantOnly] = useState<boolean>(true);
     const [lengthOfStay, setLengthOfStay] = useState<number>(6);
     const [parkingRequired, setParkingRequired] = useState<boolean>(true);
-    const [salaryRange, setSalaryRange] = useState<string>();
+    const [salaryRange, setSalaryRange] = useState<string|null>(null);
     const [budget, setBudget] = useState<string | null>(null);
     const [startDate, setStartDate] = useState(new Date());
     const { property_id } = useParams();
     const [roomData, setRoomData] = useState<PropertyDataProps>();
+    const [employmentStatus, setEmploymentStatus] = useState<string>();
+    const [hasPets, setHasPets] = useState<boolean>(false);
+    const currentUser = useSelector(selectCurrentUser);
 
     const fetchPropertyData = async () => {
 
         const { data, error } = await supabase
             .from('listed_properties')
-            .select('address, price_pcm, image_arr, ad_title')
+            .select('address, price_pcm, image_arr, ad_title,pm_user_id')
             .eq('property_id', property_id);
 
         if (data) setRoomData(data![0]);
@@ -40,10 +46,23 @@ const ApplicationTemplateForm = () => {
         }
     };
 
+    const handleSubmit = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        const { error } = await supabase
+        .from('tenancy_applications')
+        .insert(
+            {
+                property_id: property_id,
+                pm_user_id: roomData?.pm_user_id,
+                tenant_id: currentUser.technicalKey,
+            }
+        );
+        if (error) console.error(error.message);
+    };
     useEffect(() => {
         fetchPropertyData();
     }, []);
-    console.log(roomData)
+
     return (
         <>
             <Header />
@@ -76,25 +95,44 @@ const ApplicationTemplateForm = () => {
 
                         </div>
                     </div>
-                    <div>
+                    <div className='space-y-3'>
+
                         <p>
                             When are you planning to move in?
                         </p>
                         <DatePicker className='p-2 border' selected={startDate} onChange={(date) => setStartDate(date as Date)} />
                     </div>
-                    <div>
+                    <div className='space-y-3'>
                         <p>
-                            What is your job title?
+                            What is employment status?
                         </p>
-                        <input
-                            className='p-2 border'
-                            value={jobTitle}
-                            onChange={e => setJobTitle(e.target.value)}
-                            required
-                            type='text'
-                        />
+                        <div className='grid place-items-start'>
+                            <div className='grid grid-cols-2 lg:grid-cols-3 '>
+                                <button className={` w-36 border p-1   ${employmentStatus === 'full time' && 'bg-sky-500'}`}
+                                    onClick={() => setEmploymentStatus('full time')}
+                                    type="button"
+                                > Full time</button>
+                                <button className={` w-36 border p-1   ${employmentStatus === 'part time' && 'bg-sky-500'}`}
+                                    onClick={() => setEmploymentStatus('part time')}
+                                    type="button"
+                                >Part time</button>
+                                <button className={` w-36 border p-1   ${employmentStatus === 'zero hours' && 'bg-sky-500'}`}
+                                    onClick={() => setEmploymentStatus('zero hours')}
+                                    type="button"
+                                >Zero hours</button>
+                                <button className={` w-36 border p-1  ${employmentStatus === 'unemployed' && 'bg-sky-500'}`}
+                                    onClick={() => setEmploymentStatus('unemployed')}
+                                    type="button"
+                                >Unemployed</button>
+                                <button className={` w-36 border p-1  ${employmentStatus === 'student' && 'bg-sky-500'}`}
+                                    onClick={() => setEmploymentStatus('student')}
+                                    type="button"
+                                >Student</button>
+                            </div>
+                        </div>
                     </div>
-                    <div>
+                    <div className='space-y-3'>
+
                         <p>
                             Is the property just for you?
                         </p>
@@ -109,7 +147,24 @@ const ApplicationTemplateForm = () => {
                             >No</button>
                         </div>
                     </div>
-                    <div>
+                    <div className='space-y-3'>
+
+                        <p>
+                            Do you have any pets?
+                        </p>
+                        <div className='flex items-center py-2'>
+                            <button className={` w-10 border   ${hasPets && 'bg-sky-500'}`}
+                                onClick={() => setHasPets(true)}
+                                type="button"
+                            >Yes</button>
+                            <button className={` w-10 border   ${!hasPets && 'bg-sky-500'}`}
+                                onClick={() => setHasPets(false)}
+                                type="button"
+                            >No</button>
+                        </div>
+                    </div>
+                    <div className='space-y-3'>
+
                         <p>
                             How many months are you planning to stay?
                         </p>
@@ -128,7 +183,7 @@ const ApplicationTemplateForm = () => {
                             >12</button>
                         </div>
                     </div>
-                    <div>
+                    <div className='space-y-3'>
                         <p>
                             Do you require parking?
                         </p>
@@ -143,7 +198,7 @@ const ApplicationTemplateForm = () => {
                             >No</button>
                         </div>
                     </div>
-                    <div>
+                    <div className='space-y-3'>
                         <p>
                             What is your salary range?
                         </p>
@@ -166,7 +221,7 @@ const ApplicationTemplateForm = () => {
                             >Over £40,000</button>
                         </div>
                     </div>
-                    <div>
+                    <div className='space-y-3'>
                         <p>
                             What is your budget?
                         </p>
