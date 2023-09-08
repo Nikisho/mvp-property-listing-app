@@ -3,7 +3,7 @@ import { Header } from '../../components';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { supabase } from '../../../supabase';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import convertUrlsToJSON from '../../utils/convertUrlsToJSON';
 import { currencyFormatter } from '../../utils/currencyFormat';
 import { useSelector } from 'react-redux';
@@ -23,16 +23,16 @@ const ApplicationTemplateForm = () => {
 
     const [forApplicantOnly, setForApplicantOnly] = useState<boolean>(true);
     const [lengthOfStay, setLengthOfStay] = useState<number>(6);
-    const [parkingRequired, setParkingRequired] = useState<boolean>(true);
+    const [parkingRequired, setParkingRequired] = useState<boolean>(false);
     const [salaryRange, setSalaryRange] = useState<string|null>(null);
     const [budget, setBudget] = useState<string | null>(null);
     const [startDate, setStartDate] = useState(new Date());
     const { property_id } = useParams();
     const [roomData, setRoomData] = useState<PropertyDataProps>();
-    const [employmentStatus, setEmploymentStatus] = useState<string>();
+    const [employmentStatus, setEmploymentStatus] = useState<string| null>(null);
     const [hasPets, setHasPets] = useState<boolean>(false);
     const currentUser = useSelector(selectCurrentUser);
-
+    
     const fetchPropertyData = async () => {
 
         const { data, error } = await supabase
@@ -48,6 +48,18 @@ const ApplicationTemplateForm = () => {
 
     const handleSubmit = async (e: React.MouseEvent) => {
         e.preventDefault();
+        if (!employmentStatus) {
+            alert('Select your employment status');
+            return;
+        };
+        if (!salaryRange) {
+            alert('Select your salary range');
+            return;
+        };
+        if (!budget) {
+            alert('Please specify a budget');
+            return;
+        };
         const { error } = await supabase
         .from('tenancy_applications')
         .insert(
@@ -55,10 +67,19 @@ const ApplicationTemplateForm = () => {
                 property_id: property_id,
                 pm_user_id: roomData?.pm_user_id,
                 tenant_id: currentUser.technicalKey,
+                length_of_stay: lengthOfStay,
+                parking_required: parkingRequired,
+                budget: budget,
+                start_date: startDate,
+                employment_status: employmentStatus,
+                salary_range: salaryRange,
+                pets: hasPets,
+                just_for_applicant: forApplicantOnly
             }
         );
         if (error) console.error(error.message);
     };
+
     useEffect(() => {
         fetchPropertyData();
     }, []);
@@ -235,7 +256,10 @@ const ApplicationTemplateForm = () => {
                         />
                     </div>
                     <div className='flex justify-end '>
-                        <button className='p-2 rounded-sm bg-blue-400 text-white font-semibold hover:scale-90 transition duration-500'>
+                        <button 
+                            type='submit'
+                            onClick={handleSubmit}
+                            className='p-2 rounded-sm bg-blue-400 text-white font-semibold hover:scale-90 transition duration-500'>
                             Submit
                         </button>
                     </div>
