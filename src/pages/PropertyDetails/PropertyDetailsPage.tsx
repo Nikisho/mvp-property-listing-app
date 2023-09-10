@@ -59,6 +59,24 @@ interface reviewProps {
 	reviewer_user_id: number;
 	rating: number;
 }
+interface AmenitiesCompoentProps {
+	title: string;
+	icon: any ;
+	data: boolean
+}
+function AmenitiesCompoent({ data, title, icon }: AmenitiesCompoentProps) {
+	if (!data) return <></>
+	return (
+		<div className='flex space-x-2 items-center'>
+			{icon}
+			<div>
+				{title}
+			</div>
+		</div>
+	)
+
+}
+
 function PropertyDetailsPage() {
 	const user: UserMetadata = useSelector(selectCurrentUser);
 	const navigate = useNavigate();
@@ -231,7 +249,7 @@ function PropertyDetailsPage() {
 
 								<div className=' 	flex flex-col justify-between 
 													lg:w-1/2 lg:space-y-4 lg:space-x-0 lg:flex-col lg:justify-normal 2xl:w-1/3'>
-														
+
 									<div className='space-y-5 p-3 rounded-xl shadow-lg'>
 										<div className='text-xl font-semibold'>
 											Amenities
@@ -253,104 +271,49 @@ function PropertyDetailsPage() {
 														Bathrooms: {listedProperty?.number_of_bathrooms!}
 													</div>
 												</div>
-
-												{
-													listedProperty?.wifi_included && (
-														<div className='flex space-x-2 items-center'>
-															<WifiIcon
-															/>
-															<div>
-																Wifi
-															</div>
-														</div>
-													)
-												}
-												{
-													listedProperty?.washing_machine && (
-														<div className='flex space-x-2 items-center'>
-															<LocalLaundryServiceIcon
-															/>
-															<div>
-																Washing machine
-															</div>
-														</div>
-													)
-												}
-												{
-													listedProperty?.living_room! && (
-														<div className='flex space-x-2 items-center'>
-															<ChairIcon
-															/>
-															<div>
-																Lounge
-															</div>
-														</div>
-													)
-												}
-
+												<AmenitiesCompoent
+													data={listedProperty?.wifi_included!}
+													title={'Wifi'}
+													icon={<WifiIcon />}
+												/>
+												<AmenitiesCompoent
+													data={listedProperty?.washing_machine!}
+													title={'Washing Machine'}
+													icon={<LocalLaundryServiceIcon />}
+												/>
+												<AmenitiesCompoent
+													data={listedProperty?.living_room!}
+													title={'Lounge'}
+													icon={<ChairIcon />}
+												/>
 											</div>
+
 											<div className='space-y-2'>
-												{
-													listedProperty?.terrace_or_balcony && (
-
-														<div className='flex space-x-2 items-center'>
-															<BalconyIcon
-															/>
-
-															<div>
-																Terrace or Balcony
-															</div>
-														</div>
-													)
-												}
-
-												{
-													listedProperty?.garden_or_patio && (
-														<div className='flex space-x-2 items-center'>
-															<DeckIcon
-															/>
-															<div>
-																Garden or Patio
-															</div>
-														</div>
-													)
-												}
-												{
-													listedProperty?.parking && (
-														<div className='flex space-x-2 items-center'>
-															<LocalParkingIcon
-															/>
-															<div>
-																Parking
-															</div>
-														</div>
-													)
-												}
-												{
-													listedProperty?.disabled_access && (
-
-														<div className='flex space-x-2 items-center'>
-															<AccessibleIcon
-															/>
-															<div>
-																Disabled Access
-															</div>
-														</div>
-													)
-												}
-																								{
-													listedProperty?.garage && (
-
-														<div className='flex space-x-2 items-center'>
-															<GarageIcon
-															/>
-															<div>
-																Garage
-															</div>
-														</div>
-													)
-												}
-												
+												<AmenitiesCompoent
+													data={listedProperty?.terrace_or_balcony!}
+													title={'Terrace or Balcony'}
+													icon={<BalconyIcon />}
+												/>
+												<AmenitiesCompoent
+													data={listedProperty?.garden_or_patio!}
+													title={'Garden or Patio'}
+													icon={<DeckIcon />}
+												/>
+												<AmenitiesCompoent
+													data={listedProperty?.parking!}
+													title={'Parking'}
+													icon={<LocalParkingIcon />}
+												/>
+												<AmenitiesCompoent
+													data={listedProperty?.disabled_access!}
+													title={'Disabled Access'}
+													icon={<AccessibleIcon />}
+												/>
+												<AmenitiesCompoent
+													data={listedProperty?.garage!}
+													title={'Garage'}
+													icon={<GarageIcon />}
+												/>
 											</div>
 										</div>
 									</div>
