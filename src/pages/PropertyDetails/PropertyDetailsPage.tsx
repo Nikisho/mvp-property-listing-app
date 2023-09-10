@@ -16,6 +16,7 @@ import DeckIcon from '@mui/icons-material/Deck';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import PaymentsIcon from '@mui/icons-material/Payments';
 // import PhoneIcon from '@mui/icons-material/Phone'; 
+import GarageIcon from '@mui/icons-material/Garage';
 import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
 import { selectCurrentUser } from '../../context/navSlice';
 import { useSelector } from 'react-redux';
@@ -33,14 +34,15 @@ interface PropertyDetailsProps {
 	number_of_bedrooms: string;
 	number_of_bathrooms: string;
 	image_arr: string
-	wifi_included: string;
-	bills_included: string;
-	living_room: string;
-	washing_machine: string;
-	parking: string;
-	disabled_access: string;
-	garden_or_patio: string;
-	terrace_or_balcony: string;
+	wifi_included: boolean;
+	bills_included: boolean;
+	living_room: boolean;
+	washing_machine: boolean;
+	parking: boolean;
+	disabled_access: boolean;
+	garden_or_patio: boolean;
+	terrace_or_balcony: boolean;
+	garage: boolean;
 	deposit: number;
 };
 
@@ -52,19 +54,19 @@ interface pmDetailsProps {
 	image_url: string;
 };
 interface reviewProps {
-    name: string;
-    review: string;
-    reviewer_user_id: number;
+	name: string;
+	review: string;
+	reviewer_user_id: number;
 	rating: number;
 }
 function PropertyDetailsPage() {
-    const user: UserMetadata = useSelector(selectCurrentUser);
+	const user: UserMetadata = useSelector(selectCurrentUser);
 	const navigate = useNavigate();
 	const { property_id } = useParams();
 	const [listedProperty, setListedProperty] = useState<PropertyDetailsProps>();
 	const [pmDetails, setPmDetails] = useState<pmDetailsProps>();
 	const [listedImages, setListedImages] = useState<string[]>([]);
-    const [reviews, setReviews] = useState<reviewProps[]>();
+	const [reviews, setReviews] = useState<reviewProps[]>();
 
 	const getListedProperty = async (): Promise<void> => {
 
@@ -97,17 +99,17 @@ function PropertyDetailsPage() {
 	};
 
 	const fetchUserReviews = async (reviewd_user_id: string) => {
-        const { data, error } = await supabase
-            .from('reviews')
-            .select()
-            .eq('reviewed_user_id', reviewd_user_id);
-        if (data) {
-            setReviews(data);
-        }
-        if (error) {
-            console.error(error.message);
-        };
-    };
+		const { data, error } = await supabase
+			.from('reviews')
+			.select()
+			.eq('reviewed_user_id', reviewd_user_id);
+		if (data) {
+			setReviews(data);
+		}
+		if (error) {
+			console.error(error.message);
+		};
+	};
 	const handleApplyButtonClick: VoidFunction = async () => {
 		//handle adding row to tenancy_application table
 		if (pmDetails?.user_uid === user.user.id) {
@@ -137,12 +139,11 @@ function PropertyDetailsPage() {
 						lg:space-y-5
 						xl:space-y-5'>
 			<Header />
-			<div className='flex flex-col items-center p-5
+			<div className='flex flex-col items-center p-5 
 							lg:flex lg:justify-center
 							xl:flex xl:justify-center'>
 
-				<div className='space-y-5 
-								sm:w-2/3
+				<div className='space-y-5 w-full
 								lg:p-3 lg:w-full
 								xl:p-3 xl:w-5/6
 								2xl:p-3 2xl:w-3/4
@@ -178,7 +179,7 @@ function PropertyDetailsPage() {
 													lg:w-full
 													xl:w-full
 													2xl:w-full'
-								onClick={handleApplyButtonClick}
+									onClick={handleApplyButtonClick}
 								>
 									Apply for Property
 								</button>
@@ -192,7 +193,7 @@ function PropertyDetailsPage() {
 									<div className='text-lg font-semibold'> {pmDetails?.phone_number} </div>
 
 								</div> */}
-									
+
 
 							</div>
 
@@ -214,7 +215,7 @@ function PropertyDetailsPage() {
 											2xl:flex-row justify-center 2xl:space-x-10
 											
 											'>
-											
+
 								<div className='w-full space-y-3 h-80 overflow-y-auto 
 												lg:w-1/2
 												xl:w-[50%]
@@ -229,13 +230,14 @@ function PropertyDetailsPage() {
 								</div>
 
 								<div className=' 	flex flex-col justify-between 
-													lg:w-4/7 lg:space-y-4 lg:space-x-0 lg:flex-col lg:justify-normal'>
+													lg:w-1/2 lg:space-y-4 lg:space-x-0 lg:flex-col lg:justify-normal 2xl:w-1/3'>
+														
 									<div className='space-y-5 p-3 rounded-xl shadow-lg'>
 										<div className='text-xl font-semibold'>
 											Amenities
 										</div>
 										<div className='flex flex-col  text-lg
-														lg:flex-row lg:justify-between lg:space-x-6 '>
+														lg:flex-row lg:space-x-6 '>
 
 											<div className='space-y-2  '>
 
@@ -251,61 +253,104 @@ function PropertyDetailsPage() {
 														Bathrooms: {listedProperty?.number_of_bathrooms!}
 													</div>
 												</div>
-												<div className='flex space-x-2 items-center'>
-													<WifiIcon
-													/>
-													<div>
-														Wifi: {listedProperty?.wifi_included!}
-													</div>
-												</div>
-												<div className='flex space-x-2 items-center'>
-													<LocalLaundryServiceIcon
-													/>
-													<div>
-														Washing machine: {listedProperty?.washing_machine!}
-													</div>
-												</div>
-												<div className='flex space-x-2 items-center'>
-													<ChairIcon
-													/>
-													<div>
-														Lounge: {listedProperty?.living_room!}
-													</div>
-												</div>
+
+												{
+													listedProperty?.wifi_included && (
+														<div className='flex space-x-2 items-center'>
+															<WifiIcon
+															/>
+															<div>
+																Wifi
+															</div>
+														</div>
+													)
+												}
+												{
+													listedProperty?.washing_machine && (
+														<div className='flex space-x-2 items-center'>
+															<LocalLaundryServiceIcon
+															/>
+															<div>
+																Washing machine
+															</div>
+														</div>
+													)
+												}
+												{
+													listedProperty?.living_room! && (
+														<div className='flex space-x-2 items-center'>
+															<ChairIcon
+															/>
+															<div>
+																Lounge
+															</div>
+														</div>
+													)
+												}
+
 											</div>
 											<div className='space-y-2'>
+												{
+													listedProperty?.terrace_or_balcony && (
 
-												<div className='flex space-x-2 items-center'>
-													<BalconyIcon
-													/>
+														<div className='flex space-x-2 items-center'>
+															<BalconyIcon
+															/>
 
-													<div>
-														Terrace or Balcony: {listedProperty?.terrace_or_balcony!}
-													</div>
-												</div>
-												<div className='flex space-x-2 items-center'>
-													<DeckIcon
-													/>
-													<div>
+															<div>
+																Terrace or Balcony
+															</div>
+														</div>
+													)
+												}
 
-														Garden or Patio: {listedProperty?.garden_or_patio!}
-													</div>
-												</div>
-												<div className='flex space-x-2 items-center'>
-													<LocalParkingIcon
-													/>
-													<div>
+												{
+													listedProperty?.garden_or_patio && (
+														<div className='flex space-x-2 items-center'>
+															<DeckIcon
+															/>
+															<div>
+																Garden or Patio
+															</div>
+														</div>
+													)
+												}
+												{
+													listedProperty?.parking && (
+														<div className='flex space-x-2 items-center'>
+															<LocalParkingIcon
+															/>
+															<div>
+																Parking
+															</div>
+														</div>
+													)
+												}
+												{
+													listedProperty?.disabled_access && (
 
-														Parking: {listedProperty?.parking!}
-													</div>
-												</div>
-												<div className='flex space-x-2 items-center'>
-													<AccessibleIcon
-													/>
-													<div>
-														Disabled Access: {listedProperty?.disabled_access!}
-													</div>
-												</div>
+														<div className='flex space-x-2 items-center'>
+															<AccessibleIcon
+															/>
+															<div>
+																Disabled Access
+															</div>
+														</div>
+													)
+												}
+																								{
+													listedProperty?.garage && (
+
+														<div className='flex space-x-2 items-center'>
+															<GarageIcon
+															/>
+															<div>
+																Garage
+															</div>
+														</div>
+													)
+												}
+												
 											</div>
 										</div>
 									</div>
@@ -317,7 +362,7 @@ function PropertyDetailsPage() {
 										<div className='text-lg space-y-2'>
 
 											<div className='flex space-x-2 items-center'>
-												<PaymentsIcon/>
+												<PaymentsIcon />
 												<div>Deposit: {currencyFormatter('currency', 'GBP').format(listedProperty?.deposit!)}</div>
 											</div>
 											<div className='flex space-x-2 items-center'>

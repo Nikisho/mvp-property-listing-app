@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux'
 import { selectCurrentUser } from '../../context/navSlice'
 import { UserMetadata } from '@supabase/supabase-js'
 import { Option } from 'react-google-places-autocomplete/build/types'
+import TemplateForm from './TemplateForm'
 
 interface FormData {
     address: Option | null;
@@ -28,14 +29,14 @@ interface FormData {
     propertyType: string;
     ImageFiles: File[];
     ImageFilesURL: string[];
-    livingRoom: string;
-    wifi: string;
-    parking: string;
-    terraceOrBalcony: string;
-    gardenOrPatio: string;
-    disabledAccess: string;
-    washingMachine: string;
-    garage: string;
+    livingRoom: boolean;
+    wifi: boolean;
+    parking: boolean;
+    terraceOrBalcony: boolean;
+    gardenOrPatio: boolean;
+    disabledAccess: boolean;
+    washingMachine: boolean;
+    garage: boolean;
 }
 
 const PostListingPage = () => {
@@ -53,14 +54,14 @@ const PostListingPage = () => {
         propertyType: '',
         ImageFiles: [],
         ImageFilesURL: [],
-        livingRoom: 'No',
-        wifi: 'No',
-        parking: 'No',
-        terraceOrBalcony: 'No',
-        gardenOrPatio: 'No',
-        disabledAccess: 'No',
-        washingMachine: 'No',
-        garage: 'No',
+        livingRoom: false,
+        wifi: false,
+        parking: false,
+        terraceOrBalcony: false,
+        gardenOrPatio:false,
+        disabledAccess: false,
+        washingMachine: false,
+        garage: false,
     });
 
     function updateFields(fields: Partial<FormData>) {
@@ -85,7 +86,8 @@ const PostListingPage = () => {
             <UploadImagesForm {...formData} updateFields={updateFields}/>,
             <CostForm {...formData} updateFields={updateFields}/>,
             <AmenitiesForm {...formData} updateFields={updateFields}/>,
-            <DescriptionForm {...formData} updateFields={updateFields}/>
+            <DescriptionForm {...formData} updateFields={updateFields}/>,
+            <TemplateForm/>
         ]);
 
     async function postListing() {

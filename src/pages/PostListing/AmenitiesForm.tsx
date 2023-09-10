@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import camelCaseToTextCase from '../../utils/camelCaseToTitleCase';
 interface FormData {
-	livingRoom: string;
-	wifi: string;
-	parking: string;
-	terraceOrBalcony: string;
-	gardenOrPatio: string;
-	disabledAccess: string;
-	washingMachine: string;
-	garage: string;
+	livingRoom: boolean;
+	wifi: boolean;
+	parking: boolean;
+	terraceOrBalcony: boolean;
+	gardenOrPatio: boolean;
+	disabledAccess: boolean;
+	washingMachine: boolean;
+	garage: boolean;
 };
 
 interface AmenitiesFormProps extends FormData {
@@ -16,10 +16,10 @@ interface AmenitiesFormProps extends FormData {
 };
 
 interface AmenityProps {
-	amenityValue: string;
+	amenityValue: boolean;
 	amenity: string;
 	title: string;
-	handleClick: (e: React.MouseEvent<HTMLButtonElement>, bool: string) => void;
+	handleClick: (e: React.MouseEvent<HTMLButtonElement>, bool: boolean) => void;
 }
 const AmenitiesComponent: React.FC<AmenityProps> = ({
 	amenityValue,
@@ -33,14 +33,14 @@ const AmenitiesComponent: React.FC<AmenityProps> = ({
 				{title}
 			</div>
 			<div className='border flex justify-end items-center '>
-				<button className={` w-10 border   ${amenityValue === 'Yes' && 'bg-sky-500'}`}
+				<button className={` w-10 border   ${amenityValue && 'bg-sky-500'}`}
 					name={amenity}
-					onClick={(e) => handleClick(e, 'Yes')}
+					onClick={(e) => handleClick(e, true)}
 					type="button"
 				>Yes</button>
-				<button className={` w-10 border   ${amenityValue === 'No' && 'bg-sky-500'}`}
+				<button className={` w-10 border   ${!amenityValue && 'bg-sky-500'}`}
 					name={amenity}
-					onClick={(e) => handleClick(e, 'No')}
+					onClick={(e) => handleClick(e, false)}
 					type="button"
 				>No</button>
 			</div>
@@ -72,7 +72,7 @@ const AmenitiesForm: React.FC<AmenitiesFormProps> = ({
 		garage: garage,
 	});
 
-	const handleClick = (e: React.MouseEvent<HTMLButtonElement>, bool: string) => {
+	const handleClick = (e: React.MouseEvent<HTMLButtonElement>, bool: boolean) => {
 		setAmenities({ ...amenities, [(e.target as HTMLInputElement).name]: bool })
 	}
 
