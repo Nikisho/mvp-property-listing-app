@@ -81,7 +81,6 @@ const AmenitiesForm: React.FC<AmenitiesFormProps> = ({
 			...amenities,
 		  })
 	}, [amenities]);
-	console.log(amenities)
 	return (
 		<>
 			<div className='flex justify-center'>

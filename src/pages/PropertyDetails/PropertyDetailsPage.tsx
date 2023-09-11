@@ -5,23 +5,13 @@ import { currencyFormatter } from '../../utils/currencyFormat';
 import { Header, PropertyManagerCard } from '../../components';
 import { pushImagesToArray } from '../../utils/pushImagesToArray';
 import { useNavigate, useParams } from 'react-router-dom';
-import ShowerIcon from '@mui/icons-material/Shower';
-import BedIcon from '@mui/icons-material/Bed';
-import WifiIcon from '@mui/icons-material/Wifi';
-import ChairIcon from '@mui/icons-material/Chair';
-import BalconyIcon from '@mui/icons-material/Balcony';
-import LocalParkingIcon from '@mui/icons-material/LocalParking';
-import AccessibleIcon from '@mui/icons-material/Accessible';
-import DeckIcon from '@mui/icons-material/Deck';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import PaymentsIcon from '@mui/icons-material/Payments';
-// import PhoneIcon from '@mui/icons-material/Phone'; 
-import GarageIcon from '@mui/icons-material/Garage';
-import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
 import { selectCurrentUser } from '../../context/navSlice';
 import { useSelector } from 'react-redux';
 import { UserMetadata } from '@supabase/supabase-js';
 import { Rating } from '@mui/material';
+import AmenitiesComponent from './AmenitiesComponent';
 interface PropertyDetailsProps {
 	property_id: number;
 	description: string;
@@ -58,24 +48,7 @@ interface reviewProps {
 	review: string;
 	reviewer_user_id: number;
 	rating: number;
-}
-interface AmenitiesCompoentProps {
-	title: string;
-	icon: any ;
-	data: boolean
-}
-function AmenitiesCompoent({ data, title, icon }: AmenitiesCompoentProps) {
-	if (!data) return <></>
-	return (
-		<div className='flex space-x-2 items-center'>
-			{icon}
-			<div>
-				{title}
-			</div>
-		</div>
-	)
-
-}
+};
 
 function PropertyDetailsPage() {
 	const user: UserMetadata = useSelector(selectCurrentUser);
@@ -249,75 +222,7 @@ function PropertyDetailsPage() {
 
 								<div className=' 	flex flex-col justify-between 
 													lg:w-1/2 lg:space-y-4 lg:space-x-0 lg:flex-col lg:justify-normal 2xl:w-1/3'>
-
-									<div className='space-y-5 p-3 rounded-xl shadow-lg'>
-										<div className='text-xl font-semibold'>
-											Amenities
-										</div>
-										<div className='flex flex-col  text-lg
-														lg:flex-row lg:space-x-6 '>
-
-											<div className='space-y-2  '>
-
-												<div className='flex space-x-2 items-center'>
-													<BedIcon
-													/>
-													<div>Bedrooms: {listedProperty?.number_of_bedrooms!}</div>
-												</div>
-												<div className='flex space-x-2 items-center'>
-													<ShowerIcon
-													/>
-													<div>
-														Bathrooms: {listedProperty?.number_of_bathrooms!}
-													</div>
-												</div>
-												<AmenitiesCompoent
-													data={listedProperty?.wifi_included!}
-													title={'Wifi'}
-													icon={<WifiIcon />}
-												/>
-												<AmenitiesCompoent
-													data={listedProperty?.washing_machine!}
-													title={'Washing Machine'}
-													icon={<LocalLaundryServiceIcon />}
-												/>
-												<AmenitiesCompoent
-													data={listedProperty?.living_room!}
-													title={'Lounge'}
-													icon={<ChairIcon />}
-												/>
-											</div>
-
-											<div className='space-y-2'>
-												<AmenitiesCompoent
-													data={listedProperty?.terrace_or_balcony!}
-													title={'Terrace or Balcony'}
-													icon={<BalconyIcon />}
-												/>
-												<AmenitiesCompoent
-													data={listedProperty?.garden_or_patio!}
-													title={'Garden or Patio'}
-													icon={<DeckIcon />}
-												/>
-												<AmenitiesCompoent
-													data={listedProperty?.parking!}
-													title={'Parking'}
-													icon={<LocalParkingIcon />}
-												/>
-												<AmenitiesCompoent
-													data={listedProperty?.disabled_access!}
-													title={'Disabled Access'}
-													icon={<AccessibleIcon />}
-												/>
-												<AmenitiesCompoent
-													data={listedProperty?.garage!}
-													title={'Garage'}
-													icon={<GarageIcon />}
-												/>
-											</div>
-										</div>
-									</div>
-
+									<AmenitiesComponent {...listedProperty!} />
 									<div className='space-y-5 p-3 shadow-lg rounded-xl'>
 										<div className='text-xl font-semibold'>
 											Extra costs

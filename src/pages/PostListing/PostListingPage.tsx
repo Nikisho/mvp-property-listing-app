@@ -37,6 +37,11 @@ interface FormData {
     disabledAccess: boolean;
     washingMachine: boolean;
     garage: boolean;
+    petsAllowed: boolean;
+    employmentStatus: string[];
+    startDate: Date;
+    gender: string[];
+
 }
 
 const PostListingPage = () => {
@@ -62,6 +67,10 @@ const PostListingPage = () => {
         disabledAccess: false,
         washingMachine: false,
         garage: false,
+        petsAllowed: false,
+        employmentStatus: [],
+        startDate: new Date(),
+        gender: [],
     });
 
     function updateFields(fields: Partial<FormData>) {
@@ -87,9 +96,9 @@ const PostListingPage = () => {
             <CostForm {...formData} updateFields={updateFields}/>,
             <AmenitiesForm {...formData} updateFields={updateFields}/>,
             <DescriptionForm {...formData} updateFields={updateFields}/>,
-            <TemplateForm/>
+            <TemplateForm {...formData} updateFields={updateFields}/>
         ]);
-
+        console.log(formData)
     async function postListing() {
         const property_id: string = uuidv4(9);
         let imageUrls: { publicUrl: string; }[] = [];
@@ -113,7 +122,7 @@ const PostListingPage = () => {
                     }
                 }
             };
-
+            
             const { error } = await supabase
             .from('listed_properties')
             .insert({
@@ -136,7 +145,11 @@ const PostListingPage = () => {
                 garden_or_patio: formData.gardenOrPatio,
                 disabled_access: formData.disabledAccess,
                 washing_machine: formData.washingMachine,
-                garage: formData.garage
+                garage: formData.garage,
+                pets_allowed: formData.petsAllowed,
+                employment_status_list: formData.employmentStatus,
+                start_date: formData.startDate,
+                gender: formData.gender,
             });
         if (error) {
             console.error(error);
