@@ -41,6 +41,7 @@ interface FormData {
     employmentStatus: string[];
     startDate: Date;
     gender: string[];
+    minLengthOfStay: number;
 
 }
 
@@ -71,6 +72,7 @@ const PostListingPage = () => {
         employmentStatus: [],
         startDate: new Date(),
         gender: [],
+        minLengthOfStay: 6,
     });
 
     function updateFields(fields: Partial<FormData>) {
@@ -150,6 +152,7 @@ const PostListingPage = () => {
                 employment_status_list: formData.employmentStatus,
                 start_date: formData.startDate,
                 gender: formData.gender,
+                min_length_of_stay: formData.minLengthOfStay
             });
         if (error) {
             console.error(error);

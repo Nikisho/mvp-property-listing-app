@@ -6,7 +6,8 @@ interface FormData {
     petsAllowed: boolean;
     employmentStatus: string[];
     startDate: Date;
-    gender: string[] | null;
+    gender: string[];
+    minLengthOfStay: number;
 }
 
 interface TemplateFormProps extends FormData {
@@ -14,6 +15,7 @@ interface TemplateFormProps extends FormData {
 };
 
 const TemplateForm: React.FC<TemplateFormProps> = ({
+    minLengthOfStay,
     petsAllowed,
     employmentStatus,
     startDate,
@@ -23,7 +25,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
 }) => {
 
     const [suitableFor, setSuitableFor] = useState({
-
+        minLengthOfStay: minLengthOfStay,
         petsAllowed: petsAllowed,
         startDate: startDate,
         employmentStatus: employmentStatus,
@@ -44,7 +46,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
         return;
     };
     function updateGender(selectedGender: string): void {
-        let arr = gender;
+        let arr = suitableFor.gender as string[];
         if ((suitableFor.gender as string[]).includes(selectedGender)) {
             let index = (suitableFor.gender as string[]).indexOf(selectedGender)
             arr.splice(index, 1);
@@ -61,7 +63,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
         })
     }, [suitableFor]);
     return (
-        <>
+        <div className='overflow-y-auto'>
             <div className='flex justify-center'>
                 <div className='text-lg font-semibold'>Specify who the property is suitable for</div>
             </div>
@@ -91,7 +93,7 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
                     Accepted employment types
                 </p>
                 <div className='grid place-items-start'>
-                    <div className='grid grid-cols-2 lg:grid-cols-3 '>
+                    <div className='grid grid-cols-1 lg:grid-cols-3 '>
                         <button className={` w-36 border p-1   ${employmentStatus.includes('full time') && 'bg-sky-500'}`}
                             onClick={() => updateEmploymentStatus('full time')}
                             type="button"
@@ -130,7 +132,27 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
                     >Female</button>
                 </div>
             </div>
-        </>
+            <div className='space-y-3'>
+
+                <p>
+                    Minimum length of stay required
+                </p>
+                <div className='flex items-center py-2'>
+                    <button className={` w-12 border   ${minLengthOfStay === 3 && 'bg-sky-500'}`}
+                        onClick={() => updateFields({minLengthOfStay: 3})}
+                        type="button"
+                    >3 </button>
+                    <button className={` w-12 border   ${minLengthOfStay === 6 && 'bg-sky-500'}`}
+                        onClick={() => updateFields({minLengthOfStay: 3})}
+                        type="button"
+                    >6 </button>
+                    <button className={` w-12 border   ${minLengthOfStay === 12 && 'bg-sky-500'}`}
+                        onClick={() => updateFields({minLengthOfStay: 12})}
+                        type="button"
+                    >12</button>
+                </div>
+            </div>
+        </div>
     )
 }
 

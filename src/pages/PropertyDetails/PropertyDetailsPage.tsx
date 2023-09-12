@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { UserMetadata } from '@supabase/supabase-js';
 import { Rating } from '@mui/material';
 import AmenitiesComponent from './AmenitiesComponent';
+import SuitabilityComponent from './SuitabilityComponent';
 interface PropertyDetailsProps {
 	property_id: number;
 	description: string;
@@ -34,6 +35,11 @@ interface PropertyDetailsProps {
 	terrace_or_balcony: boolean;
 	garage: boolean;
 	deposit: number;
+	employment_status_list: string[];
+    gender: string[];
+    start_date: Date;
+    pets_allowed: boolean;
+    min_length_of_stay: number
 };
 
 interface pmDetailsProps {
@@ -223,6 +229,7 @@ function PropertyDetailsPage() {
 								<div className=' 	flex flex-col justify-between 
 													lg:w-1/2 lg:space-y-4 lg:space-x-0 lg:flex-col lg:justify-normal 2xl:w-1/3'>
 									<AmenitiesComponent {...listedProperty!} />
+									<SuitabilityComponent {...listedProperty!} />
 									<div className='space-y-5 p-3 shadow-lg rounded-xl'>
 										<div className='text-xl font-semibold'>
 											Extra costs
