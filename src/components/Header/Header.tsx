@@ -110,7 +110,7 @@ function Header() {
 				</button>
 				<div className='block xl:hidden'>
 					<Menu>
-						<Menu.Button className="inline-flex w-full justify-cente px-4 py-2 text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+						<Menu.Button className="inline-flex w-full px-4 py-2 text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
 
 							<MenuIcon
 								sx={{ color: 'white' }}
@@ -162,7 +162,7 @@ function Header() {
 				</div>
 				<div className=''>
 					<Menu>
-						<Menu.Button className="inline-flex w-full justify-cente px-4 py-2 text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+						<Menu.Button className="inline-flex w-full px-4 py-2 text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
 
 							{
 								userData?.image_url ?
@@ -180,13 +180,13 @@ function Header() {
 							}
 
 						</Menu.Button>
-						<Menu.Items className="absolute right-0 mt-2 w-52 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-							<div className="px-1 py-1 ">
+						<Menu.Items className="absolute right-0 mt-2 w-64 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+							<div className=" py-2 ">
 								<Menu.Item >
 									{({ active }) => (
 										<a
-											className={`${active ? 'bg-blue-300 text-white' : 'text-gray-900'
-												} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+											className={`${active && 'bg-gray-100'
+												} group flex w-full items-center rounded-md px-4 py-4 text-md`}
 											href='/mylistings'
 										>
 											My listings
@@ -196,8 +196,8 @@ function Header() {
 								<Menu.Item >
 									{({ active }) => (
 										<a
-											className={`${active ? 'bg-blue-300 text-white' : 'text-gray-900'
-												} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+											className={`${active && 'bg-gray-100'
+												} group flex w-full items-center rounded-md px-4 py-4 text-md`}
 											href='/myprofile'
 										>
 											My profile
@@ -208,8 +208,8 @@ function Header() {
 									{({ active }) => (
 										<a
 											onClick={handleSignOut}
-											className={`${active ? 'bg-blue-300 text-white' : 'text-gray-900'
-												} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+											className={`${active && 'bg-gray-100'
+												} group flex w-full items-center rounded-md px-4 py-4 text-md`}
 										>
 											{user?.isLoggedIn? 'Sign out' : 'Sign in'}
 										</a>
