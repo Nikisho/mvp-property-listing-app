@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser, setCurrentUser } from './context/navSlice';
 import { supabase } from '../supabase';
+import { Session, User } from '@supabase/supabase-js';
 
 function App() {
 	const currentUser = useSelector(selectCurrentUser);
@@ -88,15 +89,35 @@ function App() {
 		},
 	]);
 
+	const fetchUserData = async (id: string, session: Session, user: User) => {
+		const { data, error } = await supabase
+			.from('users')
+			.select()
+			.eq('user_uid', `${id}`);
+
+		if (error) {
+			console.error(error.message);
+		};
+		dispatch(setCurrentUser({
+			user: user,
+			isLoggedIn: true,
+			session: session,
+			imageUrl: data![0].image_url,
+			technicalKey: data![0].user_id,
+			name: data![0].name,
+			email: data![0].email,
+			phoneNumber: data![0].phone_number
+		}));
+	};
 	const getUserSession = async () => {
 		supabase.auth.onAuthStateChange((event, session) => {
 			console.log(event);
 			if ((session !== null)) {
-				dispatch(setCurrentUser({
-					user: session.user,
-					session: session,
-					isLoggedIn: true
-				}))
+				fetchUserData(
+					session.user.id, 
+					session, 
+					session.user
+				);
 			}
 		})	
 	};

@@ -4,50 +4,22 @@ import { Menu } from '@headlessui/react'
 import { supabase } from '../../../supabase';
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCurrentUser, setCurrentUser } from '../../context/navSlice';
-import { useEffect, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 
-interface userDataProps {
-	image_url: string;
-	phone_number: string
-};
 function Header() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const user = useSelector(selectCurrentUser);
-	const [userData, setUserData] = useState<userDataProps>();
-	const fetchUserData = async () => {
-		if (!user.isLoggedIn) return;
-		const { data, error } = await supabase
-			.from('users')
-			.select()
-			.eq('user_uid', `${user?.session.user.id}`);
-
-		if (error) {
-			console.error(error.message);
-		};
-		setUserData(data![0]);
-		dispatch(setCurrentUser({
-			user: user.user,
-			isLoggedIn: user.isLoggedIn,
-			session: user.session,
-			imageUrl: data![0].image_url,
-			technicalKey: data![0].user_id,
-			name: data![0].name,
-			email: data![0].email,
-			phoneNumber: data![0].phone_number
-		}));
-	};
-
 	const navigatePostListing = () => {
 		if (!user?.isLoggedIn) {
 			navigate('/signin');
 			return;
 		}
-		if (!userData?.phone_number) {
+		if (!user?.phoneNumber) {
 			alert('Please update your phone number in your profile before posting an ad.');
 			return;
 		};
+		
 		navigate(`/postlisting`)
 	}
 	const handleSignOut = async () => {
@@ -68,10 +40,6 @@ function Header() {
 		navigate(`/`);
 		window.location.reload();
 	}
-
-	useEffect(() => {
-		fetchUserData();
-	}, []);
 
 	return (
 		<div className='bg-sky-800 sticky top-0 z-50 flex p-0 p-2 space-x-1 w-screen
@@ -158,17 +126,16 @@ function Header() {
 
 						</Menu.Items>
 					</Menu>
-
 				</div>
 				<div className=''>
 					<Menu>
 						<Menu.Button className="inline-flex w-full px-4 py-2 text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
 
 							{
-								userData?.image_url ?
+								user?.imageUrl ?
 
 									<img
-										src={userData?.image_url}
+										src={user?.imageUrl}
 										className='rounded-full h-10 w-10 contain rounded-full'
 									/>
 									:
@@ -182,6 +149,17 @@ function Header() {
 						</Menu.Button>
 						<Menu.Items className="absolute right-0 mt-2 w-64 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 							<div className=" py-2 ">
+							<Menu.Item >
+									{({ active }) => (
+										<a
+											className={`${active && 'bg-gray-100'
+												} group flex w-full items-center rounded-md px-4 py-4 text-md`}
+											href='/messages'
+										>
+											Messages
+										</a>
+									)}
+								</Menu.Item>
 								<Menu.Item >
 									{({ active }) => (
 										<a
