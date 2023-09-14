@@ -4,11 +4,11 @@ import SearchComponent from './SearchComponent'
 
 function ResultsPage() {
   return (
-    <>
+    <div>
         <Header />
         <SearchComponent />
         <Listing />
-    </>
+    </div>
   )
 }
 

@@ -16,11 +16,6 @@ const SuitabilityComponent: React.FC<SuitabilityComponentProps> = ({
     min_length_of_stay
 
 }) => {
-    console.log(
-        employment_status_list,
-        gender,
-        start_date,
-        pets_allowed,)
     return (
         <>
             <div className='space-y-5 p-3 rounded-xl shadow-lg'>

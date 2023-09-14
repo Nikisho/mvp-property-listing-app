@@ -10,9 +10,9 @@ import PaymentsIcon from '@mui/icons-material/Payments';
 import { selectCurrentUser } from '../../context/navSlice';
 import { useSelector } from 'react-redux';
 import { UserMetadata } from '@supabase/supabase-js';
-import { Rating } from '@mui/material';
 import AmenitiesComponent from './AmenitiesComponent';
 import SuitabilityComponent from './SuitabilityComponent';
+import ReviewsComponent from '../../components/Reviews/ReviewsComponent';
 interface PropertyDetailsProps {
 	property_id: number;
 	description: string;
@@ -107,22 +107,13 @@ function PropertyDetailsPage() {
 			console.error(error.message);
 		};
 	};
+
 	const handleApplyButtonClick: VoidFunction = async () => {
-		//handle adding row to tenancy_application table
 		if (pmDetails?.user_uid === user.user.id) {
 			alert('You cannot apply to your own property!');
 			return;
 		}
 		navigate(`/apply/rooms/${property_id}`);
-		// const { error} = await supabase
-		// .from('tenancy_applications')
-		// .insert({
-		// 	tenant_id: user.technicalKey,
-		// 	property_id: property_id,
-		// 	pm_user_id: listedProperty?.pm_user_id
-		// });
-
-		// if (error) console.error(error.message);
 	};
 	useEffect(() => {
 		getListedProperty();
@@ -180,22 +171,8 @@ function PropertyDetailsPage() {
 								>
 									Apply for Property
 								</button>
-								{/* <div className='py-5 px-2 justify-center space-x-4 flex rounded-lg bg-blue-200 border-2 
-								w-full 
-								md:w-full
-								lg:w-full
-								xl:w-full
-								2xl:w-full'>
-									<PhoneIcon />
-									<div className='text-lg font-semibold'> {pmDetails?.phone_number} </div>
-
-								</div> */}
-
-
 							</div>
-
 						</div>
-
 					</div>
 					{/* {further details} */}
 					<div className='flex flex-col space-y-5 
@@ -259,21 +236,7 @@ function PropertyDetailsPage() {
 									<div className='text-2xl font-bold '>
 										Reviews
 									</div>
-									{reviews ?
-										reviews.map((review) => (
-											<div className='flex flex-col space-y-2 p-3 rounded-xl shadow-lg'>
-												<div className='text-xl font-bold'>{review.name}</div>
-												<Rating name="read-only" value={review.rating} readOnly />
-												<div className=''>
-													{review.review}
-												</div>
-											</div>
-
-										)) :
-										<div>
-											<i>No reviews yet.</i>
-										</div>
-									}
+									< ReviewsComponent reviews={reviews!}/>
 								</div>
 							</div>
 						</div>

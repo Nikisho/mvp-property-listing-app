@@ -7,6 +7,7 @@ import { selectCurrentUser } from '../../context/navSlice';
 import CreateIcon from '@mui/icons-material/Create';
 import LoadingComponent from '../../components/LoadingComponent';
 import { Rating } from '@mui/material';
+import ReviewsComponent from '../../components/Reviews/ReviewsComponent';
 
 interface MyProfilePageProps {
     email: string;
@@ -20,6 +21,7 @@ interface reviewProps {
     name: string;
     review: string;
     rating: number;
+    reviewer_user_id: number
 }
 function MyProfilePage() {
     const user = useSelector(selectCurrentUser);
@@ -202,22 +204,7 @@ function MyProfilePage() {
                             Reviews
                         </div>
                         <div className='overflow-y-auto h-52'>
-
-                            {reviews ?
-                                reviews?.map((review) => (
-                                    <div className='flex flex-col space-y-2 p-3 rounded-xl shadow-lg border '>
-                                        <div className='text-xl font-bold'>{review.name}</div>
-                                        <Rating name="read-only" value={review.rating} readOnly />
-                                        <div className=''>
-                                            {review.review}
-                                        </div>
-                                    </div>
-
-                                )) :
-                                <div>
-                                    <i>No reviews yet.</i>
-                                </div>
-                            }
+                            < ReviewsComponent reviews={reviews!} />
                         </div>
                     </div>
                     {/* {Contact section} */}

@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../context/navSlice';
 import LoadingComponent from '../../components/LoadingComponent';
 import { Rating } from '@mui/material';
+import ReviewsComponent from '../../components/Reviews/ReviewsComponent';
 interface pmDetailsProps {
     name: string;
     email: string;
@@ -168,22 +169,7 @@ function ProfilePage() {
                             </div>
                         </div>
                         <div className='overflow-y-auto h-52'>
-
-                            {reviews ?
-                                reviews?.map((review) => (
-                                    <div className='flex flex-col space-y-2 p-3 rounded-xl shadow-lg border '>
-                                        <div className='text-xl font-bold'>{review.name}</div>
-                                        <Rating name="read-only" value={review.rating} readOnly />
-                                        <div className=''>
-                                            {review.review}
-                                        </div>
-                                    </div>
-
-                                )) :
-                                <div>
-                                    <i>No reviews yet.</i>
-                                </div>
-                            }
+                            <ReviewsComponent reviews={reviews!} />
                         </div>
                     </div>
                     {/* {Contact section} */}

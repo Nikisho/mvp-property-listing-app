@@ -3,13 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import { Menu } from '@headlessui/react'
 import { supabase } from '../../../supabase';
 import { useDispatch, useSelector } from 'react-redux'
-import { selectCurrentUser, setCurrentUser } from '../../context/navSlice';
+import { selectCurrentUser, selectTenancyApplications, setCurrentUser } from '../../context/navSlice';
 import MenuIcon from '@mui/icons-material/Menu';
-
+import { Badge } from '@mui/material';
+interface tenancyApplicationProps {
+	id: number;
+	isRead: boolean;
+}
 function Header() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const user = useSelector(selectCurrentUser);
+	
+	const tenancyApplications = useSelector(selectTenancyApplications);
 	const navigatePostListing = () => {
 		if (!user?.isLoggedIn) {
 			navigate('/signin');
@@ -19,9 +25,16 @@ function Header() {
 			alert('Please update your phone number in your profile before posting an ad.');
 			return;
 		};
-		
+
 		navigate(`/postlisting`)
 	}
+	const unReadTenancyApplications = tenancyApplications.filter(
+		function(tenancyApplication: tenancyApplicationProps) {
+			return tenancyApplication.isRead === false;
+		}
+	);
+	const notifications: number = unReadTenancyApplications.length;
+	
 	const handleSignOut = async () => {
 		if (!user?.isLoggedIn) {
 			navigate('/signin');
@@ -130,33 +143,35 @@ function Header() {
 				<div className=''>
 					<Menu>
 						<Menu.Button className="inline-flex w-full px-4 py-2 text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+							<Badge badgeContent={notifications} color="error">
 
-							{
-								user?.imageUrl ?
+								{
+									user?.imageUrl ?
 
-									<img
-										src={user?.imageUrl}
-										className='rounded-full h-10 w-10 contain rounded-full'
-									/>
-									:
-									<AccountCircleIcon
-										fontSize='large'
-										className='hover:opacity-20'
-										sx={{ fontSize: 45, color: '#fff' }}
-									/>
-							}
+										<img
+											src={user?.imageUrl}
+											className='rounded-full h-10 w-10 contain rounded-full'
+										/>
+										:
+										<AccountCircleIcon
+											fontSize='large'
+											className='hover:opacity-20'
+											sx={{ fontSize: 45, color: '#fff' }}
+										/>
+								}
+							</Badge>
 
 						</Menu.Button>
 						<Menu.Items className="absolute right-0 mt-2 w-64 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 							<div className=" py-2 ">
-							<Menu.Item >
+								<Menu.Item >
 									{({ active }) => (
 										<a
 											className={`${active && 'bg-gray-100'
-												} group flex w-full items-center rounded-md px-4 py-4 text-md`}
+												} group flex w-full items-center rounded-md px-4 py-4 text-md flex justify-between ${notifications!==0 && 'animate-pulse bg-red-100'} `}
 											href='/messages'
 										>
-											Messages
+											<p>Messages</p>
 										</a>
 									)}
 								</Menu.Item>
@@ -167,7 +182,7 @@ function Header() {
 												} group flex w-full items-center rounded-md px-4 py-4 text-md`}
 											href='/mylistings'
 										>
-											My listings
+											Listings
 										</a>
 									)}
 								</Menu.Item>
@@ -178,7 +193,7 @@ function Header() {
 												} group flex w-full items-center rounded-md px-4 py-4 text-md`}
 											href='/myprofile'
 										>
-											My profile
+											Profile
 										</a>
 									)}
 								</Menu.Item>
@@ -189,7 +204,7 @@ function Header() {
 											className={`${active && 'bg-gray-100'
 												} group flex w-full items-center rounded-md px-4 py-4 text-md`}
 										>
-											{user?.isLoggedIn? 'Sign out' : 'Sign in'}
+											{user?.isLoggedIn ? 'Sign out' : 'Sign in'}
 										</a>
 									)}
 								</Menu.Item>

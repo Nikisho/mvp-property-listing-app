@@ -2,7 +2,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { SignUpPage, PropertyDetailsPage, PostListingPage, SigninPage, ProfilePage, UserListingsPage, MyProfilePage, ResultsPage, HomePage, AboutPage, SearchProfilePage, ApplicationTemplatePage } from './pages'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentUser, setCurrentUser } from './context/navSlice';
+import { selectCurrentUser, setCurrentUser, setTenancyApplications } from './context/navSlice';
 import { supabase } from '../supabase';
 import { Session, User } from '@supabase/supabase-js';
 
@@ -89,6 +89,17 @@ function App() {
 		},
 	]);
 
+	const getApplicationsData = async (id: number) => {
+		const { data, error } = await supabase
+		.from('tenancy_applications')
+		.select('tenancy_id, isRead')
+		.eq('pm_user_id', id);
+
+		if (error) {console.error(error.message);}
+
+		dispatch(setTenancyApplications(data));
+	};
+
 	const fetchUserData = async (id: string, session: Session, user: User) => {
 		const { data, error } = await supabase
 			.from('users')
@@ -108,6 +119,7 @@ function App() {
 			email: data![0].email,
 			phoneNumber: data![0].phone_number
 		}));
+		getApplicationsData(data![0].user_id);
 	};
 	const getUserSession = async () => {
 		supabase.auth.onAuthStateChange((event, session) => {
