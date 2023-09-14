@@ -14,7 +14,6 @@ function Header() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const user = useSelector(selectCurrentUser);
-	
 	const tenancyApplications = useSelector(selectTenancyApplications);
 	const navigatePostListing = () => {
 		if (!user?.isLoggedIn) {
@@ -34,7 +33,6 @@ function Header() {
 		}
 	);
 	const notifications: number = unReadTenancyApplications.length;
-	
 	const handleSignOut = async () => {
 		if (!user?.isLoggedIn) {
 			navigate('/signin');

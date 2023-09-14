@@ -10,6 +10,7 @@ import HomePage from "./Home/HomePage";
 import AboutPage from "./About/AboutPage";
 import SearchProfilePage from "./SearchProfile/SearchProfilePage";
 import ApplicationTemplatePage from "./ApplicationTemplate/ApplicationTemplatePage";
+import MessagesPage from "./Messages/MessagesPage";
 export { 
     AboutPage,
     HomePage,
@@ -22,5 +23,6 @@ export {
     UserListingsPage,
     MyProfilePage,
     SearchProfilePage,
-    ApplicationTemplatePage
+    ApplicationTemplatePage,
+    MessagesPage
 };

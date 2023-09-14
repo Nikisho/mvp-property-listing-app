@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { SignUpPage, PropertyDetailsPage, PostListingPage, SigninPage, ProfilePage, UserListingsPage, MyProfilePage, ResultsPage, HomePage, AboutPage, SearchProfilePage, ApplicationTemplatePage } from './pages'
+import { SignUpPage, PropertyDetailsPage, PostListingPage, SigninPage, ProfilePage, UserListingsPage, MyProfilePage, ResultsPage, HomePage, AboutPage, SearchProfilePage, ApplicationTemplatePage, MessagesPage } from './pages'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser, setCurrentUser, setTenancyApplications } from './context/navSlice';
@@ -58,6 +58,10 @@ function App() {
 			path: "/apply/rooms/:property_id",
 			element: <ApplicationTemplatePage />,
 		},
+		{
+			path: "/messages",
+			element: <MessagesPage />,
+		},
 
 	]);
 
@@ -91,13 +95,21 @@ function App() {
 
 	const getApplicationsData = async (id: number) => {
 		const { data, error } = await supabase
-		.from('tenancy_applications')
-		.select('tenancy_id, isRead')
-		.eq('pm_user_id', id);
+			.from('tenancy_applications')
+			.select('isRead, tenant_id')
+			.eq('pm_user_id', id);
 
-		if (error) {console.error(error.message);}
+		if (error) { console.error(error.message); }
+		if (data) {
 
-		dispatch(setTenancyApplications(data));
+			const dataUnfiltered = data;
+			const dataFiltered  = dataUnfiltered.filter((value, index, self) =>
+				index === self.findIndex((t) => (
+					t.isRead === value.isRead && t.tenant_id === value.tenant_id
+				))
+			)
+			dispatch(setTenancyApplications(dataFiltered));
+		}
 	};
 
 	const fetchUserData = async (id: string, session: Session, user: User) => {
@@ -115,7 +127,7 @@ function App() {
 			session: session,
 			imageUrl: data![0].image_url,
 			technicalKey: data![0].user_id,
-			name: data![0].name,
+			tenant_id: data![0].tenant_id,
 			email: data![0].email,
 			phoneNumber: data![0].phone_number
 		}));
@@ -126,12 +138,12 @@ function App() {
 			console.log(event);
 			if ((session !== null)) {
 				fetchUserData(
-					session.user.id, 
-					session, 
+					session.user.id,
+					session,
 					session.user
 				);
 			}
-		})	
+		})
 	};
 	//--watches auth state--//
 	useEffect(() => {

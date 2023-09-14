@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../context/navSlice';
 import CreateIcon from '@mui/icons-material/Create';
 import LoadingComponent from '../../components/LoadingComponent';
-import { Rating } from '@mui/material';
 import ReviewsComponent from '../../components/Reviews/ReviewsComponent';
 
 interface MyProfilePageProps {
