@@ -39,12 +39,8 @@ const AddressForm: React.FC<AddressFormProps> = ({ address, updateFields }) => {
                                 w-full
                                 md:w-1/2
                                 xl:w-1/2
-                                '>
-                    {/* <input className='p-3 rounded-xl border shadow-lg'
-                        value={address}
-                        onChange={e => updateFields({ address: e.target.value })}
-                        required={true}
-                    /> */}
+                                '
+                >
                     <div className='p-3 rounded-xl border shadow-lg w-full text-sm'>
 
                         <GooglePlacesAutocomplete

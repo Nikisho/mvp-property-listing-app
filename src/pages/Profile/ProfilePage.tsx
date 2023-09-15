@@ -31,7 +31,6 @@ function ProfilePage() {
     const [newReview, setNewReview] = useState<string>('')
     const [loadingPage, setLoadingPage] = useState<boolean>(false);
     const [rating, setRating] = useState<number | null>(0);
-    console.log(typeof (rating))
     const getPropManagerDetails = async () => {
 
         try {
