@@ -47,7 +47,9 @@ function SigninForm() {
         };
     };
 	if (isLoggedIn) {
-		return <LoadingComponent />
+        < LoadingComponent 
+            page=''
+        />
 	}
     return (
         <div

@@ -22,7 +22,7 @@ export const navSlice = createSlice({
             state.currentUser = action.payload;
         },
         setTenancyApplications: (state, action) => {
-            state.tenancyApplications= action.payload;
+            state.tenancyApplications = action.payload;
         }
     },
 });

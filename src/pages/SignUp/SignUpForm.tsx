@@ -12,13 +12,13 @@ function SignUpForm() {
 		password: '',
 	});
 	const dispatch = useDispatch();
-    const image_url = '/signinpageimage.jpg';
+	const image_url = '/signinpageimage.jpg';
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 	const changeHandler = (e: { target: { name: string; value: string; }; }) => {
 		setUser({ ...user, [e.target.name]: e.target.value })
 	};
 
-	const insertIntoUsers = async (userCredential: User ) => {
+	const insertIntoUsers = async (userCredential: User) => {
 		const { error } = await supabase
 			.from('users')
 			.insert({
@@ -52,7 +52,7 @@ function SignUpForm() {
 			return;
 		};
 
-		
+
 		const { data, error } = await supabase.auth.signUp({
 			email: (user.email).toLocaleLowerCase(),
 			password: user.password,
@@ -73,23 +73,25 @@ function SignUpForm() {
 		};
 	};
 	if (isLoggedIn) {
-		return <LoadingComponent />
+		< LoadingComponent
+			page=''
+		/>
 	}
 	return (
-		<div 
-		style={{
-			backgroundImage: `url(${image_url})`,
-			backgroundSize: 'cover',
-			backgroundRepeat: 'no-repeat',
-			backgroundPosition: 'center',
-			
-	}}
-		className=' space-y-4 pt-4 grid place-items-center h-screen'>
+		<div
+			style={{
+				backgroundImage: `url(${image_url})`,
+				backgroundSize: 'cover',
+				backgroundRepeat: 'no-repeat',
+				backgroundPosition: 'center',
+
+			}}
+			className=' space-y-4 pt-4 grid place-items-center h-screen'>
 			<form className=' bg-white space-y-2 w-5/6  sm:w-2/3 md:w-1/3 xl:w-1/4 border p-2 rounded-xl shadow-lg'>
-			<div className="pb-5">
-                    <div className='text-2xl font-semibold'>Welcome to Propzy</div>
-                    <div>Find a room now and review your landlord!</div>
-                </div>
+				<div className="pb-5">
+					<div className='text-2xl font-semibold'>Welcome to Propzy</div>
+					<div>Find a room now and review your landlord!</div>
+				</div>
 				<div className='text-2xl font-semibold'><h1>Sign up</h1></div>
 				<div className='flex flex-col'>
 					<label className='self-start text-xl my-2 '>Name </label>

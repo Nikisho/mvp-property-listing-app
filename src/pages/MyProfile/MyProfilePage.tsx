@@ -122,7 +122,9 @@ function MyProfilePage() {
 
 
     if (profileUpdated) {
-        return <LoadingComponent />
+        return <LoadingComponent 
+            page=''
+        />
     }
 
     return (

@@ -97,7 +97,9 @@ function ProfilePage() {
     }, []);
 
     if (loadingPage) return (
-        < LoadingComponent />
+        < LoadingComponent 
+            page=''
+        />
     )
     return (
         <>

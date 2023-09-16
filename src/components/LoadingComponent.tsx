@@ -1,12 +1,17 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-function LoadingComponent() {
+interface LoadingComponentProps {
+    page: string;
+};
+
+const LoadingComponent:React.FC<LoadingComponentProps> =  ({page}) => {
+    
     const navigation = useNavigate();
     const delay = (ms: any )=> new Promise(res => setTimeout(res, ms));
     const navigateHomePage = async () => {
         await delay(2000);
-        navigation("/");
+        navigation(`/${page}`);
     }
     useEffect(() => {
         navigateHomePage();

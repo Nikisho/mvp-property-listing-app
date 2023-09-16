@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { SignUpPage, PropertyDetailsPage, PostListingPage, SigninPage, ProfilePage, UserListingsPage, MyProfilePage, ResultsPage, HomePage, AboutPage, SearchProfilePage, ApplicationTemplatePage, MessagesPage } from './pages'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser, setCurrentUser, setTenancyApplications } from './context/navSlice';
 import { supabase } from '../supabase';
@@ -101,9 +101,8 @@ function App() {
 
 		if (error) { console.error(error.message); }
 		if (data) {
-
-			const dataUnfiltered = data;
-			const dataFiltered  = dataUnfiltered.filter((value, index, self) =>
+			
+			const dataFiltered  = data.filter((value, index, self) =>
 				index === self.findIndex((t) => (
 					t.isRead === value.isRead && t.tenant_id === value.tenant_id
 				))
