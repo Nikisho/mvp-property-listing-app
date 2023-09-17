@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 interface LoadingComponentProps {
     page: string;
 };
 
-const LoadingComponent:React.FC<LoadingComponentProps> =  ({page}) => {
+function LoadingComponent({ page }: LoadingComponentProps) {
     
     const navigation = useNavigate();
     const delay = (ms: any )=> new Promise(res => setTimeout(res, ms));
@@ -15,6 +15,7 @@ const LoadingComponent:React.FC<LoadingComponentProps> =  ({page}) => {
     }
     useEffect(() => {
         navigateHomePage();
+        navigation(`/${page}`);
     },[])
     return (
         <div className=" grid place-items-center h-screen bg-green-200">

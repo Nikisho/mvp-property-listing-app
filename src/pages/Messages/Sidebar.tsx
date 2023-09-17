@@ -21,7 +21,6 @@ const Sidebar = () => {
     //gets updated in the store. 
     const tenancyApplicationsReduxObject = useSelector(selectTenancyApplications);
     const [tenancyApplications, setTenancyApplicationsState] = useState(tenancyApplicationsReduxObject);
-
     //Making an array of the ids of each applicants. Here is have to filter the
     //Array of objects (applications) tenancyApplications to extract the ids.
     let tenancyApplicationsEditable = [...tenancyApplications];
@@ -45,7 +44,7 @@ const Sidebar = () => {
         return application[0].isRead;
     };
     const fetchApplicantsData = async () => {
-        setTenancyApplicationsState(tenancyApplicationsReduxObject);
+
         const { data, error } = await supabase
             .from('users')
             .select('name, image_url, user_id')
@@ -56,6 +55,7 @@ const Sidebar = () => {
 
     useEffect(() => {
         fetchApplicantsData();
+        setTenancyApplicationsState(tenancyApplicationsReduxObject);
     }, [tenancyApplicationsReduxObject]);
 
     return (
@@ -63,8 +63,8 @@ const Sidebar = () => {
             <div className='w-1/3 border-r  '>
                 { 
                     applicants?.map((applicant) => (
-                        <div className={`flex p-2 h-20 border-b border hover:bg-gray-100 items-center justify-between`} key={applicant.user_id} onClick={() => handleClick(applicant.user_id)}>
-                            <div className='flex space-x-5 items-center'>
+                        <div className={`flex p-2 h-20 border-b border hover:bg-gray-100 items-center justify-between px-5`} key={applicant.user_id} onClick={() => handleClick(applicant.user_id)}>
+                            <div className='flex space-x-5 items-center '>
                                 <div>
                                     {
                                         applicant.image_url ?
@@ -84,7 +84,7 @@ const Sidebar = () => {
                                 </div>
                             </div>
                             {!isApplicationRead(applicant.user_id) && (
-                                <div className=' p-1 justify-end bg-red-600 rounded-full animate-pulse '>
+                                <div className=' p-1.5 justify-end bg-red-600 rounded-full animate-bounce '>
 
                                 </div>
                             )

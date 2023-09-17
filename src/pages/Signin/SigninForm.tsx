@@ -15,7 +15,6 @@ function SigninForm() {
 
     const [invalidCredentials, setInvalidCredentials] = useState<boolean>(false);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const changeHandler = (e: { target: { name: string; value: string; }; }) => {
         setUser({ ...user, [e.target.name]: e.target.value })
     };
@@ -42,12 +41,12 @@ function SigninForm() {
                 isLoggedIn: true,
                 session: data.session
             }));
-            navigate('/');
 			setIsLoggedIn(true);
         };
     };
+    console.log(isLoggedIn)
 	if (isLoggedIn) {
-        < LoadingComponent 
+        return <LoadingComponent 
             page=''
         />
 	}

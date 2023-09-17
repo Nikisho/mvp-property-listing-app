@@ -178,9 +178,7 @@ const PostListingPage = () => {
 
     if (postButtonClicked) {
 		return (
-			<LoadingComponent 
-                page=''
-            />
+			<LoadingComponent page=''/>
 		)
 	}
 

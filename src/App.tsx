@@ -96,7 +96,7 @@ function App() {
 	const getApplicationsData = async (id: number) => {
 		const { data, error } = await supabase
 			.from('tenancy_applications')
-			.select('isRead, tenant_id')
+			.select('isRead, tenant_id, tenancy_id')
 			.eq('pm_user_id', id);
 
 		if (error) { console.error(error.message); }

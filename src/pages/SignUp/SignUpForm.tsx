@@ -73,9 +73,9 @@ function SignUpForm() {
 		};
 	};
 	if (isLoggedIn) {
-		< LoadingComponent
-			page=''
-		/>
+        return <LoadingComponent 
+            page=''
+        />
 	}
 	return (
 		<div
@@ -113,7 +113,7 @@ function SignUpForm() {
 					Sign up
 				</button>
 				<div className='text-sm'>
-					Already have an account? <a className='text-blue-600' href='/'>Sign in</a>.
+					Already have an account? <a className='text-blue-600' href='/signin'>Sign in</a>.
 				</div>
 			</form>
 		</div>
