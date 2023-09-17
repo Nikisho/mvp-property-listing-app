@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { SignUpPage, PropertyDetailsPage, PostListingPage, SigninPage, ProfilePage, UserListingsPage, MyProfilePage, ResultsPage, HomePage, AboutPage, SearchProfilePage, ApplicationTemplatePage, MessagesPage } from './pages'
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser, setCurrentUser, setTenancyApplications } from './context/navSlice';
 import { supabase } from '../supabase';
