@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
-import { selectCurrentUser } from '../../context/navSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCurrentUser, setRoom } from '../../context/navSlice';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { supabase } from '../../../supabase';
 
@@ -14,6 +14,7 @@ interface RecipientProps {
 const ChatWidget: React.FC<ChatWidgetProps> = ({ room_id }) => {
     const user = useSelector(selectCurrentUser);
     const [recipient, setRecipient] = useState<RecipientProps>();
+    const dispatch = useDispatch();
 
     const fetchRecipientData = async (id: number) => {
         const { data, error } = await supabase
@@ -34,13 +35,24 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ room_id }) => {
             fetchRecipientData(data[0].user_id);
         }
     }
+
+    const handleClick = () => {
+        dispatch(setRoom({
+            id: room_id,
+            imageUrl: recipient?.image_url,
+            recipient: recipient?.name
+        }))
+    };
+
     useEffect(() => {
         fetchRecipient();
     },[])
     return (
         <div className='w-1/3 border-r  '>
 
-            <div className={`flex p-2 h-20 border-b border hover:bg-gray-100 items-center justify-between px-5`} key={room_id}>
+            <div className={`flex p-2 h-20 border-b border hover:bg-gray-100 items-center justify-between px-5`} key={room_id}
+                onClick={() => handleClick()}
+            >
                 <div className='flex space-x-5 items-center '>
                     <div>
                         {

@@ -12,6 +12,11 @@ const initialState = {
         phoneNumber: null
     },
     tenancyApplications: [],
+    room: {
+        id: null,
+        imageUrl: null,
+        recipient: null
+    }
 };
 
 export const navSlice = createSlice({
@@ -23,16 +28,22 @@ export const navSlice = createSlice({
         },
         setTenancyApplications: (state, action) => {
             state.tenancyApplications = action.payload;
+        },
+        setRoom: (state, action) => {
+            state.room = action.payload;
         }
     },
 });
 
 export const { 
     setCurrentUser,
-    setTenancyApplications
+    setTenancyApplications,
+    setRoom
 } = navSlice.actions;
 
 export const selectCurrentUser = (state: any) => state.nav.currentUser;
 export const selectTenancyApplications = (state: any) => state.nav.tenancyApplications;
+export const selectRoom = (state: any) => state.nav.room;
+
 
 export default navSlice.reducer;

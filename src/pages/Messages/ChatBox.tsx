@@ -1,14 +1,21 @@
-import React from 'react'
 import ChatBoxHeader from './ChatBoxHeader'
+import { useSelector } from 'react-redux'
+import { selectRoom } from '../../context/navSlice'
+import MessagesContainer from './MessagesContainer';
+import InputBox from './InputBox';
 
 const ChatBox = () => {
+    const room = useSelector(selectRoom);
     return (
         <> 
-            <div className='w-2/3 border-r bg-gray-100'>
+            <div className='w-2/3 h-full border-r bg-gray-100 flex flex-col '>
                 <ChatBoxHeader 
-                    name='Andrew Silifant'
-                    imageUrl='https://dwhhfiboburmnbvsmhjn.supabase.co/storage/v1/object/public/users/ab8b820d-142c-456a-9d47-73e3870789bd/profile_picture.jpg'
+                    key={room.id}
+                    name={room.recipient}
+                    imageUrl={room.imageUrl}
                 />
+                <MessagesContainer room_id={room.id}/>
+                <InputBox room_id={room.id} />
             </div>
         </>
     )
