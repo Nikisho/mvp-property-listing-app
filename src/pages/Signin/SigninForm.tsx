@@ -43,7 +43,7 @@ function SigninForm() {
 			setIsLoggedIn(true);
         };
     };
-    console.log(isLoggedIn)
+
 	if (isLoggedIn) {
         return <LoadingComponent 
             page=''

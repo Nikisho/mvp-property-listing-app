@@ -32,7 +32,7 @@ const InputBox : React.FC<InputBoxProps> = ({
   return (
     <div className='bg-white border h-1/4 flex justify-center items-center space-x-4'>
         <textarea 
-            className='rounded-md border-2 border h-10 w-3/4 py-2 px-5 text-sm resize-none'
+            className='rounded-md border-2 h-10 w-3/4 py-2 px-5 text-sm resize-none'
             value={content}
             onChange={(e) => setContent(e.target.value)}
         />

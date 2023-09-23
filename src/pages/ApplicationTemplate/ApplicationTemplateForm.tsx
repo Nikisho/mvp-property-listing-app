@@ -8,6 +8,7 @@ import convertUrlsToJSON from '../../utils/convertUrlsToJSON';
 import { currencyFormatter } from '../../utils/currencyFormat';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../context/navSlice';
+import LoadingComponent from '../../components/LoadingComponent';
 
 interface PropertyDataProps {
     ad_title: string;
@@ -24,15 +25,17 @@ const ApplicationTemplateForm = () => {
     const [forApplicantOnly, setForApplicantOnly] = useState<boolean>(true);
     const [lengthOfStay, setLengthOfStay] = useState<number>(6);
     const [parkingRequired, setParkingRequired] = useState<boolean>(false);
-    const [salaryRange, setSalaryRange] = useState<string|null>(null);
+    const [salaryRange, setSalaryRange] = useState<string | null>(null);
     const [budget, setBudget] = useState<string | null>(null);
     const [startDate, setStartDate] = useState(new Date());
     const { property_id } = useParams();
     const [roomData, setRoomData] = useState<PropertyDataProps>();
-    const [employmentStatus, setEmploymentStatus] = useState<string| null>(null);
+    const [employmentStatus, setEmploymentStatus] = useState<string | null>(null);
     const [hasPets, setHasPets] = useState<boolean>(false);
+    const [gender, setGender] = useState<string | null>(null);
     const currentUser = useSelector(selectCurrentUser);
-    
+    const [isLoading, setIsLoading] = useState(false);
+
     const fetchPropertyData = async () => {
 
         const { data, error } = await supabase
@@ -47,43 +50,42 @@ const ApplicationTemplateForm = () => {
     };
 
     const handleSubmit = async (e: React.MouseEvent) => {
+        
         e.preventDefault();
-        if (!employmentStatus) {
-            alert('Select your employment status');
+        if (!employmentStatus || !salaryRange ||!budget || !gender) {
+            alert('Please complete all the required fields');
             return;
         };
-        if (!salaryRange) {
-            alert('Select your salary range');
-            return;
-        };
-        if (!budget) {
-            alert('Please specify a budget');
-            return;
-        };
+
         const { error } = await supabase
-        .from('tenancy_applications')
-        .insert(
-            {
-                property_id: property_id,
-                pm_user_id: roomData?.pm_user_id,
-                tenant_id: currentUser.technicalKey,
-                length_of_stay: lengthOfStay,
-                parking_required: parkingRequired,
-                budget: budget,
-                start_date: startDate,
-                employment_status: employmentStatus,
-                salary_range: salaryRange,
-                pets: hasPets,
-                just_for_applicant: forApplicantOnly
-            }
-        );
+            .from('tenancy_applications')
+            .insert(
+                {
+                    property_id: property_id,
+                    pm_user_id: roomData?.pm_user_id,
+                    tenant_id: currentUser.technicalKey,
+                    length_of_stay: lengthOfStay,
+                    parking_required: parkingRequired,
+                    budget: budget,
+                    start_date: startDate,
+                    employment_status: employmentStatus,
+                    salary_range: salaryRange,
+                    pets: hasPets,
+                    just_for_applicant: forApplicantOnly,
+                    gender: gender
+                }
+            );
         if (error) console.error(error.message);
+        setIsLoading(true);
     };
 
     useEffect(() => {
         fetchPropertyData();
     }, []);
 
+    if (isLoading) return (
+        <LoadingComponent page='' />
+    )
     return (
         <>
             <Header />
@@ -123,6 +125,23 @@ const ApplicationTemplateForm = () => {
                         </p>
                         <DatePicker className='p-2 border' selected={startDate} onChange={(date) => setStartDate(date as Date)} />
                     </div>
+                    <div className='space-y-3'>
+
+                        <p>
+                            What is your sexe?
+                        </p>
+                        <div className='flex items-center '>
+                            <button className={` w-16  border p-1  ${gender === 'male' && 'bg-sky-500'}`}
+                                onClick={() => setGender('male')}
+                                type="button"
+                            >Male</button>
+                            <button className={` w-16  border p-1   ${gender === 'female' && 'bg-sky-500'}`}
+                                onClick={() => setGender('female')}
+                                type="button"
+                            >Female</button>
+                        </div>
+                    </div>
+
                     <div className='space-y-3'>
                         <p>
                             What is employment status?
@@ -256,7 +275,7 @@ const ApplicationTemplateForm = () => {
                         />
                     </div>
                     <div className='flex justify-end '>
-                        <button 
+                        <button
                             type='submit'
                             onClick={handleSubmit}
                             className='p-2 rounded-sm bg-blue-400 text-white font-semibold hover:scale-90 transition duration-500'>

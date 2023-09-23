@@ -17,7 +17,7 @@ const ChatBoxHeader: React.FC<ChatBoxHeaderProps> = ({
 
                         <img
                             src={imageUrl}
-                            className='rounded-full h-10 w-10 contain rounded-full'
+                            className='rounded-full h-10 w-10 contain'
                         />
                         :
                         <AccountCircleIcon

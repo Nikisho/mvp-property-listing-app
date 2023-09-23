@@ -7,7 +7,7 @@ interface MessagesContainerProps {
     room_id: number
 };
 interface MessagesProps {
-    id: number;
+    message_id: number;
     room_id: number;
     content: string;
     user_id: number;
@@ -20,12 +20,12 @@ const MessagesContainer: React.FC<MessagesContainerProps> = ({
     const user = useSelector(selectCurrentUser);
 
     const fetchMessages = async () => {
+        if (!room_id) return;
         const { error, data } = await supabase
             .from('messages')
             .select()
             .eq('room_id', room_id)
         if (error) console.error(error.message);
-        console.log(data, 'hey')
         setMessages(data!)
     };
 
@@ -37,7 +37,7 @@ const MessagesContainer: React.FC<MessagesContainerProps> = ({
         <div className='h-full px-3 py-1 overflow-y-auto'>
             {
                 messages?.map((message) => (
-                    <div className={`flex ${ user.technicalKey === message.user_id && 'justify-end'}`}>
+                    <div key={message.message_id} className={`flex ${ user.technicalKey === message.user_id && 'justify-end'}`}>
                         <div className={`p-2 m-1 rounded-xl w-fit ${ user.technicalKey === message.user_id ? 'bg-blue-100' :'bg-white '}`}>
                             {message.content}
                         </div>

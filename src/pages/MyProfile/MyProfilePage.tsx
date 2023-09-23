@@ -48,7 +48,6 @@ function MyProfilePage() {
         if (error) {
             console.error(error.message);
         };
-
         setUserInfo({
             email: data![0].email as string,
             description: data![0].description as string,
@@ -69,7 +68,6 @@ function MyProfilePage() {
             console.error(error.message);
         };
     };
-
     const amendProfilePicture = (e: any) => {
         const reader = new FileReader();
         if (e.target.files[0]) {
@@ -195,7 +193,7 @@ function MyProfilePage() {
 											2xl:h-80 2xl:text-sm "
                             name='description'
                             id='description'
-                            value={userInfo.description}
+                            value={userInfo?.description}
                             onChange={changeHandler}
                         />
                     </div>
