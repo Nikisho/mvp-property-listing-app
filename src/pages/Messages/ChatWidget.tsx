@@ -50,7 +50,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ room_id }) => {
     return (
         <div className=' border-r  '>
 
-            <div className={`flex p-2 h-20 border-b border hover:bg-gray-100 items-center justify-between px-5`} key={room_id}
+            <div className={`flex p-2 h-20 border-b hover:bg-gray-100 items-center justify-between px-5`} key={room_id}
                 onClick={() => handleClick()}
             >
                 <div className='flex space-x-5 items-center '>

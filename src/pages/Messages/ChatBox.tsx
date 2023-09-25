@@ -6,9 +6,16 @@ import InputBox from './InputBox';
 
 const ChatBox = () => {
     const room = useSelector(selectRoom);
+    if (!room.id) return (
+        <div className='flex justify-center h-2/3 items-center'>
+            <div>
+                <i>Select a conversation.</i>
+            </div>
+        </div>
+    )
     return (
         <> 
-            <div className='w-2/3 h-full border-r bg-gray-100 flex flex-col '>
+            <div className='xl:w-2/3 h-full border-r bg-gray-100 flex flex-col '>
                 <ChatBoxHeader 
                     key={room.id}
                     name={room.recipient}

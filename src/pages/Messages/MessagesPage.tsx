@@ -6,12 +6,13 @@ import { supabase } from '../../../supabase'
 import { useSelector } from 'react-redux'
 import { selectCurrentUser } from '../../context/navSlice'
 import { useEffect, useState } from 'react'
+import ChatTabs from './ChatTabs'
 
 const MessagesPage = () => {
     const user = useSelector(selectCurrentUser);
-    const [rooms, setRooms] = useState<{room_id: number}[]>();
+    const [rooms, setRooms] = useState<{ room_id: number }[]>();
     const fetchRoomID = async () => {
-        const {data, error} = await supabase
+        const { data, error } = await supabase
             .from('participants')
             .select('room_id')
             .eq('user_id', user.technicalKey);
@@ -23,18 +24,31 @@ const MessagesPage = () => {
 
     useEffect(() => {
         fetchRoomID();
-    },[]);
+    }, []);
 
     return (
         <>
             <Grow timeout={2000} in>
                 <div>
                     <Header />
-                    <div className='flex my-5 mx-10 h-[420px] rounded-xl shadow-lg 2xl:w-1/2 2xl:justify-center '>
-                        <Sidebar 
-                            rooms={rooms!}
-                        />
-                        <ChatBox />
+                    <div className='flex justify-center bg-gray-300'>
+
+                        <div className='bg-white rounded-xl shadow-lg 
+                                        h-screen
+                                        xl:h-[420px] xl:my-5 xl:mx-10 
+                                        w-full 2xl:h-[790px] hidden xl:flex'>
+
+                            <Sidebar
+                                rooms={rooms!}
+                            />
+                            <ChatBox />
+                        </div>
+                        <div className='xl:hidden w-full'>
+
+                            <ChatTabs
+                                rooms={rooms!}
+                            />
+                        </div>
                     </div>
                 </div>
             </Grow>

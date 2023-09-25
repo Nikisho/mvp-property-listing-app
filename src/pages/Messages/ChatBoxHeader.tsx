@@ -11,9 +11,9 @@ const ChatBoxHeader: React.FC<ChatBoxHeaderProps> = ({
 }) => {
     return (
         <>
-            <div className='flex bg-white p-2 border-b space-x-5'>
+            <div className='flex bg-white p-2 border-b space-x-5 items-center'>
                 {
-                    imageUrl ?
+                    imageUrl?
 
                         <img
                             src={imageUrl}
@@ -23,10 +23,10 @@ const ChatBoxHeader: React.FC<ChatBoxHeaderProps> = ({
                         <AccountCircleIcon
                             fontSize='large'
                             className='hover:opacity-20'
-                            sx={{ fontSize: 45, color: '#fff' }}
+                            sx={{ fontSize: 45 }}
                         />
                 }
-                <p className='text-lg font-semibold'>{name}</p>
+                <div className='text-lg font-semibold'>{name}</div>
             </div>
         </>
     )
