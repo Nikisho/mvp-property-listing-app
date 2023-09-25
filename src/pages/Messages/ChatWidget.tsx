@@ -48,7 +48,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ room_id }) => {
         fetchRecipient();
     },[])
     return (
-        <div className='w-1/3 border-r  '>
+        <div className=' border-r  '>
 
             <div className={`flex p-2 h-20 border-b border hover:bg-gray-100 items-center justify-between px-5`} key={room_id}
                 onClick={() => handleClick()}

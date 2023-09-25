@@ -3,7 +3,7 @@ import { Header } from '../../components';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { supabase } from '../../../supabase';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import convertUrlsToJSON from '../../utils/convertUrlsToJSON';
 import { currencyFormatter } from '../../utils/currencyFormat';
 import { useSelector } from 'react-redux';
@@ -75,7 +75,11 @@ const ApplicationTemplateForm = () => {
                     gender: gender
                 }
             );
-        if (error) console.error(error.message);
+        if (error && error.code === '23505') {
+            console.error(error.message);
+            alert('You have already applied for a property with this landlord.');
+            return;
+        };
         setIsLoading(true);
     };
 

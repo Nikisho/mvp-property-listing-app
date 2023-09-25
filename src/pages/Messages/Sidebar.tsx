@@ -5,7 +5,7 @@ interface SidebarProps {
 }
 const Sidebar: React.FC<SidebarProps> = ({rooms}) => {
     return (
-        <>
+        <div className='flex flex-col w-1/3'>
             {
                 rooms?.map((room) => (
                     <ChatWidget
@@ -14,7 +14,7 @@ const Sidebar: React.FC<SidebarProps> = ({rooms}) => {
                     />
                 ))
             }
-        </>
+        </div>
     )
 }
 

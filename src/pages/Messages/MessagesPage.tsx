@@ -30,7 +30,7 @@ const MessagesPage = () => {
             <Grow timeout={2000} in>
                 <div>
                     <Header />
-                    <div className='flex my-5 mx-10 h-[420px] rounded-xl shadow-lg '>
+                    <div className='flex my-5 mx-10 h-[420px] rounded-xl shadow-lg 2xl:w-1/2 2xl:justify-center '>
                         <Sidebar 
                             rooms={rooms!}
                         />
