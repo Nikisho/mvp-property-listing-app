@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../context/navSlice';
 
 interface MessagesContainerProps {
-    room_id: number
+    room_id: number;
+    isLoading: boolean;
 };
 interface MessagesProps {
     message_id: number;
@@ -14,7 +15,8 @@ interface MessagesProps {
 };
 
 const MessagesContainer: React.FC<MessagesContainerProps> = ({
-    room_id
+    room_id,
+    isLoading
 }) => {
     const [messages, setMessages] = useState<MessagesProps[]>();
     const user = useSelector(selectCurrentUser);
@@ -31,7 +33,7 @@ const MessagesContainer: React.FC<MessagesContainerProps> = ({
 
     useEffect(() => {
         fetchMessages();
-    }, [room_id]);
+    }, [room_id, isLoading]);
 
     return (
         <div className='h-full px-3 py-1 overflow-y-auto'>

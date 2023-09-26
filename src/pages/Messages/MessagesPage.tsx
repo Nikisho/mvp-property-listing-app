@@ -36,14 +36,14 @@ const MessagesPage = () => {
                         <div className='bg-white rounded-xl shadow-lg 
                                         h-screen
                                         xl:h-[420px] xl:my-5 xl:mx-10 
-                                        w-full 2xl:h-[790px] hidden xl:flex'>
+                                        w-full 2xl:h-[790px] hidden lg:flex'>
 
                             <Sidebar
                                 rooms={rooms!}
                             />
                             <ChatBox />
                         </div>
-                        <div className='xl:hidden w-full'>
+                        <div className='lg:hidden w-full'>
 
                             <ChatTabs
                                 rooms={rooms!}

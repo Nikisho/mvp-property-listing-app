@@ -6,18 +6,21 @@ import SendIcon from '@mui/icons-material/Send';
 
 interface InputBoxProps {
     room_id: number;
+    setIsloading: (arg0: boolean) => void
 };
 
 const InputBox : React.FC<InputBoxProps> = ({
-    room_id
+    room_id,
+    setIsloading
 }) => {
 
     const user = useSelector(selectCurrentUser);
     const [content, setContent] = useState<string>('');
 
-    const postMessage = async (e: React.MouseEvent) => {
-        e.preventDefault();
+    const postMessage = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         if (content === '') return;
+        setIsloading(true)
         const { error } = await supabase
         .from('messages')
         .insert({
@@ -27,27 +30,29 @@ const InputBox : React.FC<InputBoxProps> = ({
         });
         if (error) console.error(error.message);
         setContent('');
+        setIsloading(false)
     };
 
   return (
-    <div className='bg-white border flex justify-center items-center space-x-4
+    <form className='bg-white border flex justify-center items-center space-x-4
                     h-1/6
                     xl:h-1/4 
-    '>
+    '
+    onSubmit={postMessage}
+    >
         <textarea 
-            className='rounded-md border-2 h-12 w-3/4 py-2 px-5 text-sm resize-none'
+            className='rounded-md border-2 h-12 w-3/4 py-2 px-5 text-md resize-none'
             value={content}
             onChange={(e) => setContent(e.target.value)}
         />
-        <button className='border rounded-full p-2 bg-blue-200 items-center flex hover:scale-95 transition duration-500'
-            onClick={postMessage}
+        <button type="submit" className='border rounded-full p-2 bg-blue-200 items-center flex hover:scale-95 transition duration-500'
         >
             <SendIcon
                 fontSize='small'
                 color='success'
             />
         </button>
-    </div>
+    </form>
   )
 }
 
