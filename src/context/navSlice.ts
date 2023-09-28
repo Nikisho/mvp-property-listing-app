@@ -11,7 +11,7 @@ const initialState = {
         email: null,
         phoneNumber: null
     },
-    tenancyApplications: [],
+    messages: [],
     room: {
         id: null,
         imageUrl: null,
@@ -26,8 +26,8 @@ export const navSlice = createSlice({
         setCurrentUser: (state, action) => {
             state.currentUser = action.payload;
         },
-        setTenancyApplications: (state, action) => {
-            state.tenancyApplications = action.payload;
+        setMessages: (state, action) => {
+            state.messages = action.payload;
         },
         setRoom: (state, action) => {
             state.room = action.payload;
@@ -37,12 +37,12 @@ export const navSlice = createSlice({
 
 export const { 
     setCurrentUser,
-    setTenancyApplications,
+    setMessages,
     setRoom
 } = navSlice.actions;
 
 export const selectCurrentUser = (state: any) => state.nav.currentUser;
-export const selectTenancyApplications = (state: any) => state.nav.tenancyApplications;
+export const selectMessages = (state: any) => state.nav.messages;
 export const selectRoom = (state: any) => state.nav.room;
 
 

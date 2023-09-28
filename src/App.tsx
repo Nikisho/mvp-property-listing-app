@@ -2,7 +2,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { SignUpPage, PropertyDetailsPage, PostListingPage, SigninPage, ProfilePage, UserListingsPage, MyProfilePage, ResultsPage, HomePage, AboutPage, SearchProfilePage, ApplicationTemplatePage, MessagesPage } from './pages'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentUser, setCurrentUser, setTenancyApplications } from './context/navSlice';
+import { selectCurrentUser, setCurrentUser, setMessages } from './context/navSlice';
 import { supabase } from '../supabase';
 import { Session, User } from '@supabase/supabase-js';
 
@@ -93,23 +93,34 @@ function App() {
 		},
 	]);
 
-	const getApplicationsData = async (id: number) => {
-		const { data, error } = await supabase
-			.from('tenancy_applications')
-			.select('isRead, tenant_id, tenancy_id')
-			.eq('pm_user_id', id);
+	// const getApplicationsData = async (id: number) => {
+	// 	const { data, error } = await supabase
+	// 		.from('tenancy_applications')
+	// 		.select('isRead, tenant_id, tenancy_id')
+	// 		.eq('pm_user_id', id);
 
-		if (error) { console.error(error.message); }
-		if (data) {
+	// 	if (error) { console.error(error.message); }
+	// 	if (data) {
 			
-			const dataFiltered  = data.filter((value, index, self) =>
-				index === self.findIndex((t) => (
-					t.isRead === value.isRead && t.tenant_id === value.tenant_id
-				))
-			)
-			dispatch(setTenancyApplications(dataFiltered));
-		}
-	};
+	// 		const dataFiltered  = data.filter((value, index, self) =>
+	// 			index === self.findIndex((t) => (
+	// 				t.isRead === value.isRead && t.tenant_id === value.tenant_id
+	// 			))
+	// 		)
+	// 		dispatch(setTenancyApplications(dataFiltered));
+	// 	}
+	// };
+
+	const getUnreadMessages = async (id: number) => {
+		const { error, data } = await supabase
+			.from('messages')
+			.select('isRead, room_id')
+			.eq('receiver_id', id)
+		if (error) { console.error(error.message); }
+		console.log(data)
+		dispatch(setMessages(data))
+
+	}
 
 	const fetchUserData = async (id: string, session: Session, user: User) => {
 		const { data, error } = await supabase
@@ -130,7 +141,8 @@ function App() {
 			email: data![0].email,
 			phoneNumber: data![0].phone_number
 		}));
-		getApplicationsData(data![0].user_id);
+		// getApplicationsData(data![0].user_id);
+		getUnreadMessages(data![0].user_id);
 	};
 	const getUserSession = async () => {
 		supabase.auth.onAuthStateChange((event, session) => {

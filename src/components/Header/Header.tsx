@@ -3,18 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import { Menu } from '@headlessui/react'
 import { supabase } from '../../../supabase';
 import { useDispatch, useSelector } from 'react-redux'
-import { selectCurrentUser, selectTenancyApplications, setCurrentUser } from '../../context/navSlice';
+import { selectCurrentUser, selectMessages, setCurrentUser } from '../../context/navSlice';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Badge } from '@mui/material';
-interface tenancyApplicationProps {
-	id: number;
-	isRead: boolean;
-}
+// interface tenancyApplicationProps {
+// 	id: number;
+// 	isRead: boolean;
+// }
 function Header() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const user = useSelector(selectCurrentUser);
-	const tenancyApplications = useSelector(selectTenancyApplications);
+	// const tenancyApplications = useSelector(selectTenancyApplications);
+	const unreadMessages = useSelector(selectMessages);
 	const navigatePostListing = () => {
 		if (!user?.isLoggedIn) {
 			navigate('/signin');
@@ -27,12 +28,13 @@ function Header() {
 
 		navigate(`/postlisting`)
 	}
-	const unReadTenancyApplications = tenancyApplications.filter(
-		function(tenancyApplication: tenancyApplicationProps) {
-			return tenancyApplication.isRead === false;
-		}
-	);
-	const notifications: number = unReadTenancyApplications.length;
+	// const unReadTenancyApplications = tenancyApplications.filter(
+	// 	function(tenancyApplication: tenancyApplicationProps) {
+	// 		return tenancyApplication.isRead === false;
+	// 	}
+	// );
+	// const notifications: number = unReadTenancyApplications.length;
+	const notifications: number = unreadMessages.length
 	const handleSignOut = async () => {
 		if (!user?.isLoggedIn) {
 			navigate('/signin');
@@ -53,7 +55,7 @@ function Header() {
 	}
 
 	return (
-		<div className='bg-sky-800 sticky top-0 z-50 flex p-0 p-2 space-x-1 w-screen
+		<div className='bg-sky-800 sticky top-0 z-50 flex p-2 space-x-1 w-screen
 						lg:p-3 justify-between items-center'>
 			{/* {git test} */}
 			{/* Company logo and home button */}
@@ -148,7 +150,7 @@ function Header() {
 
 										<img
 											src={user?.imageUrl}
-											className='rounded-full h-10 w-10 contain rounded-full'
+											className='rounded-full h-10 w-10 contain'
 										/>
 										:
 										<AccountCircleIcon
@@ -166,7 +168,7 @@ function Header() {
 									{({ active }) => (
 										<a
 											className={`${active && 'bg-gray-100'
-												} group flex w-full items-center rounded-md px-4 py-4 text-md flex justify-between ${notifications!==0 && 'animate-pulse bg-red-100'} `}
+												} group w-full items-center rounded-md px-4 py-4 text-md flex justify-between ${'animate-pulse bg-red-100'} `}
 											href='/messages'
 										>
 											<p>Messages</p>

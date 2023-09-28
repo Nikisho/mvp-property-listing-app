@@ -11,7 +11,7 @@ interface MessagesProps {
     message_id: number;
     room_id: number;
     content: string;
-    user_id: number;
+    sender_id: number;
 };
 
 const MessagesContainer: React.FC<MessagesContainerProps> = ({
@@ -39,8 +39,8 @@ const MessagesContainer: React.FC<MessagesContainerProps> = ({
         <div className='h-full px-3 py-1 overflow-y-auto'>
             {
                 messages?.map((message) => (
-                    <div key={message.message_id} className={`flex ${ user.technicalKey === message.user_id && 'justify-end'}`}>
-                        <div className={`p-2 m-1 rounded-xl w-fit ${ user.technicalKey === message.user_id ? 'bg-blue-100' :'bg-white '}`}>
+                    <div key={message.message_id} className={`flex ${ user.technicalKey === message.sender_id && 'justify-end'}`}>
+                        <div className={`p-2 m-1 rounded-xl w-fit ${ user.technicalKey === message.sender_id ? 'bg-blue-100' :'bg-white '}`}>
                             {message.content}
                         </div>
                     </div>
