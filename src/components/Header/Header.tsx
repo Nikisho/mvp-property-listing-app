@@ -15,7 +15,7 @@ function Header() {
 	const dispatch = useDispatch();
 	const user = useSelector(selectCurrentUser);
 	// const tenancyApplications = useSelector(selectTenancyApplications);
-	const unreadMessages = useSelector(selectMessages);
+	const messages = useSelector(selectMessages);
 	const navigatePostListing = () => {
 		if (!user?.isLoggedIn) {
 			navigate('/signin');
@@ -28,13 +28,8 @@ function Header() {
 
 		navigate(`/postlisting`)
 	}
-	// const unReadTenancyApplications = tenancyApplications.filter(
-	// 	function(tenancyApplication: tenancyApplicationProps) {
-	// 		return tenancyApplication.isRead === false;
-	// 	}
-	// );
-	// const notifications: number = unReadTenancyApplications.length;
-	const notifications: number = unreadMessages.length
+
+	const notifications: number = messages.filter((message: { room_id: number, isRead: boolean }) => message.isRead === false).length
 	const handleSignOut = async () => {
 		if (!user?.isLoggedIn) {
 			navigate('/signin');
@@ -168,7 +163,7 @@ function Header() {
 									{({ active }) => (
 										<a
 											className={`${active && 'bg-gray-100'
-												} group w-full items-center rounded-md px-4 py-4 text-md flex justify-between ${'animate-pulse bg-red-100'} `}
+												} group w-full items-center rounded-md px-4 py-4 text-md flex justify-between ${ notifications> 0 &&  'animate-pulse bg-red-100'} `}
 											href='/messages'
 										>
 											<p>Messages</p>

@@ -115,11 +115,17 @@ function App() {
 		const { error, data } = await supabase
 			.from('messages')
 			.select('isRead, room_id')
+			.eq('isRead', false)
 			.eq('receiver_id', id)
 		if (error) { console.error(error.message); }
-		console.log(data)
-		dispatch(setMessages(data))
 
+		//Select discting ROOM_ID so filter for messages from the same sender
+		const dataFiltered = data?.filter((value, index, self) =>
+			index === self.findIndex((t) => (
+				t.isRead === value.isRead && t.room_id === value.room_id
+			))
+		)
+		dispatch(setMessages(dataFiltered))
 	}
 
 	const fetchUserData = async (id: string, session: Session, user: User) => {
