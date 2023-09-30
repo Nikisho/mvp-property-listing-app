@@ -35,6 +35,7 @@ const ApplicationTemplateForm = () => {
     const [gender, setGender] = useState<string | null>(null);
     const currentUser = useSelector(selectCurrentUser);
     const [isLoading, setIsLoading] = useState(false);
+    const maxBudget = 99999;
 
     const fetchPropertyData = async () => {
 
@@ -56,7 +57,10 @@ const ApplicationTemplateForm = () => {
             alert('Please complete all the required fields');
             return;
         };
-
+        if (Number(budget) > maxBudget) {
+            alert('Your budget cannot exceed £99999. Just buy a house?')
+            return;
+        }
         const { error } = await supabase
             .from('tenancy_applications')
             .insert(
@@ -132,7 +136,7 @@ const ApplicationTemplateForm = () => {
                     <div className='space-y-3'>
 
                         <p>
-                            What is your sexe?
+                            What is your sex?
                         </p>
                         <div className='flex items-center '>
                             <button className={` w-16  border p-1  ${gender === 'male' && 'bg-sky-500'}`}
@@ -271,6 +275,7 @@ const ApplicationTemplateForm = () => {
                         </p>
                         <input
                             className='p-2 border'
+                            max={maxBudget}
                             type='number'
                             placeholder='Ex: 850'
                             value={budget as string}
