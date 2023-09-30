@@ -6,15 +6,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectCurrentUser, selectMessages, setCurrentUser } from '../../context/navSlice';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Badge } from '@mui/material';
-// interface tenancyApplicationProps {
-// 	id: number;
-// 	isRead: boolean;
-// }
+
 function Header() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const user = useSelector(selectCurrentUser);
-	// const tenancyApplications = useSelector(selectTenancyApplications);
 	const messages = useSelector(selectMessages);
 	const navigatePostListing = () => {
 		if (!user?.isLoggedIn) {
@@ -25,7 +21,6 @@ function Header() {
 			alert('Please update your phone number in your profile before posting an ad.');
 			return;
 		};
-
 		navigate(`/postlisting`)
 	}
 
@@ -52,7 +47,6 @@ function Header() {
 	return (
 		<div className='bg-sky-800 sticky top-0 z-50 flex p-2 space-x-1 w-screen
 						lg:p-3 justify-between items-center'>
-			{/* {git test} */}
 			{/* Company logo and home button */}
 			<button className=' text-xl font-semibold hover:opacity-80' type='button' onClick={() => navigate(`/`)}>
 				<img

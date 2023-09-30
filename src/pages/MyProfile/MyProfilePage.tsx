@@ -95,7 +95,6 @@ function MyProfilePage() {
         if (error) console.error(error.message);
     }
 
-
     //Update user's profile.
     const handleClick = async (e: React.MouseEvent) => {
         e.preventDefault();

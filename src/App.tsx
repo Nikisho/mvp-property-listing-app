@@ -93,24 +93,6 @@ function App() {
 		},
 	]);
 
-	// const getApplicationsData = async (id: number) => {
-	// 	const { data, error } = await supabase
-	// 		.from('tenancy_applications')
-	// 		.select('isRead, tenant_id, tenancy_id')
-	// 		.eq('pm_user_id', id);
-
-	// 	if (error) { console.error(error.message); }
-	// 	if (data) {
-			
-	// 		const dataFiltered  = data.filter((value, index, self) =>
-	// 			index === self.findIndex((t) => (
-	// 				t.isRead === value.isRead && t.tenant_id === value.tenant_id
-	// 			))
-	// 		)
-	// 		dispatch(setTenancyApplications(dataFiltered));
-	// 	}
-	// };
-
 	const getUnreadMessages = async (id: number) => {
 		const { error, data } = await supabase
 			.from('messages')
@@ -147,7 +129,6 @@ function App() {
 			email: data![0].email,
 			phoneNumber: data![0].phone_number
 		}));
-		// getApplicationsData(data![0].user_id);
 		getUnreadMessages(data![0].user_id);
 	};
 	const getUserSession = async () => {
