@@ -48,7 +48,7 @@ const SuitabilityComponent: React.FC<SuitabilityComponentProps> = ({
                         </div>
                     </div>
                     <div>
-                        <p className='font-semibold'>Suitble for</p>
+                        <p className='font-semibold'>Suitable for</p>
                         <div className='flex space-x-1'>
                             <dd>{gender?.join(", ")}</dd>
                         </div>
