@@ -45,7 +45,7 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({
                 </div>
                 <div>
                     <p className='text-sm'>Length of stay</p>
-                    {lengthOfStay}
+                    {lengthOfStay} months
                 </div>
                 <div>
                 <p className='text-sm'>Requires parking</p>
