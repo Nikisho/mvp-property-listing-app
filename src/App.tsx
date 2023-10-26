@@ -91,6 +91,10 @@ function App() {
 			path: "/results/:lat/:lng/:location/:radius/:min_price/:max_price/:min_room/:max_room",
 			element: <ResultsPage />,
 		},
+		{
+			path: "/rooms/:property_id",
+			element: <PropertyDetailsPage />,
+		},
 	]);
 
 	const getUnreadMessages = async (id: number) => {

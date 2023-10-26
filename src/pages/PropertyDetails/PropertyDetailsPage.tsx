@@ -107,8 +107,11 @@ function PropertyDetailsPage() {
 			console.error(error.message);
 		};
 	};
-
 	const handleApplyButtonClick: VoidFunction = async () => {
+		if (!user.user) {
+			navigate('/signin')
+			return;
+		};
 		if (pmDetails?.user_uid === user.user.id) {
 			alert('You cannot apply to your own property!');
 			return;
