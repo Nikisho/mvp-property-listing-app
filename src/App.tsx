@@ -131,7 +131,8 @@ function App() {
 			technicalKey: data![0].user_id,
 			tenant_id: data![0].tenant_id,
 			email: data![0].email,
-			phoneNumber: data![0].phone_number
+			phoneNumber: data![0].phone_number,
+			name: data![0].name
 		}));
 		getUnreadMessages(data![0].user_id);
 	};
