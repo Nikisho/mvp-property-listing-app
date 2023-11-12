@@ -27,7 +27,7 @@ function UserListingsPage() {
                 console.error(error.message);
             }
             setUserListings(data!);
-        } catch (err:any) {
+        } catch (err: any) {
             console.error(err.message);
         }
     };
@@ -39,21 +39,27 @@ function UserListingsPage() {
             <Header />
             <div className='flex justify-center '>
                 {/* {profile} */}
-                <div className=' w-full md:w-full lg:w-2/3 xl:w-2/3 p-4  space-y-3'>
+                {userListings.length != 0 ?
+                    <div className=' w-full md:w-full lg:w-2/3 xl:w-2/3 p-4  space-y-3'>
 
-                    {
-                        userListings?.map((listing) =>
-                            <UserListingCard
-                                key={listing.property_id}
-                                image_url={convertUrlsToJSON(listing?.image_arr[0]!)}
-                                ad_title={listing.ad_title}
-                                price_pcm={listing.price_pcm}
-                                description={listing.description}
-                                property_id={listing.property_id}
-                            />
-                        )
-                    }
-                </div>
+                        {
+                            userListings?.map((listing) =>
+                                <UserListingCard
+                                    key={listing.property_id}
+                                    image_url={convertUrlsToJSON(listing?.image_arr[0]!)}
+                                    ad_title={listing.ad_title}
+                                    price_pcm={listing.price_pcm}
+                                    description={listing.description}
+                                    property_id={listing.property_id}
+                                />
+                            )
+                        }
+                    </div>
+                    :
+                    <div className='mt-10'>
+                        <i>You don't have any listings. Click <a className='text-blue-500' href='/postlisting'>here</a> to post an ad.</i>
+                    </div>
+                }
             </div>
         </div>
     )

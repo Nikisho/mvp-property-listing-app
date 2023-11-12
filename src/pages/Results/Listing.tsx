@@ -14,11 +14,11 @@ interface PropertyDetailsProps {
 };
 
 function Listing() {
-	const {lat, lng, radius, min_price, max_price, min_room, max_room} = useParams();
+	const { lat, lng, radius, min_price, max_price, min_room, max_room } = useParams();
 	const [listed_properties, setListedProperties] = useState<PropertyDetailsProps[]>([]);
 	const getListedProperties: VoidFunction = async () => {
 
-		const { data, error } = await supabase.rpc('query_location',{
+		const { data, error } = await supabase.rpc('query_location', {
 			queried_lat: lat,
 			queried_lng: lng,
 			range: radius,
@@ -40,16 +40,24 @@ function Listing() {
 
 	return (
 		<div className=' p-2 grid place-items-center '>
-			<div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 justify-between xl:w-3/5 w-full'>
-				{listed_properties?.map((listing) =>
-					<ListingCard
-						key={listing.property_id}
-						image_url={convertUrlsToJSON(listing?.image_arr[0]!)}
-						ad_title={listing.ad_title}
-						price_pcm={listing.price_pcm}
-						property_id={listing.property_id}
-					/>)}
-			</div>
+			{listed_properties.length != 0 ?
+				<div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 justify-between xl:w-3/5 w-full'>
+					{
+						listed_properties?.map((listing) =>
+							<ListingCard
+								key={listing.property_id}
+								image_url={convertUrlsToJSON(listing?.image_arr[0]!)}
+								ad_title={listing.ad_title}
+								price_pcm={listing.price_pcm}
+								property_id={listing.property_id}
+							/>)
+					}
+				</div>
+				:
+				<div>
+					<i>No properties listed in this area. Click <a className='text-blue-500' href='/postlisting'>here</a> to post an ad.</i>
+				</div>
+			}
 		</div>
 	)
 }
