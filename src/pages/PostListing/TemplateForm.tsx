@@ -142,10 +142,12 @@ const TemplateForm: React.FC<TemplateFormProps> = ({
                         onClick={() => updateFields({minLengthOfStay: 3})}
                         type="button"
                     >3 </button>
+
                     <button className={` w-12 border   ${minLengthOfStay === 6 && 'bg-sky-500'}`}
-                        onClick={() => updateFields({minLengthOfStay: 3})}
+                        onClick={() => updateFields({minLengthOfStay: 6})}
                         type="button"
                     >6 </button>
+
                     <button className={` w-12 border   ${minLengthOfStay === 12 && 'bg-sky-500'}`}
                         onClick={() => updateFields({minLengthOfStay: 12})}
                         type="button"

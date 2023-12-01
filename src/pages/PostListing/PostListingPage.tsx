@@ -100,7 +100,6 @@ const PostListingPage = () => {
             <DescriptionForm {...formData} updateFields={updateFields}/>,
             <TemplateForm {...formData} updateFields={updateFields}/>
         ]);
-        console.log(formData)
     async function postListing() {
         const property_id: string = uuidv4(9);
         let imageUrls: { publicUrl: string; }[] = [];
