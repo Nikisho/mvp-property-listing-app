@@ -16,7 +16,9 @@ const initialState = {
         id: null,
         imageUrl: null,
         recipient: null
-    }
+    },
+
+    avatarIcon: "https://dwhhfiboburmnbvsmhjn.supabase.co/storage/v1/object/public/application-bucket/avataricon.png?t=2023-12-20T15%3A10%3A47.464Z"
 };
 
 export const navSlice = createSlice({
@@ -44,6 +46,6 @@ export const {
 export const selectCurrentUser = (state: any) => state.nav.currentUser;
 export const selectMessages = (state: any) => state.nav.messages;
 export const selectRoom = (state: any) => state.nav.room;
-
+export const selectAvatarIcon = (state: any) => state.nav.avatarIcon;
 
 export default navSlice.reducer;

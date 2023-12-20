@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import Header from '../../components/Header/Header';
-import { supabase } from '../../../supabase';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import { supabase } from '../../../supabase';
 import { useSelector } from 'react-redux';
-import { selectCurrentUser } from '../../context/navSlice';
+import { selectAvatarIcon, selectCurrentUser } from '../../context/navSlice';
 import LoadingComponent from '../../components/LoadingComponent';
 import { Rating } from '@mui/material';
 import ReviewsComponent from '../../components/Reviews/ReviewsComponent';
@@ -31,6 +31,7 @@ function ProfilePage() {
     const [newReview, setNewReview] = useState<string>('')
     const [loadingPage, setLoadingPage] = useState<boolean>(false);
     const [rating, setRating] = useState<number | null>(0);
+    const avatarIcon = useSelector(selectAvatarIcon);
     const getPropManagerDetails = async () => {
 
         try {
@@ -115,9 +116,13 @@ function ProfilePage() {
                                 <div className=''>
                                     <img
                                         src={pmDetails.image_url}
-
+                                        onError={({ currentTarget }) => {
+                                            currentTarget.onerror = null; // prevents looping
+                                            currentTarget.src=avatarIcon;
+                                          }}
                                         className='h-24 rounded-xl'
                                     />
+                                    
                                 </div> :
                                 <AccountBoxIcon
                                     sx={{ fontSize: 100 }}

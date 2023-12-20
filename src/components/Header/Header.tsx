@@ -1,9 +1,9 @@
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Menu } from '@headlessui/react'
 import { supabase } from '../../../supabase';
 import { useDispatch, useSelector } from 'react-redux'
-import { selectCurrentUser, selectMessages, setCurrentUser } from '../../context/navSlice';
+import { selectAvatarIcon, selectCurrentUser, selectMessages, setCurrentUser } from '../../context/navSlice';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Badge } from '@mui/material';
 
@@ -11,6 +11,7 @@ function Header() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const user = useSelector(selectCurrentUser);
+    const avatarIcon = useSelector(selectAvatarIcon);
 	const messages = useSelector(selectMessages);
 	const navigatePostListing = () => {
 		if (!user?.isLoggedIn) {
@@ -138,15 +139,18 @@ function Header() {
 									user?.imageUrl ?
 
 										<img
-											src={user?.imageUrl}
+											src={user?.imageUrl} onError={({ currentTarget }) => {
+												currentTarget.onerror = null; // prevents looping
+												currentTarget.src=avatarIcon;
+											  }}
 											className='rounded-full h-10 w-10 contain'
-										/>
-										:
+										/> :
 										<AccountCircleIcon
-											fontSize='large'
-											className='hover:opacity-20'
-											sx={{ fontSize: 45, color: '#fff' }}
-										/>
+										fontSize='large'
+										className='hover:opacity-20'
+										sx={{ fontSize: 45, color: '#fff' }}
+									/>
+								
 								}
 							</Badge>
 

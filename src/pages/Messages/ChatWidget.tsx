@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentUser, selectMessages, setMessages, setRoom } from '../../context/navSlice';
+import { selectAvatarIcon, selectCurrentUser, selectMessages, setMessages, setRoom } from '../../context/navSlice';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { supabase } from '../../../supabase';
 
@@ -14,6 +14,8 @@ interface RecipientProps {
 const ChatWidget: React.FC<ChatWidgetProps> = ({ room_id }) => {
     const user = useSelector(selectCurrentUser);
     const messages = useSelector(selectMessages);
+    const avatarIcon = useSelector(selectAvatarIcon);
+
     const [recipient, setRecipient] = useState<RecipientProps>();
     const dispatch = useDispatch();
 
@@ -90,7 +92,10 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ room_id }) => {
                         {
                             recipient?.image_url ?
                                 <img
-                                    src={recipient.image_url}
+                                    src={recipient.image_url} onError={({ currentTarget }) => {
+                                        currentTarget.onerror = null; // prevents looping
+                                        currentTarget.src=avatarIcon;
+                                      }}
                                     className='rounded-full h-10 w-10'
                                 />
                                 :

@@ -1,5 +1,7 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { selectAvatarIcon } from '../../context/navSlice';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 interface PropertyManagerCardProps {
@@ -14,6 +16,8 @@ const PropertyManagerCard: React.FC<PropertyManagerCardProps> = ({
 }) => {
 
     const navigate = useNavigate();
+    const avatarIcon = useSelector(selectAvatarIcon);
+
     function handleClick() {
         navigate(`/users/${pm_user_uid}`);
     };
@@ -22,9 +26,12 @@ const PropertyManagerCard: React.FC<PropertyManagerCardProps> = ({
         <div>
             <button className='flex space-x-5 p-4 w-full items-center shadow-lg rounded-xl hover:opacity-80 my-2 hover:bg-gray-300' onClick={handleClick}>
                 {
-                    (pm_image_url) ?
+                    (pm_image_url)  ?
                         <img
-                            src={pm_image_url}
+                            src={pm_image_url}  onError={({ currentTarget }) => {
+                                currentTarget.onerror = null; // prevents looping
+                                currentTarget.src=avatarIcon;
+                              }}
                             className='rounded-full h-12 w-12'
                         />
                         :

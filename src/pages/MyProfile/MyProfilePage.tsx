@@ -3,7 +3,7 @@ import Header from '../../components/Header/Header';
 import { supabase } from '../../../supabase';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useSelector } from 'react-redux';
-import { selectCurrentUser } from '../../context/navSlice';
+import { selectAvatarIcon, selectCurrentUser } from '../../context/navSlice';
 import CreateIcon from '@mui/icons-material/Create';
 import LoadingComponent from '../../components/LoadingComponent';
 import ReviewsComponent from '../../components/Reviews/ReviewsComponent';
@@ -24,6 +24,7 @@ interface reviewProps {
 }
 function MyProfilePage() {
     const user = useSelector(selectCurrentUser);
+    const avatarIcon = useSelector(selectAvatarIcon);
     const [profileUpdated, setProfileUpdated] = useState<boolean>(false);
     const filePickerRef = useRef<HTMLInputElement>(null);
     const [profilePictureFile, setProfilePictureFile] = useState<File>();
@@ -137,7 +138,7 @@ function MyProfilePage() {
                             userInfo?.image_url ?
                                 <button
                                     style={{
-                                        backgroundImage: `url(${userInfo.image_url})`,
+                                        backgroundImage: `url(${userInfo.image_url}), url(${avatarIcon})`,
                                         backgroundSize: 'contain',
                                         backgroundRepeat: 'no-repeat',
                                         backgroundPosition: 'center'
